@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    kotlin("plugin.serialization") version "2.0.21"
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -56,7 +56,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
-            implementation("io.ktor:ktor-client-android:3.5.2")
+            implementation(libs.ktor.client.android)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -67,7 +67,9 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation("io.ktor:ktor-client-core:3.5.2")
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.serialization.kotlinxJson)
 
             implementation(libs.coil.compose)
             implementation("io.coil-kt.coil3:coil-network-ktor3:3.6.0")
@@ -75,12 +77,17 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutinesTest)
+            implementation(libs.ktor.client.mock)
         }
         jsMain.dependencies {
             implementation(libs.wrappers.browser)
         }
         appleMain.dependencies {
-            implementation("io.ktor:ktor-client-darwin:3.5.2")
+            implementation(libs.ktor.client.darwin)
+        }
+        jvmMain.dependencies {
+            implementation(libs.ktor.client.cio)
         }
     }
 }

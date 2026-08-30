@@ -24,7 +24,9 @@ fun Nav() {
     val controller = rememberNavController()
 
     NavHost(navController = controller, startDestination = Home) {
-        composable<Home> { HomeScreen() }
-        composable<Profile> { ProfileScreen( /* ... */) }
+        composable<Home> {
+            HomeScreen(onProfileClick = { controller.navigate(Profile) })
+        }
+        composable<Profile> { ProfileScreen() }
     }
 }

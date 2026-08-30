@@ -1,6 +1,9 @@
 package id.neo.hr
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +16,16 @@ import androidx.compose.ui.Modifier
  * All Rights Reserved
  */
 @Composable
-fun HomeScreen() {
-    Scaffold(modifier = Modifier.fillMaxSize(), content = { Text("Home") })
+fun HomeScreen(onProfileClick: () -> Unit) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        content = {
+            Column(Modifier.padding(it)) {
+                Button(onClick = onProfileClick) {
+                    Text("Buka Profile")
+                }
+            }
+
+        },
+    )
 }
