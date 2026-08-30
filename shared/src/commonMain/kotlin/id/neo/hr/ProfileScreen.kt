@@ -28,18 +28,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import id.neo.hr.data.domain.model.UserModel
-import id.neo.hr.di.AppContainer
 import id.neo.hr.presentation.user.UserUiState
 import id.neo.hr.presentation.user.UserViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ProfileScreen(
-    viewModel: UserViewModel = viewModel {
-        UserViewModel(AppContainer.userRepository)
-    },
+    viewModel: UserViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

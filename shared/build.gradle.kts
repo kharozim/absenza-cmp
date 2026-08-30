@@ -59,6 +59,7 @@ kotlin {
             implementation(libs.ktor.client.android)
         }
         commonMain.dependencies {
+            implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
@@ -70,15 +71,20 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.contentNegotiation)
             implementation(libs.ktor.serialization.kotlinxJson)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.core)
 
             implementation(libs.coil.compose)
             implementation("io.coil-kt.coil3:coil-network-ktor3:3.6.0")
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.10.0-alpha02")
         }
         commonTest.dependencies {
+            implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutinesTest)
             implementation(libs.ktor.client.mock)
+            implementation(libs.koin.test)
         }
         jsMain.dependencies {
             implementation(libs.wrappers.browser)
