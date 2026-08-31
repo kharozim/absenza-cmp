@@ -1,10 +1,13 @@
 package id.neo.hr.di
 
+import id.neo.hr.data.data.local.SessionDataStore
 import id.neo.hr.data.data.remote.api.UserApi
 import id.neo.hr.data.data.remote.createHttpClient
 import id.neo.hr.data.repository.DefaultUserRepository
 import id.neo.hr.data.repository.UserRepository
 import id.neo.hr.presentation.user.UserViewModel
+import id.neo.hr.presentation.util.SessionUtil
+import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -30,6 +33,18 @@ val repositoryModule = module {
     single { DefaultUserRepository(get()) } bind UserRepository::class
 }
 
+/** Menyediakan satu instance DataStore dan akses sesi selama lifecycle aplikasi. */
+fun sessionModule(dataStore: SessionDataStore) = module {
+    single { dataStore.value }
+    single {
+        Json {
+            ignoreUnknownKeys = true
+            encodeDefaults = true
+        }
+    }
+    single { SessionUtil(get(), get()) }
+}
+
 /**
  * Menyediakan ViewModel dengan lifecycle yang dikelola Koin Compose.
  */
@@ -40,8 +55,9 @@ val viewModelModule = module {
 /**
  * Kumpulan module production yang dipasang satu kali dari root Compose aplikasi.
  */
-val appModules: List<Module> = listOf(
+fun appModules(dataStore: SessionDataStore): List<Module> = listOf(
     networkModule,
     repositoryModule,
+    sessionModule(dataStore),
     viewModelModule,
 )
