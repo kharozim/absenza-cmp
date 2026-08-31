@@ -6,5 +6,5 @@ data class CompanyModel(
   val companyAddress: String,
   val isActive: Boolean,
   val companyUrlPhoto: String,
-  val `package`: PackageModel,
+  val `package` : PackageModel,
 )

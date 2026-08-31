@@ -1,20 +1,19 @@
 package id.neo.hr.data.domain.model
-data class LoginModel(
+
+data class EmployeeModel(
   val id: Int,
   val accountUid: String,
   val accountName: String,
   val accountEmail: String,
   val accountPhoneNumber: String,
+  val accountUrlPhoto: String,
   val accountPosition: String,
   val accountRole: String,
-  val accountUrlPhoto: String,
-  val emailVerification: Boolean,
+  val isActive: Boolean,
+  val isFreeAccount: Boolean,
   val phoneNumberVerification: Boolean,
   val leaveQuota: Int,
-  val tokenAccess: String,
-  val tokenRefresh: String,
-  val company: CompanyModel,
-  val branch: BranchModel,
-  val device: DeviceModel,
-  val schedule: ScheduleModel?,
+  val emailVerification: Boolean,
+  val isStaff: Boolean,
+  val employeeCode: String,
 )

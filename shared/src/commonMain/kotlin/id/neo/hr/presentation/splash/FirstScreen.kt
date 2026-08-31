@@ -59,6 +59,8 @@ package id.neo.hr.presentation.splash
 //import com.neo.hr.presentation.widget.TextButtonCustom
 //import id.neo.hr.presentation.util.UiState
 //import kotlinx.coroutines.launch
+//import org.jetbrains.compose.resources.painterResource
+//import org.jetbrains.compose.resources.stringResource
 //import org.koin.compose.koinInject
 //
 ///*
@@ -78,7 +80,7 @@ package id.neo.hr.presentation.splash
 //  Login,
 //  UpdateApp,
 //}
-//
+
 //@OptIn(ExperimentalMaterial3Api::class)
 //@Composable
 //fun FirstScreen(modifier: Modifier = Modifier, navToMain: () -> Unit, navToLogin: () -> Unit) {
@@ -106,7 +108,7 @@ package id.neo.hr.presentation.splash
 //  }
 //
 //  LaunchedEffect(Unit) {
-//    viewModel.start(context)
+//    viewModel.start()
 //  }
 //
 //  LaunchedEffect(state.uiState) {
@@ -177,7 +179,7 @@ package id.neo.hr.presentation.splash
 //                scope.launch {
 //                  it.hide()
 //                  showUpdateApp = false
-//                  viewModel.getUserData(context)
+//                  viewModel.getUserData()
 //                }
 //              },
 //              text = stringResource(R.string.lain_kali),

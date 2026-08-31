@@ -1,5 +1,7 @@
 package id.neo.hr.presentation.util
 
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -9,6 +11,7 @@ import id.neo.hr.data.data.local.model.StoredLoginModel
 import id.neo.hr.data.data.local.model.toDomain
 import id.neo.hr.data.data.local.model.toStored
 import id.neo.hr.data.domain.model.LoginModel
+import id.neo.hr.data.domain.model.SettingModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -31,6 +34,7 @@ class SessionUtil internal constructor(
         val otpCountdown = stringPreferencesKey("otp_countdown")
         val deviceSerialNumber = stringPreferencesKey("device_serial_number")
         val isOnboardingHome = booleanPreferencesKey("is_onboarding_home")
+        val settings = stringPreferencesKey("settings")
     }
 
     val loginModel: Flow<LoginModel?> = dataStore.data.map { preferences ->
@@ -69,6 +73,23 @@ class SessionUtil internal constructor(
         preferences[Keys.isOnboardingHome] ?: false
     }
 
+    val settingModel: Flow<SettingModel?> = dataStore.data.map { preferences ->
+        preferences[Keys.settings]?.let {
+            try {
+                json.decodeFromString(SettingModel.serializer(), it)
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
+
+    suspend fun setSettingModel(value: SettingModel?) {
+        dataStore.edit { preferences ->
+            if (value == null) preferences.remove(Keys.settings)
+            else preferences[Keys.settings] = json.encodeToString(SettingModel.serializer(), value)
+        }
+    }
+
     suspend fun getLoginModel(): LoginModel? = loginModel.first()
 
     suspend fun setLoginModel(value: LoginModel?) {
@@ -76,7 +97,8 @@ class SessionUtil internal constructor(
             if (value == null) {
                 preferences.remove(Keys.login)
             } else {
-                preferences[Keys.login] = json.encodeToString(StoredLoginModel.serializer(), value.toStored())
+                preferences[Keys.login] =
+                    json.encodeToString(StoredLoginModel.serializer(), value.toStored())
             }
         }
     }
