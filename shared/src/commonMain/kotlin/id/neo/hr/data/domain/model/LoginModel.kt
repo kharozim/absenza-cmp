@@ -1,4 +1,8 @@
 package id.neo.hr.data.domain.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class LoginModel(
   val id: Int,
   val accountUid: String,
@@ -16,5 +20,5 @@ data class LoginModel(
   val company: CompanyModel,
   val branch: BranchModel,
   val device: DeviceModel,
-  val schedule: ScheduleModel?,
+  val schedule: ScheduleModel? = null,
 )

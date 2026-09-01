@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import id.neo.hr.data.data.local.createSessionDataStore
+import id.neo.hr.presentation.util.AppVersion
 
 class MainActivity : ComponentActivity() {
     private val sessionDataStore by lazy {
@@ -16,9 +17,11 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        AppVersion.init(this)
+
+        enableEdgeToEdge()
         setContent {
             App(sessionDataStore)
         }

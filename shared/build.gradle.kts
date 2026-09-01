@@ -66,10 +66,10 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.core)
-
             implementation(libs.coil.compose)
             implementation("io.coil-kt.coil3:coil-network-ktor3:3.6.0")
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.10.0-alpha02")
+            implementation(libs.material.icons.extended)
         }
         commonTest.dependencies {
             implementation(project.dependencies.platform(libs.koin.bom))

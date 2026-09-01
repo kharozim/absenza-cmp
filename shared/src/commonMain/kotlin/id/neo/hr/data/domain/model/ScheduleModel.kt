@@ -1,5 +1,8 @@
 package id.neo.hr.data.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ScheduleModel(
   val id: Int,
   val clockInTime: String = "",

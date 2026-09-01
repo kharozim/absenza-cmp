@@ -1,0 +1,32 @@
+<!--
+  ~ Copyright (C) 2026 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <group>
+    <clip-path
+        android:pathData="M4,4h16v16h-16z"/>
+    <group>
+      <clip-path
+          android:pathData="M4,4h16v16h-16z"/>
+      <path
+          android:pathData="M13.333,20C13.189,20 13.049,19.953 12.933,19.867L10.267,17.867C10.184,17.805 10.117,17.724 10.07,17.632C10.024,17.539 10,17.437 10,17.333V13.587L5.323,8.325C4.99,7.95 4.774,7.487 4.698,6.992C4.623,6.497 4.692,5.991 4.897,5.534C5.102,5.077 5.435,4.69 5.855,4.417C6.276,4.145 6.766,4 7.267,4H16.733C17.234,4.001 17.724,4.146 18.144,4.418C18.564,4.69 18.897,5.078 19.102,5.535C19.307,5.992 19.376,6.498 19.3,6.993C19.225,7.488 19.008,7.951 18.675,8.325L14,13.587V19.333C14,19.51 13.93,19.68 13.805,19.805C13.68,19.93 13.51,20 13.333,20ZM11.333,17L12.667,18V13.333C12.667,13.17 12.727,13.013 12.835,12.891L17.681,7.439C17.842,7.257 17.948,7.031 17.984,6.79C18.021,6.549 17.987,6.303 17.887,6.08C17.787,5.858 17.625,5.669 17.42,5.537C17.216,5.404 16.977,5.334 16.733,5.333H7.267C7.023,5.334 6.785,5.404 6.58,5.537C6.375,5.669 6.213,5.858 6.113,6.08C6.013,6.302 5.98,6.549 6.016,6.79C6.053,7.031 6.158,7.256 6.319,7.439L11.165,12.891C11.274,13.013 11.333,13.17 11.333,13.333V17Z"
+          android:fillColor="#ffffff"/>
+    </group>
+  </group>
+</vector>

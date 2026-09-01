@@ -3,6 +3,7 @@ package id.neo.hr.data.data.util
 import id.neo.hr.data.data.remote.api.ApiAuth
 import id.neo.hr.data.data.remote.response.BaseResponse
 import id.neo.hr.presentation.util.Constants
+import id.neo.hr.presentation.util.LogUtil
 import id.neo.hr.presentation.util.SessionUtil
 import id.neo.hr.presentation.util.UiState
 import id.neo.hr.util.filterMessageError
@@ -59,8 +60,10 @@ object NetworkUtil {
     } catch (error: CancellationException) {
         throw error
     } catch (error: ResponseException) {
+        LogUtil.w(TAG) { "HTTP request failed with status ${error.response.status.value}" }
         StateDataUtil.Error(error.toErrorModel(defaultErrorMessage))
     } catch (error: Exception) {
+        LogUtil.e(tag = TAG, throwable = error) { defaultErrorMessage }
         StateDataUtil.Error(ErrorModel(message = error.message ?: defaultErrorMessage))
     }
 
@@ -81,6 +84,7 @@ object NetworkUtil {
             return firstResult
         }
 
+        LogUtil.w(TAG) { "Access token expired; attempting token refresh" }
         val refreshResult = safeApiCall(
             call = {
                 api.refreshToken(
@@ -93,9 +97,13 @@ object NetworkUtil {
             defaultErrorMessage = "Failed refresh token",
         )
         val refreshedToken = (refreshResult as? StateDataUtil.Success)?.data
-        if (refreshedToken.isNullOrBlank()) return firstResult
+        if (refreshedToken.isNullOrBlank()) {
+            LogUtil.w(TAG) { "Token refresh failed" }
+            return firstResult
+        }
 
         session.setTokenBearer(refreshedToken)
+        LogUtil.i(TAG) { "Access token refreshed; retrying request" }
         return safeApiCall(call, mapData, defaultErrorMessage)
     }
 
@@ -132,6 +140,8 @@ object NetworkUtil {
     }
 
     private val errorJson = Json { ignoreUnknownKeys = true }
+
+    private const val TAG = "NetworkUtil"
 
 
     /** Membentuk token Base64 dari secret dan timestamp Unix lima menit ke depan. */

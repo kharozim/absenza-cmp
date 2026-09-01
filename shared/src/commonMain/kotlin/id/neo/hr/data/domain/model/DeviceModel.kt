@@ -1,5 +1,8 @@
 package id.neo.hr.data.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class DeviceModel(
   val appVersion: String,
   val deviceName: String,

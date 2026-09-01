@@ -1,4 +1,4 @@
-package id.neo.hr.data.data.remote.repository
+package id.neo.hr.data.data.repository
 
 import id.neo.hr.data.data.remote.api.ApiAuth
 import id.neo.hr.data.data.remote.request.ChangePasswordRequest
