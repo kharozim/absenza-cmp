@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import id.neo.hr.data.data.local.createSessionDataStore
 import id.neo.hr.presentation.util.AppVersion
+import id.neo.hr.presentation.util.DeviceUtil
 
 class MainActivity : ComponentActivity() {
     private val sessionDataStore by lazy {
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         AppVersion.init(this)
+        DeviceUtil.init(this)
 
         enableEdgeToEdge()
         setContent {

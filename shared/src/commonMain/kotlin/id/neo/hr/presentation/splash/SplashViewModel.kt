@@ -40,6 +40,7 @@ class SplashViewModel(
             progress = 0.3f
           )
         }
+        delay(1500L)
         val timestamp = clock.now().toEpochMilliseconds() / 1000
         val syncTime = authRepo.checkSyncTimeServer(
           CheckSyncTimeServerRequest(timestamp = timestamp)
@@ -63,6 +64,7 @@ class SplashViewModel(
             progress = 0.5f
           )
         }
+        delay(1500L)
         val settingResult = authRepo.getSetting()
         if (settingResult is StateDataUtil.Error) {
           _state.update {
@@ -85,6 +87,7 @@ class SplashViewModel(
           }
           return@launch
         }
+        delay(1500L)
         sessionUtil.setSettingModel(setting)
         if (AppVersion.versionCode < setting.versionCode) {
           _state.update {

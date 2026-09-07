@@ -1,4 +1,4 @@
-rootProject.name = "NeoHR"
+rootProject.name = "NeoHR-MP"
 
 pluginManagement {
     repositories {

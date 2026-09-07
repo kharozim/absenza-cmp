@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import id.neo.hr.data.domain.model.LoginModel
 import id.neo.hr.data.domain.model.SettingModel
+import id.neo.hr.presentation.auth.login.LoginForm
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -30,6 +31,7 @@ class SessionUtil internal constructor(
     val deviceSerialNumber = stringPreferencesKey("device_serial_number")
     val isOnboardingHome = booleanPreferencesKey("is_onboarding_home")
     val settings = stringPreferencesKey("settings")
+    val loginForm = stringPreferencesKey("loginForm")
   }
 
   val loginModel: Flow<LoginModel?> = dataStore.data.map { preferences ->
@@ -72,6 +74,16 @@ class SessionUtil internal constructor(
     preferences[Keys.settings]?.let {
       try {
         json.decodeFromString(SettingModel.serializer(), it)
+      } catch (e: Exception) {
+        null
+      }
+    }
+  }
+
+  val loginForm: Flow<LoginForm?> = dataStore.data.map { preferences ->
+    preferences[Keys.loginForm]?.let {
+      try {
+        json.decodeFromString(LoginForm.serializer(), it)
       } catch (e: Exception) {
         null
       }
@@ -130,6 +142,16 @@ class SessionUtil internal constructor(
   suspend fun setOnboardingHome(value: Boolean) {
     dataStore.edit { preferences ->
       preferences[Keys.isOnboardingHome] = value
+    }
+  }
+
+  suspend fun setLoginForm(value: LoginForm?) {
+    dataStore.edit { preferences ->
+      if (value == null) {
+        preferences.remove(Keys.login)
+      } else {
+        preferences[Keys.loginForm] = json.encodeToString(LoginForm.serializer(), value)
+      }
     }
   }
 
