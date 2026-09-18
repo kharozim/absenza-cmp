@@ -13,7 +13,7 @@
   <string name="email_not_valid">Email not valid</string>
   <string name="password_must_be_at_least_8_characters">Password must be at least 8 characters long and contain uppercase letters, lowercase letters, and numbers</string>
   <string name="mismatching_passwords">Mismatching passwords</string>
-  <string name="dont_have_an_account">Dont\'t have an account?</string>
+  <string name="dont_have_an_account">Don't have an account?</string>
   <string name="login">Login</string>
   <string name="forgot_password">Forgot Password</string>
   <string name="remember_me">Remember Me</string>

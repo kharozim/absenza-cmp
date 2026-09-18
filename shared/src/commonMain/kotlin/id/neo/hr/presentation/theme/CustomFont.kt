@@ -3,16 +3,15 @@ package id.neo.hr.presentation.theme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import neohr.shared.generated.resources.Res
-import neohr.shared.generated.resources.nunito_bold
-import neohr.shared.generated.resources.nunito_extra_bold
-import neohr.shared.generated.resources.nunito_medium
-import neohr.shared.generated.resources.nunito_regular
-import neohr.shared.generated.resources.nunito_semi_bold
+import neohr_mp.shared.generated.resources.Res
+import neohr_mp.shared.generated.resources.nunito_bold
+import neohr_mp.shared.generated.resources.nunito_extra_bold
+import neohr_mp.shared.generated.resources.nunito_medium
+import neohr_mp.shared.generated.resources.nunito_regular
+import neohr_mp.shared.generated.resources.nunito_semi_bold
 import org.jetbrains.compose.resources.Font
 
 object CustomFont {

@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import id.neo.hr.presentation.theme.Colors
 import id.neo.hr.presentation.theme.TextStyleCustom
-import neohr.shared.generated.resources.Res
-import neohr.shared.generated.resources.ic_arrow_left
-import neohr.shared.generated.resources.ic_error
+import neohr_mp.shared.generated.resources.Res
+import neohr_mp.shared.generated.resources.ic_arrow_left
+import neohr_mp.shared.generated.resources.ic_error
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import kotlin.time.Clock

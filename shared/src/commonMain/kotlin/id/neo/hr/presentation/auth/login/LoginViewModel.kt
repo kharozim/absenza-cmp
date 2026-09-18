@@ -56,7 +56,7 @@ class LoginViewModel(
 
         val passwordEncrypt = FormatterUtil.encriptPassword(_state.value.password)
         val request = LoginRequest(
-          username = state.value.username,
+          username = state.value.username.trim(),
           password = passwordEncrypt,
           deviceData = device
         )
@@ -69,17 +69,18 @@ class LoginViewModel(
           }
 
           is StateDataUtil.Success -> {
-            _state.update { it.copy(uiState = UiState.Success) }
             //  save session
             sessionUtil.setLoginModel(result.data)
 
             // save login form
             sessionUtil.setLoginForm(
               if (state.value.cbSaveLogin) LoginForm(
-                username = state.value.username,
-                password = state.value.password
+                username = state.value.username.trim(),
+                password = "",
               ) else null
             )
+
+            _state.update { it.copy(uiState = UiState.Success) }
 
             // remove token fcm
             // TODO: handle firebase delete token

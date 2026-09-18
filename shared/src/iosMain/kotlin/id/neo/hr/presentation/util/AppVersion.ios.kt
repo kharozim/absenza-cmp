@@ -4,7 +4,9 @@ import platform.Foundation.NSBundle
 
 actual object AppVersion {
   actual val versionCode: Int
-    get() = NSBundle.mainBundle.objectForInfoDictionaryKey("CFBundleVersion") as? Int
+    get() = (NSBundle.mainBundle
+      .objectForInfoDictionaryKey("CFBundleVersion") as? String)
+      ?.toIntOrNull()
       ?: 0
   actual val versionName: String
     get() = NSBundle.mainBundle.objectForInfoDictionaryKey("CFBundleShortVersionString") as? String

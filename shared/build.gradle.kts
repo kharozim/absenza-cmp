@@ -62,6 +62,7 @@ kotlin {
             implementation(libs.androidx.datastore.preferences.core)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.contentNegotiation)
+            implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinxJson)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)

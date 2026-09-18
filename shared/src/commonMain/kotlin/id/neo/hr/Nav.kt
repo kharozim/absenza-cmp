@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import id.neo.hr.presentation.auth.login.LoginScreen
 import id.neo.hr.presentation.splash.FirstScreen
 import kotlinx.serialization.Serializable
 
@@ -23,6 +24,9 @@ object Profile
 @Serializable
 object Splash
 
+@Serializable
+object Login
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
@@ -34,10 +38,24 @@ fun Nav() {
     composable<Splash> {
       FirstScreen(
         navToMain = {
-          controller.navigate(Home)
+          controller.navigate(Home) {
+            popUpTo(Splash) { inclusive = true }
+          }
         },
         navToLogin = {
-          controller.navigate(Home)
+          controller.navigate(Login) {
+            popUpTo(Splash) { inclusive = true }
+          }
+        },
+      )
+    }
+
+    composable<Login> {
+      LoginScreen(
+        navToMain = {
+          controller.navigate(Home) {
+            popUpTo(Login) { inclusive = true }
+          }
         },
       )
     }

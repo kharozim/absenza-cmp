@@ -8,6 +8,7 @@ import id.neo.hr.data.data.repository.AuthRepositoryImpl
 import id.neo.hr.data.repository.AuthRepository
 import id.neo.hr.data.repository.DefaultUserRepository
 import id.neo.hr.data.repository.UserRepository
+import id.neo.hr.presentation.auth.login.LoginViewModel
 import id.neo.hr.presentation.splash.SplashViewModel
 import id.neo.hr.presentation.user.UserViewModel
 import id.neo.hr.presentation.util.SessionUtil
@@ -18,9 +19,6 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.koin.dsl.onClose
-import org.koin.plugin.module.dsl.viewModel
-import kotlin.coroutines.EmptyCoroutineContext.get
-import kotlin.time.Clock
 
 /**
  * Menyediakan dependency network yang digunakan selama lifecycle aplikasi.
@@ -61,6 +59,12 @@ fun sessionModule(dataStore: SessionDataStore) = module {
  */
 val viewModelModule = module {
   viewModelOf(::UserViewModel)
+  viewModel {
+    LoginViewModel(
+      authRepository = get(),
+      sessionUtil = get(),
+    )
+  }
   viewModel {
     SplashViewModel(
       authRepo = get(),

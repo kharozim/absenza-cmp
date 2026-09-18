@@ -148,7 +148,7 @@ class SessionUtil internal constructor(
   suspend fun setLoginForm(value: LoginForm?) {
     dataStore.edit { preferences ->
       if (value == null) {
-        preferences.remove(Keys.login)
+        preferences.remove(Keys.loginForm)
       } else {
         preferences[Keys.loginForm] = json.encodeToString(LoginForm.serializer(), value)
       }

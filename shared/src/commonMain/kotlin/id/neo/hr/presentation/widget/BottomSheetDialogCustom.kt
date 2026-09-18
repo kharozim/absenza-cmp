@@ -41,10 +41,10 @@ import id.neo.hr.presentation.theme.AppTheme
 import id.neo.hr.presentation.theme.Colors
 import id.neo.hr.presentation.theme.SpanStyleCustom
 import id.neo.hr.presentation.theme.TextStyleCustom
-import neohr.shared.generated.resources.Res
-import neohr.shared.generated.resources.ic_dialog_success
-import neohr.shared.generated.resources.ic_error
-import neohr.shared.generated.resources.img_warning
+import neohr_mp.shared.generated.resources.Res
+import neohr_mp.shared.generated.resources.ic_dialog_success
+import neohr_mp.shared.generated.resources.ic_error
+import neohr_mp.shared.generated.resources.img_warning
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
