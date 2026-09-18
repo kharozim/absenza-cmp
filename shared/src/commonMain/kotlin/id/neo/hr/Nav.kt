@@ -5,7 +5,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import id.neo.hr.presentation.auth.login.LoginScreen
+import id.neo.hr.presentation.auth.register.RegisterScreen
 import id.neo.hr.presentation.splash.FirstScreen
+import id.neo.hr.presentation.util.ToastManager
 import kotlinx.serialization.Serializable
 
 /**
@@ -26,6 +28,9 @@ object Splash
 
 @Serializable
 object Login
+
+@Serializable
+object Register
 
 @Composable
 fun Nav() {
@@ -56,6 +61,17 @@ fun Nav() {
           controller.navigate(Home) {
             popUpTo(Login) { inclusive = true }
           }
+        },
+        navToRegister = { controller.navigate(Register) },
+      )
+    }
+
+    composable<Register> {
+      RegisterScreen(
+        navBack = { controller.popBackStack() },
+        onRegisterSuccess = {
+          ToastManager.success("Registrasi berhasil")
+          controller.popBackStack()
         },
       )
     }

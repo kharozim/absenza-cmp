@@ -9,6 +9,7 @@ import id.neo.hr.data.repository.AuthRepository
 import id.neo.hr.data.repository.DefaultUserRepository
 import id.neo.hr.data.repository.UserRepository
 import id.neo.hr.presentation.auth.login.LoginViewModel
+import id.neo.hr.presentation.auth.register.RegisterViewModel
 import id.neo.hr.presentation.splash.SplashViewModel
 import id.neo.hr.presentation.user.UserViewModel
 import id.neo.hr.presentation.util.SessionUtil
@@ -59,6 +60,7 @@ fun sessionModule(dataStore: SessionDataStore) = module {
  */
 val viewModelModule = module {
   viewModelOf(::UserViewModel)
+  viewModelOf(::RegisterViewModel)
   viewModel {
     LoginViewModel(
       authRepository = get(),
