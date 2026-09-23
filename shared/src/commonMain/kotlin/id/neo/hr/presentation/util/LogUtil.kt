@@ -1,5 +1,7 @@
 package id.neo.hr.presentation.util
 
+import io.github.aakira.napier.Napier
+
 /** Level log yang tersedia pada seluruh target Kotlin Multiplatform. */
 enum class LogLevel(val priority: Int) {
     Debug(0),
@@ -73,8 +75,12 @@ object LogUtil {
         throwable: Throwable? = null,
     ) {
         if (!shouldLog(level)) return
-        val error = throwable?.stackTraceToString()?.let { "\n$it" }.orEmpty()
-        println("[${level.name.uppercase()}][$tag] $message$error")
+        when (level) {
+            LogLevel.Debug -> Napier.d(message, tag = tag)
+            LogLevel.Info -> Napier.i(message, tag = tag)
+            LogLevel.Warning -> Napier.w(message, tag = tag)
+            LogLevel.Error -> Napier.e(message, throwable = throwable, tag = tag)
+        }
     }
 
     private fun shouldLog(level: LogLevel): Boolean =

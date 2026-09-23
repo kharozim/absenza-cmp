@@ -71,6 +71,12 @@ kotlin {
             implementation("io.coil-kt.coil3:coil-network-ktor3:3.6.0")
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.10.0-alpha02")
             implementation(libs.material.icons.extended)
+            implementation(libs.maplibre.compose)
+            implementation(libs.maplibre.compose.material3)
+            implementation(libs.napier)
+        }
+        androidMain.dependencies {
+            runtimeOnly("org.maplibre.compose:maplibre-compose-runtime-vulkan-android:${libs.versions.maplibreCompose.get()}")
         }
         commonTest.dependencies {
             implementation(project.dependencies.platform(libs.koin.bom))

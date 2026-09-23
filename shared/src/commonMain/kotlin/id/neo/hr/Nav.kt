@@ -1,13 +1,20 @@
 package id.neo.hr
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import id.neo.hr.data.data.remote.request.RegisterRequest
+import id.neo.hr.data.domain.model.CoordinateModel
 import id.neo.hr.presentation.auth.login.LoginScreen
 import id.neo.hr.presentation.auth.register.RegisterScreen
+import id.neo.hr.presentation.auth.registerotp.RegisterOtpScreen
+import id.neo.hr.presentation.location.SearchMapScreen
 import id.neo.hr.presentation.splash.FirstScreen
-import id.neo.hr.presentation.util.ToastManager
 import kotlinx.serialization.Serializable
 
 /**
@@ -32,9 +39,17 @@ object Login
 @Serializable
 object Register
 
+@Serializable
+object RegisterOtp
+
+@Serializable
+object LocationPicker
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
+  var registerOtpPayload by remember { mutableStateOf<RegisterRequest?>(null) }
+  var selectedRegisterCoordinate by remember { mutableStateOf<CoordinateModel?>(null) }
 
   NavHost(navController = controller, startDestination = Splash) {
     composable<Home> {
@@ -69,11 +84,42 @@ fun Nav() {
     composable<Register> {
       RegisterScreen(
         navBack = { controller.popBackStack() },
-        onRegisterSuccess = {
-          ToastManager.success("Registrasi berhasil")
+        onRegisterSuccess = { registerRequest ->
+          registerOtpPayload = registerRequest
+          controller.navigate(RegisterOtp)
+        },
+        onLocationPicker = { controller.navigate(LocationPicker) },
+        selectedCoordinate = selectedRegisterCoordinate,
+      )
+    }
+
+    composable<LocationPicker> {
+      SearchMapScreen(
+        initialCoordinate = selectedRegisterCoordinate,
+        onBack = { controller.popBackStack() },
+        onLocationSelected = { coordinate ->
+          selectedRegisterCoordinate = coordinate
           controller.popBackStack()
         },
       )
+    }
+
+    composable<RegisterOtp> {
+      val payload = registerOtpPayload
+      if (payload == null) {
+        controller.popBackStack()
+      } else {
+        RegisterOtpScreen(
+          registerRequest = payload,
+          navBack = { controller.popBackStack() },
+          navToHome = {
+            registerOtpPayload = null
+            controller.navigate(Home) {
+              popUpTo(Login) { inclusive = true }
+            }
+          },
+        )
+      }
     }
 
     composable<Profile> { ProfileScreen() }

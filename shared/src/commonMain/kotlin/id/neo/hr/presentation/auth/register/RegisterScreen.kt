@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -38,11 +39,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import id.neo.hr.data.data.remote.request.RegisterRequest
+import id.neo.hr.data.domain.model.CoordinateModel
 import id.neo.hr.presentation.theme.Colors
 import id.neo.hr.presentation.theme.AppTheme
 import id.neo.hr.presentation.theme.TextStyleCustom
 import id.neo.hr.presentation.util.FormatterUtil
-import id.neo.hr.presentation.util.ToastManager
 import id.neo.hr.presentation.util.UiState
 import id.neo.hr.presentation.widget.ButtonCustom
 import id.neo.hr.presentation.widget.ErrorLabel
@@ -78,13 +80,28 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun RegisterScreen(
   navBack: () -> Unit,
-  onRegisterSuccess: () -> Unit,
+  onRegisterSuccess: (RegisterRequest) -> Unit,
+  onLocationPicker: () -> Unit = {},
+  selectedCoordinate: CoordinateModel? = null,
   viewModel: RegisterViewModel = koinViewModel(),
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
 
   LaunchedEffect(state.uiState) {
-    if (state.uiState == UiState.Success) onRegisterSuccess()
+    if (state.uiState == UiState.Success) {
+      state.registerRequest?.let {
+        onRegisterSuccess(it)
+        viewModel.consumeSuccess()
+      }
+    }
+  }
+
+  LaunchedEffect(selectedCoordinate) {
+    selectedCoordinate?.let { coordinate ->
+      viewModel.updateState(
+        state.copy(branchCoordinate = "${coordinate.lat},${coordinate.lon}"),
+      )
+    }
   }
 
   RegisterContent(
@@ -92,6 +109,7 @@ fun RegisterScreen(
     navBack = navBack,
     onConfirmOwner = viewModel::confirmBusinessOwner,
     onRegister = viewModel::register,
+    onLocationPicker = onLocationPicker,
     onStateChange = viewModel::updateState,
   )
 }
@@ -102,6 +120,7 @@ private fun RegisterContent(
   navBack: () -> Unit,
   onConfirmOwner: () -> Unit,
   onRegister: () -> Unit,
+  onLocationPicker: () -> Unit = {},
   onStateChange: (RegisterState) -> Unit,
 ) {
   val isLoading = state.uiState is UiState.Loading
@@ -123,24 +142,57 @@ private fun RegisterContent(
         }
       }
     },
-  ) { paddingValues ->
-    if (!state.isBusinessOwnerConfirmation) {
-      ConfirmationContent(
-        modifier = Modifier.padding(paddingValues),
-        onCancel = navBack,
-        onConfirm = onConfirmOwner,
-      )
-    } else {
-      FormContent(
-        state = state,
-        modifier = Modifier.padding(paddingValues),
-        isLoading = isLoading,
-        errorMessage = errorMessage,
+    content = { paddingValues ->
+      if (!state.isBusinessOwnerConfirmation) {
+        ConfirmationContent(
+          modifier = Modifier.padding(paddingValues),
+          onCancel = navBack,
+          onConfirm = onConfirmOwner,
+        )
+      } else {
+        FormContent(
+          state = state,
+          modifier = Modifier.padding(paddingValues),
+          isLoading = isLoading,
+          errorMessage = errorMessage,
         onStateChange = onStateChange,
         onRegister = onRegister,
-      )
+        onLocationPicker = onLocationPicker,
+        )
+      }
+    },
+    bottomBar = {
+      if (state.isBusinessOwnerConfirmation) {
+        Column(
+          modifier = Modifier.fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(horizontal = 24.dp, vertical = 16.dp),
+        ) {
+          if (!errorMessage.isNullOrBlank()) {
+            ErrorLabel(errorMessage, modifier = Modifier.fillMaxWidth())
+            Spacer(Modifier.height(12.dp))
+          }
+
+          ButtonCustom(
+            onClick = onRegister,
+            text = if (isLoading) "Loading..." else stringResource(Res.string.sign_up),
+            enabled = !isLoading,
+            modifier = Modifier.fillMaxWidth(),
+          )
+          if (isLoading) {
+            Spacer(Modifier.height(16.dp))
+            CircularProgressIndicator(
+              modifier = Modifier
+                .size(24.dp)
+                .align(Alignment.CenterHorizontally),
+              color = Colors.Purple800,
+              strokeWidth = 2.dp,
+            )
+          }
+        }
+      }
     }
-  }
+  )
 }
 
 @Composable
@@ -245,6 +297,7 @@ private fun FormContent(
   errorMessage: String?,
   onStateChange: (RegisterState) -> Unit,
   onRegister: () -> Unit,
+  onLocationPicker: () -> Unit,
 ) {
   val scrollState = rememberScrollState()
   val emailError = if (state.invalidEmail.isNotBlank()) state.invalidEmail else null
@@ -318,7 +371,7 @@ private fun FormContent(
     )
     Spacer(Modifier.height(12.dp))
     OutlinedButtonCustom(
-      onClick = { ToastManager.info("Pemilihan titik lokasi akan ditambahkan pada tahap map") },
+      onClick = onLocationPicker,
       text = "Titik lokasi usaha (opsional)",
       enabled = !isLoading,
       modifier = Modifier.fillMaxWidth(),
@@ -409,28 +462,6 @@ private fun FormContent(
       modifier = Modifier.fillMaxWidth(),
     )
     Spacer(Modifier.height(20.dp))
-
-    if (!errorMessage.isNullOrBlank()) {
-      ErrorLabel(errorMessage, modifier = Modifier.fillMaxWidth())
-      Spacer(Modifier.height(12.dp))
-    }
-
-    ButtonCustom(
-      onClick = onRegister,
-      text = if (isLoading) "Loading..." else stringResource(Res.string.sign_up),
-      enabled = !isLoading,
-      modifier = Modifier.fillMaxWidth(),
-    )
-    if (isLoading) {
-      Spacer(Modifier.height(16.dp))
-      CircularProgressIndicator(
-        modifier = Modifier
-          .size(24.dp)
-          .align(Alignment.CenterHorizontally),
-        color = Colors.Purple800,
-        strokeWidth = 2.dp,
-      )
-    }
     Spacer(Modifier.height(32.dp))
   }
 }

@@ -8,11 +8,14 @@ import id.neo.hr.data.data.local.SessionDataStore
 import id.neo.hr.di.appModules
 import id.neo.hr.presentation.theme.AppTheme
 import id.neo.hr.presentation.widget.ToastHost
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import org.koin.compose.KoinApplication
 import org.koin.dsl.koinConfiguration
 
 @Composable
 fun App(dataStore: SessionDataStore) {
+  Napier.base(DebugAntilog())
   KoinApplication(
     configuration = koinConfiguration {
       modules(appModules(dataStore))

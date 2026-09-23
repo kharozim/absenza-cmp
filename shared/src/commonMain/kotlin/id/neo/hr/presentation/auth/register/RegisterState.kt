@@ -1,5 +1,6 @@
 package id.neo.hr.presentation.auth.register
 
+import id.neo.hr.data.data.remote.request.RegisterRequest
 import id.neo.hr.presentation.util.UiState
 
 data class RegisterState(
@@ -17,5 +18,6 @@ data class RegisterState(
   val passwordConfirmation: String = "",
   val invalidPasswordConfirmation: String = "",
   val branchCoordinate: String? = null,
+  val registerRequest: RegisterRequest? = null,
   val uiState: UiState? = null,
 )

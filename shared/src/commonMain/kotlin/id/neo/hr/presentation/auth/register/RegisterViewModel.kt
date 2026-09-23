@@ -28,6 +28,10 @@ class RegisterViewModel(
     _state.update { it.copy(isBusinessOwnerConfirmation = true, uiState = null) }
   }
 
+  fun consumeSuccess() {
+    _state.update { it.copy(uiState = null) }
+  }
+
   fun register() {
     val current = state.value
     val requiredField = when {
@@ -68,7 +72,9 @@ class RegisterViewModel(
 
       try {
         when (val result = authRepository.register(request)) {
-          is StateDataUtil.Success -> _state.update { it.copy(uiState = UiState.Success) }
+          is StateDataUtil.Success -> _state.update {
+            it.copy(registerRequest = request, uiState = UiState.Success)
+          }
           is StateDataUtil.Error -> _state.update {
             it.copy(
               uiState = UiState.Error(

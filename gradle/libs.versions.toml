@@ -19,6 +19,8 @@ koin-bom = "4.2.0"
 ktor = "3.5.2"
 material3 = "1.12.0-alpha03"
 materialIconsExtended = "1.7.3"
+maplibreCompose = "0.17.0"
+napier = "2.7.1"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
@@ -57,6 +59,9 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 ktor-serialization-kotlinxJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibreCompose" }
+maplibre-compose-material3 = { module = "org.maplibre.compose:maplibre-compose-material3", version.ref = "maplibreCompose" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

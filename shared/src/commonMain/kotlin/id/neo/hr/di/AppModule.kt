@@ -2,14 +2,19 @@ package id.neo.hr.di
 
 import id.neo.hr.data.data.local.SessionDataStore
 import id.neo.hr.data.data.remote.api.ApiAuth
+import id.neo.hr.data.data.remote.api.ApiOpenStreetMap
 import id.neo.hr.data.data.remote.api.UserApi
 import id.neo.hr.data.data.remote.createHttpClient
 import id.neo.hr.data.data.repository.AuthRepositoryImpl
+import id.neo.hr.data.data.repository.LocationRepositoryImpl
 import id.neo.hr.data.repository.AuthRepository
 import id.neo.hr.data.repository.DefaultUserRepository
 import id.neo.hr.data.repository.UserRepository
+import id.neo.hr.data.repository.LocationRepository
 import id.neo.hr.presentation.auth.login.LoginViewModel
 import id.neo.hr.presentation.auth.register.RegisterViewModel
+import id.neo.hr.presentation.auth.registerotp.RegisterOtpViewModel
+import id.neo.hr.presentation.location.SearchMapViewModel
 import id.neo.hr.presentation.splash.SplashViewModel
 import id.neo.hr.presentation.user.UserViewModel
 import id.neo.hr.presentation.util.SessionUtil
@@ -33,6 +38,7 @@ val networkModule = module {
   val baseUrl = "http://8.215.34.48:8007/"
   single { UserApi(get()) }
   single { ApiAuth(get(), baseUrl) }
+  single { ApiOpenStreetMap(get()) }
 }
 
 /**
@@ -41,6 +47,7 @@ val networkModule = module {
 val repositoryModule = module {
   single { DefaultUserRepository(userApi = get()) } bind UserRepository::class
   single { AuthRepositoryImpl(api = get(), session = get()) } bind AuthRepository::class
+  single { LocationRepositoryImpl(api = get()) } bind LocationRepository::class
 }
 
 /** Menyediakan satu instance DataStore dan akses sesi selama lifecycle aplikasi. */
@@ -61,6 +68,8 @@ fun sessionModule(dataStore: SessionDataStore) = module {
 val viewModelModule = module {
   viewModelOf(::UserViewModel)
   viewModelOf(::RegisterViewModel)
+  viewModelOf(::RegisterOtpViewModel)
+  viewModelOf(::SearchMapViewModel)
   viewModel {
     LoginViewModel(
       authRepository = get(),

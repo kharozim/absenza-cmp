@@ -11,6 +11,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import io.github.aakira.napier.Napier
 import kotlinx.serialization.json.Json
 
 fun createHttpClient(): HttpClient = HttpClient {
@@ -29,7 +30,7 @@ fun createHttpClient(): HttpClient = HttpClient {
     install(Logging) {
         logger = object : Logger {
             override fun log(message: String) {
-                println("HttpClient: $message")
+                Napier.d(message, tag = "HttpClient")
             }
         }
         level = LogLevel.BODY
