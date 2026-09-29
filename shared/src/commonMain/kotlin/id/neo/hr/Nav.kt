@@ -14,6 +14,7 @@ import id.neo.hr.presentation.auth.login.LoginScreen
 import id.neo.hr.presentation.auth.register.RegisterScreen
 import id.neo.hr.presentation.auth.registerotp.RegisterOtpScreen
 import id.neo.hr.presentation.location.SearchMapScreen
+import id.neo.hr.presentation.main.MainRoute
 import id.neo.hr.presentation.splash.FirstScreen
 import kotlinx.serialization.Serializable
 
@@ -53,7 +54,14 @@ fun Nav() {
 
   NavHost(navController = controller, startDestination = Splash) {
     composable<Home> {
-      HomeScreen(onProfileClick = { controller.navigate(Profile) })
+      MainRoute(
+        navToProfile = { controller.navigate(Profile) },
+        onTokenExpired = {
+          controller.navigate(Login) {
+            popUpTo(Home) { inclusive = true }
+          }
+        },
+      )
     }
     composable<Splash> {
       FirstScreen(
@@ -97,7 +105,7 @@ fun Nav() {
       SearchMapScreen(
         initialCoordinate = selectedRegisterCoordinate,
         onBack = { controller.popBackStack() },
-        onLocationSelected = { coordinate ->
+        onSave = { coordinate ->
           selectedRegisterCoordinate = coordinate
           controller.popBackStack()
         },

@@ -11,8 +11,8 @@ data class OsmLocationResponse(
   val lon: String = "",
 )
 
-fun OsmLocationResponse.toDomain(): OsmLocationDomain? = OsmLocationDomain(
+fun OsmLocationResponse.toDomain(): OsmLocationDomain = OsmLocationDomain(
   displayName = displayName,
-  lat = lat.toDoubleOrNull() ?: return null,
-  lon = lon.toDoubleOrNull() ?: return null,
+  lat = lat.toDoubleOrNull() ?: 0.0,
+  lon = lon.toDoubleOrNull() ?: 0.0,
 )

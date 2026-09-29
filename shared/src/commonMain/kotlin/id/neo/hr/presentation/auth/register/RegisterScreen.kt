@@ -1,6 +1,8 @@
 package id.neo.hr.presentation.auth.register
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -30,8 +33,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,6 +56,7 @@ import id.neo.hr.presentation.widget.ErrorLabel
 import id.neo.hr.presentation.widget.InputField
 import id.neo.hr.presentation.widget.OutlinedButtonCustom
 import id.neo.hr.presentation.widget.PasswordField
+import id.neo.hr.util.mandatory
 import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.are_you_a_business_organization_owner
 import neohr_mp.shared.generated.resources.company
@@ -60,6 +66,7 @@ import neohr_mp.shared.generated.resources.create_your_company
 import neohr_mp.shared.generated.resources.email
 import neohr_mp.shared.generated.resources.email_not_valid
 import neohr_mp.shared.generated.resources.full_name
+import neohr_mp.shared.generated.resources.ic_current_location
 import neohr_mp.shared.generated.resources.ic_error
 import neohr_mp.shared.generated.resources.join_our_platform_unlock_powerful
 import neohr_mp.shared.generated.resources.mismatching_passwords
@@ -76,6 +83,14 @@ import neohr_mp.shared.generated.resources.yes_proceed_to_sign_up
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.maplibre.compose.camera.CameraPosition
+import org.maplibre.compose.interaction.MapInteractions
+import org.maplibre.compose.map.MaplibreMap
+import org.maplibre.compose.map.rememberMapState
+import org.maplibre.compose.style.BaseStyle
+import org.maplibre.spatialk.geojson.Position
+
+private const val OPEN_FREE_MAP_STYLE = "https://tiles.openfreemap.org/styles/liberty"
 
 @Composable
 fun RegisterScreen(
@@ -106,6 +121,7 @@ fun RegisterScreen(
 
   RegisterContent(
     state = state,
+    selectedCoordinate = selectedCoordinate,
     navBack = navBack,
     onConfirmOwner = viewModel::confirmBusinessOwner,
     onRegister = viewModel::register,
@@ -117,6 +133,7 @@ fun RegisterScreen(
 @Composable
 private fun RegisterContent(
   state: RegisterState,
+  selectedCoordinate: CoordinateModel? = null,
   navBack: () -> Unit,
   onConfirmOwner: () -> Unit,
   onRegister: () -> Unit,
@@ -152,6 +169,7 @@ private fun RegisterContent(
       } else {
         FormContent(
           state = state,
+          selectedCoordinate = selectedCoordinate,
           modifier = Modifier.padding(paddingValues),
           isLoading = isLoading,
           errorMessage = errorMessage,
@@ -292,6 +310,7 @@ private fun ConfirmationContent(
 @Composable
 private fun FormContent(
   state: RegisterState,
+  selectedCoordinate: CoordinateModel? = null,
   modifier: Modifier = Modifier,
   isLoading: Boolean,
   errorMessage: String?,
@@ -300,14 +319,10 @@ private fun FormContent(
   onLocationPicker: () -> Unit,
 ) {
   val scrollState = rememberScrollState()
-  val emailError = if (state.invalidEmail.isNotBlank()) state.invalidEmail else null
-  val phoneError = if (state.invalidPhone.isNotBlank()) state.invalidPhone else null
-  val passwordError = if (state.invalidPassword.isNotBlank()) state.invalidPassword else null
-  val confirmationError = if (state.invalidPasswordConfirmation.isNotBlank()) {
-    state.invalidPasswordConfirmation
-  } else {
-    null
-  }
+  val emailError = state.invalidEmail.ifBlank { null }
+  val phoneError = state.invalidPhone.ifBlank { null }
+  val passwordError = state.invalidPassword.ifBlank { null }
+  val confirmationError = state.invalidPasswordConfirmation.ifBlank { null }
   val emailNotValid = stringResource(Res.string.email_not_valid)
   val phoneInvalid = stringResource(Res.string.phone_number_start_with_08_and_maximum_15_characters)
   val passwordInvalid = stringResource(Res.string.password_must_be_at_least_8_characters)
@@ -331,7 +346,7 @@ private fun FormContent(
     InputField(
       value = state.name,
       onValueChange = { onStateChange(state.copy(name = it, uiState = null)) },
-      label = { Text(stringResource(Res.string.full_name)) },
+      label = { Text(stringResource(Res.string.full_name).mandatory()) },
       placeholder = stringResource(Res.string.full_name),
       enabled = !isLoading,
       capitalization = KeyboardCapitalization.Words,
@@ -341,7 +356,7 @@ private fun FormContent(
     InputField(
       value = state.username,
       onValueChange = { onStateChange(state.copy(username = it, uiState = null)) },
-      label = { Text(stringResource(Res.string.username)) },
+      label = { Text(stringResource(Res.string.username).mandatory()) },
       placeholder = stringResource(Res.string.username),
       enabled = !isLoading,
       modifier = Modifier.fillMaxWidth(),
@@ -350,7 +365,7 @@ private fun FormContent(
     InputField(
       value = state.company,
       onValueChange = { onStateChange(state.copy(company = it, uiState = null)) },
-      label = { Text(stringResource(Res.string.company)) },
+      label = { Text(stringResource(Res.string.company).mandatory()) },
       placeholder = stringResource(Res.string.company),
       enabled = !isLoading,
       capitalization = KeyboardCapitalization.Words,
@@ -360,7 +375,7 @@ private fun FormContent(
     InputField(
       value = state.companyAddress,
       onValueChange = { onStateChange(state.copy(companyAddress = it, uiState = null)) },
-      label = { Text(stringResource(Res.string.company_address)) },
+      label = { Text(stringResource(Res.string.company_address).mandatory()) },
       placeholder = stringResource(Res.string.company_address),
       enabled = !isLoading,
       singleLine = false,
@@ -370,6 +385,12 @@ private fun FormContent(
         .height(120.dp),
     )
     Spacer(Modifier.height(12.dp))
+    selectedCoordinate?.let { coordinate ->
+      key(coordinate) {
+        SelectedLocationPreview(coordinate)
+      }
+      Spacer(Modifier.height(12.dp))
+    }
     OutlinedButtonCustom(
       onClick = onLocationPicker,
       text = "Titik lokasi usaha (opsional)",
@@ -390,7 +411,7 @@ private fun FormContent(
           ),
         )
       },
-      label = { Text(stringResource(Res.string.email)) },
+      label = { Text(stringResource(Res.string.email).mandatory()) },
       placeholder = stringResource(Res.string.email),
       enabled = !isLoading,
       keyboardType = KeyboardType.Email,
@@ -411,7 +432,7 @@ private fun FormContent(
           ),
         )
       },
-      label = { Text(stringResource(Res.string.phone_number_wa)) },
+      label = { Text(stringResource(Res.string.phone_number_wa).mandatory()) },
       placeholder = stringResource(Res.string.phone_number_wa),
       enabled = !isLoading,
       keyboardType = KeyboardType.Phone,
@@ -435,7 +456,7 @@ private fun FormContent(
           ),
         )
       },
-      label = { Text(stringResource(Res.string.password)) },
+      label = { Text(stringResource(Res.string.password).mandatory()) },
       placeholder = stringResource(Res.string.password),
       enabled = !isLoading,
       errorText = passwordError,
@@ -455,7 +476,7 @@ private fun FormContent(
           ),
         )
       },
-      label = { Text(stringResource(Res.string.confirm_password)) },
+      label = { Text(stringResource(Res.string.confirm_password).mandatory()) },
       placeholder = stringResource(Res.string.confirm_password),
       enabled = !isLoading,
       errorText = confirmationError,
@@ -466,16 +487,34 @@ private fun FormContent(
   }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-private fun RegisterConfirmationPreview() {
-  AppTheme {
-    RegisterContent(
-      state = RegisterState(),
-      navBack = {},
-      onConfirmOwner = {},
-      onRegister = {},
-      onStateChange = {},
+private fun SelectedLocationPreview(coordinate: CoordinateModel) {
+  val mapState = rememberMapState(
+    baseStyle = BaseStyle.Uri(OPEN_FREE_MAP_STYLE),
+    initialCameraPosition = CameraPosition(
+      target = Position(latitude = coordinate.lat, longitude = coordinate.lon),
+      zoom = 16.0,
+    ),
+  )
+
+  Box(
+    modifier = Modifier
+      .fillMaxWidth()
+      .height(128.dp)
+      .clip(RoundedCornerShape(16.dp))
+      .background(Colors.Gray50),
+    contentAlignment = Alignment.Center,
+  ) {
+    MaplibreMap(
+      modifier = Modifier.fillMaxSize(),
+      state = mapState,
+      interactions = MapInteractions.None,
+    )
+    Icon(
+      painter = painterResource(Res.drawable.ic_current_location),
+      contentDescription = "Titik lokasi usaha",
+      tint = Color.Unspecified,
+      modifier = Modifier.size(34.dp),
     )
   }
 }
@@ -503,3 +542,19 @@ private fun RegisterFormPreview() {
     )
   }
 }
+
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun RegisterConfirmationPreview() {
+  AppTheme {
+    RegisterContent(
+      state = RegisterState(),
+      navBack = {},
+      onConfirmOwner = {},
+      onRegister = {},
+      onStateChange = {},
+    )
+  }
+}
+

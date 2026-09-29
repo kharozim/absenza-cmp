@@ -11,7 +11,7 @@ class LocationRepositoryImpl(
   private val api: ApiOpenStreetMap,
 ) : LocationRepository {
   override suspend fun search(query: String): StateDataUtil<List<OsmLocationDomain>> = runCatching {
-    api.search(query).mapNotNull { it.toDomain() }
+    api.search(query).map { it.toDomain() }
   }.fold(
     onSuccess = { StateDataUtil.Success(it) },
     onFailure = { StateDataUtil.Error(ErrorModel(it.message ?: "Gagal mencari lokasi")) },
@@ -19,7 +19,6 @@ class LocationRepositoryImpl(
 
   override suspend fun reverse(latitude: Double, longitude: Double): StateDataUtil<OsmLocationDomain> = runCatching {
     api.reverse(latitude, longitude).toDomain()
-      ?: error("Koordinat lokasi tidak valid")
   }.fold(
     onSuccess = { StateDataUtil.Success(it) },
     onFailure = { StateDataUtil.Error(ErrorModel(it.message ?: "Gagal membaca alamat lokasi")) },
