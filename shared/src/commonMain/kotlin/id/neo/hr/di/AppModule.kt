@@ -23,6 +23,7 @@ import id.neo.hr.presentation.auth.register.RegisterViewModel
 import id.neo.hr.presentation.auth.registerotp.RegisterOtpViewModel
 import id.neo.hr.presentation.home.HomeViewModel
 import id.neo.hr.presentation.location.SearchMapViewModel
+import id.neo.hr.presentation.setting.SettingViewModel
 import id.neo.hr.presentation.splash.SplashViewModel
 import id.neo.hr.presentation.user.UserViewModel
 import id.neo.hr.presentation.util.SessionUtil
@@ -81,6 +82,7 @@ val viewModelModule = module {
   viewModelOf(::RegisterViewModel)
   viewModelOf(::RegisterOtpViewModel)
   viewModelOf(::SearchMapViewModel)
+  viewModelOf(::SettingViewModel)
   viewModel {
     HomeViewModel(
       authRepo = get(),
