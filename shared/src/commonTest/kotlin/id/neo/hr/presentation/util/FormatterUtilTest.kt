@@ -1,5 +1,6 @@
 package id.neo.hr.presentation.util
 
+import kotlinx.datetime.TimeZone
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -27,6 +28,7 @@ class FormatterUtilTest {
             FormatterUtil.stringDateToNewFormat(
                 data = "2026-09-04T18:30:45Z",
                 newFormat = "dd MMMM yyyy HH:mm:ss",
+                timeZone = TimeZone.of("Asia/Jakarta"),
             ),
         )
     }

@@ -1,7 +1,9 @@
 package id.neo.hr.data.data.util
 
 import id.neo.hr.data.data.remote.api.ApiAuth
+import id.neo.hr.data.data.remote.createHttpClient
 import id.neo.hr.data.data.remote.response.BaseResponse
+import id.neo.hr.di.networkModule
 import id.neo.hr.presentation.util.Constants
 import id.neo.hr.presentation.util.LogUtil
 import id.neo.hr.presentation.util.SessionUtil
@@ -71,7 +73,6 @@ object NetworkUtil {
      * Menjalankan request bearer dan mencoba refresh serta retry tepat satu kali ketika token expired.
      */
     suspend fun <T, R : Any> safeApiCallBearer(
-        api: ApiAuth,
         session: SessionUtil,
         call: suspend () -> BaseResponse<T>,
         mapData: suspend (BaseResponse<T>) -> R,
@@ -85,9 +86,10 @@ object NetworkUtil {
         }
 
         LogUtil.w(TAG) { "Access token expired; attempting token refresh" }
+        val apiAuth = ApiAuth(httpClient = createHttpClient(), baseUrl = BuildConfig.BASE_URL)
         val refreshResult = safeApiCall(
             call = {
-                api.refreshToken(
+                apiAuth.refreshToken(
                     generateHeader(
                         tokenBearer = session.getLoginModel()?.tokenRefresh,
                     ),

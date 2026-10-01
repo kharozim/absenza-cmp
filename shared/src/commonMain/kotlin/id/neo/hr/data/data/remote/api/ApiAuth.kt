@@ -26,13 +26,8 @@ import kotlinx.serialization.json.JsonObject
 /** Ktor client untuk endpoint autentikasi NeoHR. */
 class ApiAuth(
     private val httpClient: HttpClient,
-    baseUrl: String,
+    private val baseUrl: String,
 ) {
-    private val baseUrl = baseUrl.trimEnd('/').also { normalizedUrl ->
-        require(normalizedUrl.startsWith("https://") || normalizedUrl.startsWith("http://")) {
-            "ApiAuth baseUrl must be an absolute HTTP(S) URL"
-        }
-    }
 
     suspend fun login(
         requestHeaders: Map<String, String>,

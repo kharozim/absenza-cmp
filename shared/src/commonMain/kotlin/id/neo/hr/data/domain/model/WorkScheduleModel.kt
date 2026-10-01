@@ -37,8 +37,8 @@ data class WorkScheduleModel(
  * @property id ID konfigurasi hari.
  * @property dayIndex Urutan hari dalam pola schedule.
  * @property dayName Nama hari dari backend.
- * @property shiftId ID shift atau nol ketika hari libur.
- * @property shift Detail shift atau nilai kosong ketika hari libur.
+ * @property shiftId ID shift atau null ketika hari libur.
+ * @property shift Detail shift atau null ketika hari libur.
  * @property isDayOff Menandakan hari libur dan menjadi sumber kebenaran ketika shift kosong.
  * @property notes Catatan konfigurasi hari.
  * @property createdAt Waktu pembuatan konfigurasi hari.
@@ -50,8 +50,8 @@ data class WorkScheduleDayModel(
   val id: Int,
   val dayIndex: Int,
   val dayName: String,
-  val shiftId: Int,
-  val shift: WorkScheduleShiftModel,
+  val shiftId: Int?,
+  val shift: WorkScheduleShiftModel?,
   val isDayOff: Boolean,
   val notes: String,
   val createdAt: String,
@@ -61,9 +61,7 @@ data class WorkScheduleDayModel(
 )
 
 /**
- * Menyimpan detail shift work schedule dalam bentuk non-nullable.
- *
- * Shift berisi nilai kosong dari mapper ketika backend tidak mengirim shift untuk hari libur.
+ * Menyimpan detail shift work schedule dalam bentuk non-nullable ketika shift tersedia.
  *
  * @property id ID shift.
  * @property name Nama shift.

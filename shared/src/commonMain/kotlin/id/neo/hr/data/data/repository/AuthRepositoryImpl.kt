@@ -40,7 +40,6 @@ class AuthRepositoryImpl(
     )
 
     override suspend fun logout(): StateDataUtil<String> = NetworkUtil.safeApiCallBearer(
-        api = api,
         session = session,
         call = {
             api.logout(
@@ -66,7 +65,6 @@ class AuthRepositoryImpl(
 
     override suspend fun updateTokenFcm(payload: FcmRequest): StateDataUtil<String> =
         NetworkUtil.safeApiCallBearer(
-            api = api,
             session = session,
             call = {
                 api.updateFcm(
@@ -117,7 +115,6 @@ class AuthRepositoryImpl(
     )
 
     override suspend fun getAccount(): StateDataUtil<LoginModel> = NetworkUtil.safeApiCallBearer(
-        api = api,
         session = session,
         call = {
             api.getAccount(
@@ -165,7 +162,6 @@ class AuthRepositoryImpl(
 
     override suspend fun changePassword(request: ChangePasswordRequest): StateDataUtil<String> =
         NetworkUtil.safeApiCallBearer(
-            api = api,
             session = session,
             call = {
                 api.changePassword(
@@ -181,7 +177,6 @@ class AuthRepositoryImpl(
 
     override suspend fun resetPassword(employeeId: Int): StateDataUtil<UserPassModel> =
         NetworkUtil.safeApiCallBearer(
-            api = api,
             session = session,
             call = {
                 api.resetPassword(
@@ -196,7 +191,6 @@ class AuthRepositoryImpl(
         )
 
     override suspend fun getHomePage(): StateDataUtil<HomePageModel> = NetworkUtil.safeApiCallBearer(
-        api = api,
         session = session,
         call = {
             api.getHomePage(

@@ -1,13 +1,20 @@
 package id.neo.hr.di
 
 import id.neo.hr.data.data.local.SessionDataStore
+import id.neo.hr.data.data.remote.api.ApiAttendance
 import id.neo.hr.data.data.remote.api.ApiAuth
+import id.neo.hr.data.data.remote.api.ApiCompany
 import id.neo.hr.data.data.remote.api.ApiOpenStreetMap
 import id.neo.hr.data.data.remote.api.UserApi
 import id.neo.hr.data.data.remote.createHttpClient
+import id.neo.hr.data.data.repository.AttendanceRepositoryImpl
 import id.neo.hr.data.data.repository.AuthRepositoryImpl
+import id.neo.hr.data.data.repository.CompanyRepositoryImpl
 import id.neo.hr.data.data.repository.LocationRepositoryImpl
+import id.neo.hr.data.data.util.BuildConfig
+import id.neo.hr.data.repository.AttendanceRepository
 import id.neo.hr.data.repository.AuthRepository
+import id.neo.hr.data.repository.CompanyRepository
 import id.neo.hr.data.repository.DefaultUserRepository
 import id.neo.hr.data.repository.UserRepository
 import id.neo.hr.data.repository.LocationRepository
@@ -36,10 +43,11 @@ val networkModule = module {
   single { createHttpClient() } onClose { httpClient ->
     httpClient?.close()
   }
-  val baseUrl = "http://8.215.34.48:8007/"
   single { UserApi(get()) }
-  single { ApiAuth(get(), baseUrl) }
+  single { ApiAuth(get(), BuildConfig.BASE_URL) }
   single { ApiOpenStreetMap(get()) }
+  single { ApiCompany(get(), BuildConfig.BASE_URL) }
+  single { ApiAttendance(get(), BuildConfig.BASE_URL) }
 }
 
 /**
@@ -49,6 +57,8 @@ val repositoryModule = module {
   single { DefaultUserRepository(userApi = get()) } bind UserRepository::class
   single { AuthRepositoryImpl(api = get(), session = get()) } bind AuthRepository::class
   single { LocationRepositoryImpl(api = get()) } bind LocationRepository::class
+  single { CompanyRepositoryImpl(api = get(), session = get()) } bind CompanyRepository::class
+  single { AttendanceRepositoryImpl(api = get(), session = get()) } bind AttendanceRepository::class
 }
 
 /** Menyediakan satu instance DataStore dan akses sesi selama lifecycle aplikasi. */
@@ -73,8 +83,10 @@ val viewModelModule = module {
   viewModelOf(::SearchMapViewModel)
   viewModel {
     HomeViewModel(
-      authRepository = get(),
-      sessionUtil = get()
+      authRepo = get(),
+      sessionUtil = get(),
+      companyRepo = get(),
+      attendanceRepository = get()
     )
   }
   viewModel {

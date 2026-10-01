@@ -1,51 +1,48 @@
 package id.neo.hr.presentation.util
 
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
+import kotlinx.datetime.toLocalDateTime
 import kotlin.io.encoding.Base64
 import kotlin.time.Instant
 
 internal object FormatterUtil {
-
-    private const val DEFAULT_UTC_OFFSET_MINUTES = 7 * 60
-
     private val indonesianMonths = listOf(
         "Januari", "Februari", "Maret", "April", "Mei", "Juni",
         "Juli", "Agustus", "September", "Oktober", "November", "Desember",
     )
 
-    /**
-     * Mengubah tanggal API menjadi `dd MMMM yyyy`, atau mempertahankan bentuk lengkapnya.
-     * Timestamp tanpa offset dianggap menggunakan zona waktu Jakarta (UTC+7).
-     */
-    fun dateCompleteFormat(data: String, isSimple: Boolean = true): String {
+    /** Mengubah tanggal API ke zona waktu perangkat dan memformatnya untuk tampilan. */
+    fun dateCompleteFormat(
+        data: String,
+        isSimple: Boolean = true,
+        timeZone: TimeZone = TimeZone.currentSystemDefault(),
+    ): String {
         val outputPattern = if (isSimple) "dd MMMM yyyy" else "yyyy-MM-dd HH:mm:ss"
-        val dateParts = parseDateTime(data) ?: return "date error"
+        val dateParts = parseDateTime(data, timeZone) ?: return "date error"
         return format(dateParts, outputPattern) ?: "date error"
     }
 
-    /** Memformat [Instant] pada offset UTC yang diberikan. */
+    /** Memformat [Instant] pada zona waktu perangkat atau zona yang diberikan. */
     fun dateToString(
         date: Instant,
         format: String = "yyyy-MM-dd HH:mm:ss",
-        utcOffsetMinutes: Int = DEFAULT_UTC_OFFSET_MINUTES,
-    ): String = format(date.toDateParts(utcOffsetMinutes), format).orEmpty()
+        timeZone: TimeZone = TimeZone.currentSystemDefault(),
+    ): String = format(date.toDateParts(timeZone), format).orEmpty()
 
     /** Mengurai datetime ISO 8601 menjadi [Instant]. */
     fun stringToDate(date: String): Instant? = runCatching {
         Instant.parse(normalizeIsoDateTime(date))
     }.getOrNull()
 
-    /**
-     * Mengubah datetime ISO 8601 ke format tampilan pada zona waktu Jakarta (UTC+7).
-     *
-     * @return Datetime yang sudah diformat, atau `null` jika input atau pola tidak valid.
-     */
+    /** Mengubah datetime ISO 8601 ke zona waktu perangkat lalu memformatnya untuk tampilan. */
     fun stringDateToNewFormat(
         data: String,
         newFormat: String = "yyyy-MM-dd HH:mm:ss",
-        utcOffsetMinutes: Int = DEFAULT_UTC_OFFSET_MINUTES,
+        timeZone: TimeZone = TimeZone.currentSystemDefault(),
     ): String? {
         val instant = stringToDate(data) ?: return null
-        return format(instant.toDateParts(utcOffsetMinutes), newFormat)
+        return format(instant.toDateParts(timeZone), newFormat)
     }
 
     /** Mengubah tanggal ISO (`yyyy-MM-dd`) ke pola tampilan yang diberikan. */
@@ -60,11 +57,11 @@ internal object FormatterUtil {
         return format(parts, newFormat)
     }
 
-    /** Memformat [Instant] pada offset UTC yang diberikan. */
+    /** Memformat [Instant] pada zona waktu perangkat atau zona yang diberikan. */
     fun Instant.formatTo(
         dateFormat: String,
-        utcOffsetMinutes: Int = DEFAULT_UTC_OFFSET_MINUTES,
-    ): String = format(toDateParts(utcOffsetMinutes), dateFormat).orEmpty()
+        timeZone: TimeZone = TimeZone.currentSystemDefault(),
+    ): String = format(toDateParts(timeZone), dateFormat).orEmpty()
 
     /** Menghasilkan teks biasa dari fragmen HTML sederhana tanpa API Android. */
     fun htmlToText(content: String): String = content
@@ -103,7 +100,7 @@ internal object FormatterUtil {
     fun isValidPhone(phone: String): Boolean =
         phone.startsWith("08") && phone.length in 3..15 && phone.all(Char::isDigit)
 
-    private fun parseDateTime(value: String): DateParts? {
+    private fun parseDateTime(value: String, timeZone: TimeZone): DateParts? {
         val trimmed = value.trim()
         val localMatch = LOCAL_DATE_TIME_REGEX.matchEntire(trimmed)
         if (localMatch != null) {
@@ -116,7 +113,7 @@ internal object FormatterUtil {
                 second = localMatch.groupValues[6].ifEmpty { "0" }.toInt(),
             ).takeIf { it.isValid() }
         }
-        return stringToDate(trimmed)?.toDateParts(DEFAULT_UTC_OFFSET_MINUTES)
+        return stringToDate(trimmed)?.toDateParts(timeZone)
     }
 
     private fun normalizeIsoDateTime(value: String): String {
@@ -126,31 +123,16 @@ internal object FormatterUtil {
         return trimmed
     }
 
-    private fun Instant.toDateParts(utcOffsetMinutes: Int): DateParts {
-        val localSeconds = epochSeconds + utcOffsetMinutes * 60L
-        val days = floorDiv(localSeconds, SECONDS_PER_DAY)
-        val secondsOfDay = floorMod(localSeconds, SECONDS_PER_DAY).toInt()
-        val date = civilDateFromEpochDays(days)
-        return date.copy(
-            hour = secondsOfDay / 3_600,
-            minute = secondsOfDay % 3_600 / 60,
-            second = secondsOfDay % 60,
+    private fun Instant.toDateParts(timeZone: TimeZone): DateParts {
+        val localDateTime = toLocalDateTime(timeZone)
+        return DateParts(
+            year = localDateTime.year,
+            month = localDateTime.month.number,
+            day = localDateTime.day,
+            hour = localDateTime.hour,
+            minute = localDateTime.minute,
+            second = localDateTime.second,
         )
-    }
-
-    private fun civilDateFromEpochDays(epochDays: Long): DateParts {
-        val zeroDay = epochDays + 719_468
-        val era = floorDiv(zeroDay, 146_097)
-        val dayOfEra = zeroDay - era * 146_097
-        val yearOfEra = (dayOfEra - dayOfEra / 1_460 + dayOfEra / 36_524 -
-            dayOfEra / 146_096) / 365
-        var year = yearOfEra + era * 400
-        val dayOfYear = dayOfEra - (365 * yearOfEra + yearOfEra / 4 - yearOfEra / 100)
-        val monthPrime = (5 * dayOfYear + 2) / 153
-        val day = dayOfYear - (153 * monthPrime + 2) / 5 + 1
-        val month = monthPrime + if (monthPrime < 10) 3 else -9
-        year += if (month <= 2) 1 else 0
-        return DateParts(year.toInt(), month.toInt(), day.toInt())
     }
 
     private fun format(parts: DateParts, pattern: String): String? {
@@ -275,13 +257,6 @@ internal object FormatterUtil {
 
     private fun Int.twoDigits(): String = toString().padStart(2, '0')
 
-    private fun floorDiv(value: Long, divisor: Long): Long {
-        val quotient = value / divisor
-        return if (value % divisor < 0) quotient - 1 else quotient
-    }
-
-    private fun floorMod(value: Long, divisor: Long): Long = value - floorDiv(value, divisor) * divisor
-
     private data class DateParts(
         val year: Int,
         val month: Int,
@@ -291,7 +266,6 @@ internal object FormatterUtil {
         val second: Int = 0,
     )
 
-    private const val SECONDS_PER_DAY = 86_400L
     private val FORMAT_TOKENS = listOf("yyyy", "MMMM", "MMM", "MM", "dd", "HH", "mm", "ss")
     private val DATE_REGEX = Regex("""^(\d{4})-(\d{2})-(\d{2})$""")
     private val LOCAL_DATE_TIME_REGEX = Regex(

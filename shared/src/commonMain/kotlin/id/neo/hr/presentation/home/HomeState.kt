@@ -1,5 +1,7 @@
 package id.neo.hr.presentation.home
 
+import id.neo.hr.data.domain.model.AttendanceRosterModel
+import id.neo.hr.data.domain.model.CompanyFileModel
 import id.neo.hr.data.domain.model.EmployeeAttendanceStatusModel
 import id.neo.hr.presentation.util.UiState
 import kotlinx.serialization.json.JsonObject
@@ -14,5 +16,9 @@ data class HomeState(
   val advertisements: List<JsonObject> = emptyList(),
   val isAdmin: Boolean = false,
   val isRefreshing: Boolean = false,
-  val uiState: UiState? = null,
+  val listBanner: List<CompanyFileModel> = emptyList(),
+  val poster: CompanyFileModel? = null,
+  val todayAttendanceRoster: AttendanceRosterModel? = null,
+  val totalWorkingHour: String = "--:--",
+  val getDataState: UiState? = null,
 )

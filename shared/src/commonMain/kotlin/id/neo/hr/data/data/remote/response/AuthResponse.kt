@@ -47,8 +47,8 @@ data class SettingResponse(
 
 @Serializable
 data class UserPassResponse(
-  @SerialName("username") val username: String? = null,
-  @SerialName("password") val password: String? = null,
+  @SerialName("employee_username") val username: String? = null,
+  @SerialName("employee_password") val password: String? = null,
 ) {
   fun toDomain() = UserPassModel(username.orEmpty(), password.orEmpty())
 }
@@ -56,7 +56,7 @@ data class UserPassResponse(
 @Serializable
 data class HomePageResponse(
   @SerialName("employee_attendance_status")
-  val employeeAttendanceStatus: EmployeeAttendanceStatusResponse? = null,
+  val employeeAttendanceStatus: AttendanceSummaryResponse? = null,
   @SerialName("advertisement")
   val advertisement: List<JsonObject>? = null,
 ) {
@@ -68,7 +68,7 @@ data class HomePageResponse(
 }
 
 @Serializable
-data class EmployeeAttendanceStatusResponse(
+data class AttendanceSummaryResponse(
   @SerialName("on_time") val onTime: Int? = null,
   @SerialName("late") val late: Int? = null,
   @SerialName("no_attendance_yet") val noAttendanceYet: Int? = null,
