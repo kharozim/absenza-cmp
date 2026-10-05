@@ -33,11 +33,10 @@ fun createHttpClient(): HttpClient = HttpClient {
                 Napier.d(message, tag = "HttpClient")
             }
         }
-        level = LogLevel.BODY
-        sanitizeHeader { header ->
-            header.equals(HttpHeaders.Authorization, ignoreCase = true) ||
-                header.equals("token-generated", ignoreCase = true)
-        }
+        level = LogLevel.ALL
+//        sanitizeHeader { header ->
+//            header.equals(HttpHeaders.Authorization, ignoreCase = true) || header.equals("token-generated", ignoreCase = true)
+//        }
     }
 
     defaultRequest {

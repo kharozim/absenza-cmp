@@ -28,6 +28,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import id.neo.hr.data.domain.model.EmployeeModel
+import id.neo.hr.presentation.activity.ActivityScreen
+import id.neo.hr.presentation.activity.TaskAdminScreen
 import id.neo.hr.presentation.home.HomeScreen
 import id.neo.hr.presentation.setting.SettingScreen
 import id.neo.hr.presentation.theme.Colors
@@ -100,7 +103,9 @@ fun MainRoute(
   navToPrivacyPolicy: () -> Unit,
   navToChangePassword: () -> Unit,
   navToBusinessLocation: (String) -> Unit,
+  navToDetailTaskAdmin: (employee: EmployeeModel) -> Unit,
   onTokenExpired: () -> Unit,
+  navToCreate: () -> Unit,
   sessionUtil: SessionUtil = koinInject(),
 ) {
   val isAdmin by sessionUtil.isRoleAdmin.collectAsStateWithLifecycle(initialValue = false)
@@ -147,15 +152,17 @@ fun MainRoute(
         )
       }
       composable<MainActivityTab> {
-        MainPlaceholderScreen(
-          title = stringResource(Res.string.activity),
-          description = if (isAdmin) {
-            "Aktivitas admin sedang disiapkan"
-          } else {
-            "Aktivitas employee sedang disiapkan"
-          },
-          paddingValues = paddingValues,
-        )
+        if (isAdmin) {
+          TaskAdminScreen(
+            innerPadding = paddingValues,
+            navToDetail = navToDetailTaskAdmin
+          )
+        } else {
+          ActivityScreen(
+            innerPadding = paddingValues,
+            navToCreate = navToCreate,
+          )
+        }
       }
       composable<MainSettingTab> {
         SettingScreen(
@@ -248,46 +255,3 @@ private fun NavDestination?.toMainTab(): MainTab = when (this?.route) {
   else -> MainTab.Home
 }
 
-@Composable
-private fun MainPlaceholderScreen(
-  title: String,
-  description: String,
-  paddingValues: PaddingValues,
-  actionText: String? = null,
-  onAction: () -> Unit = {},
-) {
-  Box(
-    modifier = Modifier
-      .fillMaxSize()
-      .background(Colors.Gray50)
-      .padding(paddingValues)
-      .padding(24.dp),
-    contentAlignment = Alignment.Center,
-  ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-      Text(
-        text = title,
-        style = TextStyleCustom.ExtraBold,
-        color = Colors.Gray800,
-      )
-      Text(
-        text = description,
-        style = TextStyleCustom.Medium,
-        color = Colors.Gray500,
-        modifier = Modifier.padding(top = 8.dp),
-      )
-      if (actionText != null) {
-        Text(
-          text = actionText,
-          style = TextStyleCustom.Bold,
-          color = Colors.Purple800,
-          modifier = Modifier
-            .padding(top = 20.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .clickable(onClick = onAction)
-            .padding(horizontal = 20.dp, vertical = 12.dp),
-        )
-      }
-    }
-  }
-}
