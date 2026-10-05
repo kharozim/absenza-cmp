@@ -5,7 +5,6 @@ import id.neo.hr.data.data.remote.api.ApiAttendance
 import id.neo.hr.data.data.remote.api.ApiAuth
 import id.neo.hr.data.data.remote.api.ApiCompany
 import id.neo.hr.data.data.remote.api.ApiOpenStreetMap
-import id.neo.hr.data.data.remote.api.UserApi
 import id.neo.hr.data.data.remote.createHttpClient
 import id.neo.hr.data.data.repository.AttendanceRepositoryImpl
 import id.neo.hr.data.data.repository.AuthRepositoryImpl
@@ -15,16 +14,18 @@ import id.neo.hr.data.data.util.BuildConfig
 import id.neo.hr.data.repository.AttendanceRepository
 import id.neo.hr.data.repository.AuthRepository
 import id.neo.hr.data.repository.CompanyRepository
-import id.neo.hr.data.repository.DefaultUserRepository
-import id.neo.hr.data.repository.UserRepository
 import id.neo.hr.data.repository.LocationRepository
 import id.neo.hr.presentation.auth.login.LoginViewModel
 import id.neo.hr.presentation.auth.register.RegisterViewModel
 import id.neo.hr.presentation.auth.registerotp.RegisterOtpViewModel
 import id.neo.hr.presentation.home.HomeViewModel
 import id.neo.hr.presentation.location.SearchMapViewModel
+import id.neo.hr.presentation.setting.SettingViewModel
+import id.neo.hr.presentation.setting.branch.BranchDetailViewModel
+import id.neo.hr.presentation.setting.branch.EditBranchViewModel
+import id.neo.hr.presentation.setting.changepassword.ChangePasswordViewModel
+import id.neo.hr.presentation.setting.profile.ProfileViewModel
 import id.neo.hr.presentation.splash.SplashViewModel
-import id.neo.hr.presentation.user.UserViewModel
 import id.neo.hr.presentation.util.SessionUtil
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
@@ -43,7 +44,6 @@ val networkModule = module {
   single { createHttpClient() } onClose { httpClient ->
     httpClient?.close()
   }
-  single { UserApi(get()) }
   single { ApiAuth(get(), BuildConfig.BASE_URL) }
   single { ApiOpenStreetMap(get()) }
   single { ApiCompany(get(), BuildConfig.BASE_URL) }
@@ -54,7 +54,6 @@ val networkModule = module {
  * Menyediakan repository production melalui kontrak domain yang dipakai ViewModel.
  */
 val repositoryModule = module {
-  single { DefaultUserRepository(userApi = get()) } bind UserRepository::class
   single { AuthRepositoryImpl(api = get(), session = get()) } bind AuthRepository::class
   single { LocationRepositoryImpl(api = get()) } bind LocationRepository::class
   single { CompanyRepositoryImpl(api = get(), session = get()) } bind CompanyRepository::class
@@ -77,10 +76,14 @@ fun sessionModule(dataStore: SessionDataStore) = module {
  * Menyediakan ViewModel dengan lifecycle yang dikelola Koin Compose.
  */
 val viewModelModule = module {
-  viewModelOf(::UserViewModel)
   viewModelOf(::RegisterViewModel)
   viewModelOf(::RegisterOtpViewModel)
   viewModelOf(::SearchMapViewModel)
+  viewModelOf(::SettingViewModel)
+  viewModelOf(::ProfileViewModel)
+  viewModelOf(::ChangePasswordViewModel)
+  viewModelOf(::BranchDetailViewModel)
+  viewModelOf(::EditBranchViewModel)
   viewModel {
     HomeViewModel(
       authRepo = get(),

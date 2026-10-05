@@ -78,7 +78,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 private const val DEFAULT_LATITUDE = -6.200603468816713
 private const val DEFAULT_LONGITUDE = 106.79873778292526
-private const val OPEN_FREE_MAP_STYLE = "https://tiles.openfreemap.org/styles/liberty"
+private const val OPEN_FREE_MAP_STYLE = "https://tiles.openfreemap.org/styles/bright"
 
 @OptIn(FlowPreview::class)
 @Composable

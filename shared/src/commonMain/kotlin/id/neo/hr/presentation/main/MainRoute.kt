@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import id.neo.hr.presentation.home.HomeScreen
+import id.neo.hr.presentation.setting.SettingScreen
 import id.neo.hr.presentation.theme.Colors
 import id.neo.hr.presentation.theme.TextStyleCustom
 import id.neo.hr.presentation.util.SessionUtil
@@ -44,7 +43,6 @@ import neohr_mp.shared.generated.resources.ic_bottom_nav_setting
 import neohr_mp.shared.generated.resources.ic_bottom_nav_setting_selected
 import neohr_mp.shared.generated.resources.ic_bottom_nav_task
 import neohr_mp.shared.generated.resources.ic_bottom_nav_task_selected
-import neohr_mp.shared.generated.resources.profile
 import neohr_mp.shared.generated.resources.setting
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
@@ -98,6 +96,10 @@ private val bottomMenus = listOf(
 @Composable
 fun MainRoute(
   navToProfile: () -> Unit,
+  navToTermAndConditions: () -> Unit,
+  navToPrivacyPolicy: () -> Unit,
+  navToChangePassword: () -> Unit,
+  navToBusinessLocation: (String) -> Unit,
   onTokenExpired: () -> Unit,
   sessionUtil: SessionUtil = koinInject(),
 ) {
@@ -116,11 +118,13 @@ fun MainRoute(
           launchSingleTop = true
           restoreState = true
         }
+
         MainTab.Activity -> tabController.navigate(MainActivityTab) {
           popUpTo(MainHomeTab) { saveState = true }
           launchSingleTop = true
           restoreState = true
         }
+
         MainTab.Setting -> tabController.navigate(MainSettingTab) {
           popUpTo(MainHomeTab) { saveState = true }
           launchSingleTop = true
@@ -154,12 +158,14 @@ fun MainRoute(
         )
       }
       composable<MainSettingTab> {
-        MainPlaceholderScreen(
-          title = stringResource(Res.string.setting),
-          description = "Pengaturan akun sedang disiapkan",
-          paddingValues = paddingValues,
-          actionText = stringResource(Res.string.profile),
-          onAction = navToProfile,
+        SettingScreen(
+          innerPadding = paddingValues,
+          navToSplash = onTokenExpired,
+          navToProfile = navToProfile,
+          navToTermAndConditions = navToTermAndConditions,
+          navToPrivacyPolicy = navToPrivacyPolicy,
+          navToChangePassword = navToChangePassword,
+          navToBusinessLocation = navToBusinessLocation,
         )
       }
     }
@@ -207,7 +213,6 @@ private fun MainBottomNavigation(
       modifier = Modifier
         .fillMaxWidth()
         .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-        .navigationBarsPadding(),
     ) {
       menus.forEach { menu ->
         val selected = selectedTab == menu.tab

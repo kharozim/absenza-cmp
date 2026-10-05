@@ -64,6 +64,16 @@
   <string name="terms_condition">Terms &amp; Condition</string>
   <string name="privacy_policy">Privacy Policy</string>
   <string name="logout">Logout</string>
+  <string name="logout_failed">Unable to clear session</string>
+  <string name="whatsapp_contact_message">Hello, I would like to ask about Absenza.</string>
+  <string name="whatsapp_open_failed">Unable to open WhatsApp</string>
+  <string name="map_open_failed">Unable to open map</string>
+  <string name="open_document">Open Document</string>
+  <string name="invalid_document_url">Document URL is not available</string>
+  <string name="load_profile_failed">Failed to load account data</string>
+  <string name="load_branch_failed">Failed to load business location</string>
+  <string name="update_branch_failed">Failed to update business location</string>
+  <string name="change_password_failed">Failed to change password</string>
   <string name="cancel">Cancel</string>
   <string name="save_employee_confirmation">Save Employee Confirmation</string>
   <string name="are_you_sure_want_to_create_an_employee_with_the_name_">"Are you sure want to create an employee with the name "</string>
