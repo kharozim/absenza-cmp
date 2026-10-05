@@ -12,6 +12,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import id.neo.hr.data.data.remote.request.RegisterRequest
 import id.neo.hr.data.domain.model.CoordinateModel
+import id.neo.hr.presentation.activity.DetailTaskAdminScreen
+import id.neo.hr.presentation.activity.TaskAdminViewModel
+import id.neo.hr.presentation.activity.TaskViewModel
+import id.neo.hr.presentation.activity.add.CreateTaskScreen
 import id.neo.hr.presentation.auth.login.LoginScreen
 import id.neo.hr.presentation.auth.register.RegisterScreen
 import id.neo.hr.presentation.auth.registerotp.RegisterOtpScreen
@@ -79,6 +83,17 @@ object RegisterOtp
 @Serializable
 object LocationPicker
 
+@Serializable
+data class DetailTaskAdmin(
+  val accountId: Int,
+  val fullName: String,
+  val photo: String,
+  val username: String,
+)
+
+@Serializable
+object CreateTask
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
@@ -101,6 +116,19 @@ fun Nav() {
           controller.navigate(Login) {
             popUpTo(Home) { inclusive = true }
           }
+        },
+        navToDetailTaskAdmin = { employee ->
+          controller.navigate(
+            DetailTaskAdmin(
+              accountId = employee.id,
+              fullName = employee.accountName,
+              photo = employee.accountUrlPhoto,
+              username = employee.accountUid,
+            )
+          )
+        },
+        navToCreate = {
+          controller.navigate(CreateTask)
         },
       )
     }
@@ -259,6 +287,26 @@ fun Nav() {
           selectedBranchCoordinate = coordinate
           controller.popBackStack()
         },
+      )
+    }
+    composable<DetailTaskAdmin> { entry ->
+      val viewModel: TaskAdminViewModel = koinViewModel()
+      val route = entry.toRoute<DetailTaskAdmin>()
+      DetailTaskAdminScreen(
+        accountId = route.accountId,
+        fullName = route.fullName,
+        photo = route.photo,
+        username = route.username,
+        viewModel = viewModel,
+        onBackClick = { controller.navigateUp() }
+      )
+    }
+
+    composable<CreateTask> { entry ->
+      val viewModel: TaskViewModel = koinViewModel()
+      CreateTaskScreen(
+        viewModel = viewModel,
+        onBackClick = { controller.navigateUp() }
       )
     }
   }

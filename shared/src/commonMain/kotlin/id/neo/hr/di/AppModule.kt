@@ -5,16 +5,21 @@ import id.neo.hr.data.data.remote.api.ApiAttendance
 import id.neo.hr.data.data.remote.api.ApiAuth
 import id.neo.hr.data.data.remote.api.ApiCompany
 import id.neo.hr.data.data.remote.api.ApiOpenStreetMap
+import id.neo.hr.data.data.remote.api.ApiTask
 import id.neo.hr.data.data.remote.createHttpClient
 import id.neo.hr.data.data.repository.AttendanceRepositoryImpl
 import id.neo.hr.data.data.repository.AuthRepositoryImpl
 import id.neo.hr.data.data.repository.CompanyRepositoryImpl
 import id.neo.hr.data.data.repository.LocationRepositoryImpl
+import id.neo.hr.data.data.repository.TaskRepositoryImpl
 import id.neo.hr.data.data.util.BuildConfig
 import id.neo.hr.data.repository.AttendanceRepository
 import id.neo.hr.data.repository.AuthRepository
 import id.neo.hr.data.repository.CompanyRepository
 import id.neo.hr.data.repository.LocationRepository
+import id.neo.hr.data.repository.TaskRepository
+import id.neo.hr.presentation.activity.TaskAdminViewModel
+import id.neo.hr.presentation.activity.TaskViewModel
 import id.neo.hr.presentation.auth.login.LoginViewModel
 import id.neo.hr.presentation.auth.register.RegisterViewModel
 import id.neo.hr.presentation.auth.registerotp.RegisterOtpViewModel
@@ -48,6 +53,7 @@ val networkModule = module {
   single { ApiOpenStreetMap(get()) }
   single { ApiCompany(get(), BuildConfig.BASE_URL) }
   single { ApiAttendance(get(), BuildConfig.BASE_URL) }
+  single { ApiTask(get(), BuildConfig.BASE_URL) }
 }
 
 /**
@@ -58,6 +64,7 @@ val repositoryModule = module {
   single { LocationRepositoryImpl(api = get()) } bind LocationRepository::class
   single { CompanyRepositoryImpl(api = get(), session = get()) } bind CompanyRepository::class
   single { AttendanceRepositoryImpl(api = get(), session = get()) } bind AttendanceRepository::class
+  single { TaskRepositoryImpl(api = get(), session = get()) } bind TaskRepository::class
 }
 
 /** Menyediakan satu instance DataStore dan akses sesi selama lifecycle aplikasi. */
@@ -104,6 +111,8 @@ val viewModelModule = module {
       sessionUtil = get()
     )
   }
+  viewModelOf(::TaskViewModel)
+  viewModelOf(::TaskAdminViewModel)
 }
 
 /**
