@@ -65,6 +65,16 @@
   <string name="terms_condition"><![CDATA[Syarat & Ketentuan]]></string>
   <string name="privacy_policy">Kebijakan Privasi</string>
   <string name="logout">Keluar</string>
+  <string name="logout_failed">Tidak dapat membersihkan sesi</string>
+  <string name="whatsapp_contact_message">Halo, saya ingin bertanya mengenai Absenza.</string>
+  <string name="whatsapp_open_failed">Tidak dapat membuka WhatsApp</string>
+  <string name="map_open_failed">Tidak dapat membuka peta</string>
+  <string name="open_document">Buka Dokumen</string>
+  <string name="invalid_document_url">URL dokumen tidak tersedia</string>
+  <string name="load_profile_failed">Gagal memuat data akun</string>
+  <string name="load_branch_failed">Gagal memuat lokasi usaha</string>
+  <string name="update_branch_failed">Gagal memperbarui lokasi usaha</string>
+  <string name="change_password_failed">Gagal mengubah kata sandi</string>
   <string name="cancel">Batal</string>
   <string name="save_employee_confirmation">Konfirmasi Simpan Karyawan</string>
   <string name="are_you_sure_want_to_create_an_employee_with_the_name_">"Apakah Anda yakin ingin membuat karyawan dengan nama "</string>

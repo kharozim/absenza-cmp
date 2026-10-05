@@ -96,6 +96,10 @@ private val bottomMenus = listOf(
 @Composable
 fun MainRoute(
   navToProfile: () -> Unit,
+  navToTermAndConditions: () -> Unit,
+  navToPrivacyPolicy: () -> Unit,
+  navToChangePassword: () -> Unit,
+  navToBusinessLocation: (String) -> Unit,
   onTokenExpired: () -> Unit,
   sessionUtil: SessionUtil = koinInject(),
 ) {
@@ -157,11 +161,11 @@ fun MainRoute(
         SettingScreen(
           innerPadding = paddingValues,
           navToSplash = onTokenExpired,
-          navToProfile = {},
-          navToTermAndConditions = {},
-          navToPrivacyPolicy = {},
-          navToChangePassword = {},
-          navToBusinessLocation = {}
+          navToProfile = navToProfile,
+          navToTermAndConditions = navToTermAndConditions,
+          navToPrivacyPolicy = navToPrivacyPolicy,
+          navToChangePassword = navToChangePassword,
+          navToBusinessLocation = navToBusinessLocation,
         )
       }
     }

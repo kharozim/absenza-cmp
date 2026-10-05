@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +39,6 @@ import id.neo.hr.presentation.theme.SetSystemBarAppearance
 import id.neo.hr.presentation.theme.TextStyleCustom
 import id.neo.hr.presentation.util.PackageUtils
 import id.neo.hr.presentation.util.ToastManager
-import id.neo.hr.presentation.widget.ToastHost
 import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.business_location
 import neohr_mp.shared.generated.resources.change_password
@@ -54,6 +54,9 @@ import neohr_mp.shared.generated.resources.ic_settings_plan
 import neohr_mp.shared.generated.resources.ic_settings_profile
 import neohr_mp.shared.generated.resources.ic_settings_terms
 import neohr_mp.shared.generated.resources.logout
+import neohr_mp.shared.generated.resources.logout_failed
+import neohr_mp.shared.generated.resources.whatsapp_contact_message
+import neohr_mp.shared.generated.resources.whatsapp_open_failed
 import neohr_mp.shared.generated.resources.my_subscription
 import neohr_mp.shared.generated.resources.privacy_policy
 import neohr_mp.shared.generated.resources.terms_condition
@@ -76,19 +79,27 @@ fun SettingScreen(
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
 
+  LaunchedEffect(state.logoutCompleted) {
+    if (state.logoutCompleted) {
+      viewModel.consumeLogoutResult()
+      navToSplash()
+    }
+  }
+
+  LaunchedEffect(state.logoutError) {
+    if (state.logoutError != null) {
+      ToastManager.error(org.jetbrains.compose.resources.getString(Res.string.logout_failed))
+      viewModel.consumeLogoutResult()
+    }
+  }
+
   SetSystemBarAppearance(true)
   Content(
     modifier = modifier,
     innerPadding = innerPadding,
     state = state,
     navToProfile = navToProfile,
-    clearSessionAndNavToSplash = {
-      // stop network callback
-//      NetworkMonitor.unregisterNetworkCallback(context)
-
-      viewModel.clearSession()
-      navToSplash()
-    },
+    clearSession = viewModel::clearSession,
     navToTermAndConditions = navToTermAndConditions,
     navToPrivacyPolicy = navToPrivacyPolicy,
     navToBusinessLocation = { navToBusinessLocation(state.branchCode) },
@@ -102,13 +113,15 @@ private fun Content(
   innerPadding: PaddingValues,
   state: SettingState,
   navToProfile: () -> Unit,
-  clearSessionAndNavToSplash: () -> Unit,
+  clearSession: () -> Unit,
   navToTermAndConditions: () -> Unit,
   navToPrivacyPolicy: () -> Unit,
   navToBusinessLocation: () -> Unit,
   navToChangePassword: () -> Unit,
 ) {
   val uriHandler = LocalUriHandler.current
+  val whatsappMessage = stringResource(Res.string.whatsapp_contact_message)
+  val whatsappOpenFailed = stringResource(Res.string.whatsapp_open_failed)
   Column(
     modifier = modifier
       .fillMaxSize()
@@ -223,14 +236,13 @@ private fun Content(
       }
       HorizontalDivider(color = Colors.Purple50)
       Item(onClick = {
-        runCatching {
-          uriHandler.openUri(
-            PackageUtils.createWhatsAppUrl(
-              state.phoneNumberAdmin,
-              "Halo, izin bertanya mengenai..."
-            )
-          )
-        }.onFailure { ToastManager.error(it.message ?: "Tidak dapat membuka Whatsapp") }
+        val url = PackageUtils.createWhatsAppUrl(state.phoneNumberAdmin, whatsappMessage)
+        if (url == null) {
+          ToastManager.error(whatsappOpenFailed)
+        } else {
+          runCatching { uriHandler.openUri(url) }
+            .onFailure { ToastManager.error(whatsappOpenFailed) }
+        }
 
       }, settingIcon = Res.drawable.ic_settings_contact) {
         Text(
@@ -242,8 +254,7 @@ private fun Content(
       HorizontalDivider(color = Colors.Purple50)
       Item(
         onClick = {
-          ToastManager.show("logout")
-          clearSessionAndNavToSplash()
+          clearSession()
         },
         settingIcon = Res.drawable.ic_settings_logout
       ) {
@@ -297,7 +308,7 @@ private fun SettingScreenPreview() {
           isAdmin = true
         ),
         navToProfile = {},
-        clearSessionAndNavToSplash = {},
+        clearSession = {},
         navToTermAndConditions = {},
         navToPrivacyPolicy = {},
         navToChangePassword = {},
