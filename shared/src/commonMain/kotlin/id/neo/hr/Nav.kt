@@ -16,6 +16,7 @@ import id.neo.hr.presentation.activity.DetailTaskAdminScreen
 import id.neo.hr.presentation.activity.TaskAdminViewModel
 import id.neo.hr.presentation.activity.TaskViewModel
 import id.neo.hr.presentation.activity.add.CreateTaskScreen
+import id.neo.hr.presentation.attendance.`in`.ClockInScreen
 import id.neo.hr.presentation.auth.login.LoginScreen
 import id.neo.hr.presentation.auth.register.RegisterScreen
 import id.neo.hr.presentation.auth.registerotp.RegisterOtpScreen
@@ -94,6 +95,9 @@ data class DetailTaskAdmin(
 @Serializable
 object CreateTask
 
+@Serializable
+object ClockIn
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
@@ -129,6 +133,9 @@ fun Nav() {
         },
         navToCreate = {
           controller.navigate(CreateTask)
+        },
+        navToClockIn = {
+          controller.navigate(ClockIn)
         },
       )
     }
@@ -307,6 +314,20 @@ fun Nav() {
       CreateTaskScreen(
         viewModel = viewModel,
         onBackClick = { controller.navigateUp() }
+      )
+    }
+
+    composable<ClockIn> {
+      ClockInScreen(
+        navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+        navToHome = {
+          controller.navigate(Home) {
+            popUpTo(ClockIn) { inclusive = true }
+          }
+        },
       )
     }
   }

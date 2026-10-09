@@ -101,6 +101,7 @@ fun HomeScreen(
   isAdmin: Boolean,
   onProfileClick: () -> Unit,
   onTokenExpired: () -> Unit,
+  onClockInClick: () -> Unit = {},
   viewModel: HomeViewModel = koinViewModel(),
   modifier: Modifier = Modifier,
 ) {
@@ -128,9 +129,7 @@ fun HomeScreen(
       onNotificationClick = {
 // TODO()
       },
-      onClockInClick = {
-// TODO()
-      },
+      onClockInClick = onClockInClick,
       onClockOutClick = {
 // TODO()
       },

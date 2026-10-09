@@ -10,5 +10,7 @@
       <key>NSAllowsArbitraryLoads</key>
       <true/>
   </dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Aplikasi membutuhkan akses kamera untuk mengambil foto absensi.</string>
 </dict>
 </plist>

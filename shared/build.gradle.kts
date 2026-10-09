@@ -19,8 +19,6 @@ kotlin {
         }
     }
     
-    jvm()
-    
     android {
        namespace = "id.neo.hr.shared"
        compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -75,6 +73,12 @@ kotlin {
             implementation(libs.maplibre.compose)
             implementation(libs.maplibre.compose.material3)
             implementation(libs.napier)
+            implementation(libs.camerak)
+            implementation(libs.camerak.image.saver)
+            implementation(libs.moko.permissions)
+            implementation(libs.moko.permissions.compose)
+            implementation(libs.moko.permissions.camera)
+            implementation(libs.moko.permissions.location)
         }
         androidMain.dependencies {
             runtimeOnly("org.maplibre.compose:maplibre-compose-runtime-vulkan-android:${libs.versions.maplibreCompose.get()}")
@@ -88,9 +92,6 @@ kotlin {
         }
         appleMain.dependencies {
             implementation(libs.ktor.client.darwin)
-        }
-        jvmMain.dependencies {
-            implementation(libs.ktor.client.cio)
         }
     }
 }
