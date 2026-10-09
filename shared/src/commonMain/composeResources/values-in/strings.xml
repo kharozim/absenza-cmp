@@ -127,6 +127,9 @@
   <string name="attendance_detail">Detail Kehadiran</string>
   <string name="clock_out_image">Foto Pulang Kerja</string>
   <string name="clock_in_image">Foto Masuk Kerja</string>
+  <string name="working_date">Tanggal Kerja</string>
+  <string name="coordinate">Koordinat</string>
+  <string name="location_not_found">Lokasi tidak ditemukan</string>
   <string name="my_company">Perusahaan Saya</string>
   <string name="my_branch">Cabang Saya</string>
   <string name="detail">Detail</string>

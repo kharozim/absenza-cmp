@@ -17,6 +17,7 @@ import id.neo.hr.presentation.activity.TaskAdminViewModel
 import id.neo.hr.presentation.activity.TaskViewModel
 import id.neo.hr.presentation.activity.add.CreateTaskScreen
 import id.neo.hr.presentation.attendance.`in`.ClockInScreen
+import id.neo.hr.presentation.attendance.detail.AttendanceDetailScreen
 import id.neo.hr.presentation.attendance.out.ClockOutScreen
 import id.neo.hr.presentation.auth.login.LoginScreen
 import id.neo.hr.presentation.auth.register.RegisterScreen
@@ -102,6 +103,9 @@ object ClockIn
 @Serializable
 data class ClockOut(val attendanceId: Int)
 
+@Serializable
+data class AttendanceDetail(val attendanceId: Int)
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
@@ -143,6 +147,9 @@ fun Nav() {
         },
         navToClockOut = { attendanceId ->
           controller.navigate(ClockOut(attendanceId))
+        },
+        navToAttendanceDetail = { attendanceId ->
+          controller.navigate(AttendanceDetail(attendanceId))
         },
       )
     }
@@ -351,6 +358,14 @@ fun Nav() {
             popUpTo(ClockOut(route.attendanceId)) { inclusive = true }
           }
         },
+      )
+    }
+
+    composable<AttendanceDetail> { entry ->
+      val route = entry.toRoute<AttendanceDetail>()
+      AttendanceDetailScreen(
+        attendanceId = route.attendanceId,
+        navBack = { controller.popBackStack() },
       )
     }
   }

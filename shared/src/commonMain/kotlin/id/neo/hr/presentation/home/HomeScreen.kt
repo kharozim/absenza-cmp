@@ -103,6 +103,7 @@ fun HomeScreen(
   onTokenExpired: () -> Unit,
   onClockInClick: () -> Unit = {},
   onClockOutClick: (attendanceId: Int) -> Unit = {},
+  navToAttendanceDetail: (id: Int) -> Unit = {},
   viewModel: HomeViewModel = koinViewModel(),
   modifier: Modifier = Modifier,
 ) {
@@ -150,8 +151,8 @@ fun HomeScreen(
       navToAllMenu = {
 // TODO()
       },
-      navToAttendanceDetail = {
-// TODO()
+      navToAttendanceDetail = { attendanceId ->
+        navToAttendanceDetail(attendanceId)
       },
       navToTimeOffAdmin = {
 // TODO()
