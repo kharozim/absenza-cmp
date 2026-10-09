@@ -456,10 +456,12 @@
   <string name="clear_all">Hapus Semua</string>
   <string name="take_selfie">Ambil Selfie</string>
   <string name="record_clock_in">Rekam Absen Masuk</string>
+  <string name="record_clock_out">Rekam Absen Pulang</string>
   <string name="retake_photo">Ambil Ulang Foto</string>
   <string name="camera_hint">Pastikan hasil foto tidak buram, wajah terdeteksi &amp; pas dengan frame.</string>
   <string name="camera_capture_failed">Gagal mengambil foto. Silakan coba lagi.</string>
   <string name="clock_in_time_server_hint">Tanggal &amp; Jam Masuk menggunakan waktu server</string>
+  <string name="clock_out_time_server_hint">Tanggal &amp; Jam Pulang menggunakan waktu server</string>
   <string name="flip_camera">Putar Kamera</string>
   <string name="camera_permission_required">Izin Kamera Diperlukan</string>
   <string name="camera_permission_rationale">Aplikasi membutuhkan akses kamera untuk mengambil foto %1$s.</string>

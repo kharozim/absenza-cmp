@@ -102,6 +102,7 @@ fun HomeScreen(
   onProfileClick: () -> Unit,
   onTokenExpired: () -> Unit,
   onClockInClick: () -> Unit = {},
+  onClockOutClick: (attendanceId: Int) -> Unit = {},
   viewModel: HomeViewModel = koinViewModel(),
   modifier: Modifier = Modifier,
 ) {
@@ -131,7 +132,8 @@ fun HomeScreen(
       },
       onClockInClick = onClockInClick,
       onClockOutClick = {
-// TODO()
+        val attendanceId = state.todayAttendanceRoster?.attendance?.id ?: 0
+        onClockOutClick(attendanceId)
       },
       navToEmployeeManage = {
 // TODO()
