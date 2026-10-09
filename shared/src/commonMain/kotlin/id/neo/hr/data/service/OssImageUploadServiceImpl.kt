@@ -112,8 +112,9 @@ class OssImageUploadServiceImpl(
         message = "OSS upload start | size=${imageBytes.size} | objectKey=${pathResult.objectKey}"
       )
 
-      val parsedRegion = Regex("""oss-([a-z0-9-]+)\.aliyuncs\.com""")
-        .find(this@OssImageUploadServiceImpl.endpoint)?.groupValues?.get(1).orEmpty()
+      val parsedRegion = Regex("""(?:oss-)?([a-z0-9-]+)\.aliyuncs\.com""")
+        .find(this@OssImageUploadServiceImpl.endpoint)?.groupValues?.get(1)?.ifBlank { "ap-southeast-5" }
+        ?: "ap-southeast-5"
 
       val config = ClientConfiguration.loadDefault().apply {
         this.endpoint = this@OssImageUploadServiceImpl.endpoint

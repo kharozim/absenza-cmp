@@ -166,7 +166,6 @@ fun ClockInScreen(
           photoPath = path,
           photoBytes = bytes,
         )
-        ToastManager.success("Foto absensi berhasil disimpan")
       },
       onError = { message ->
         ToastManager.error(message)
