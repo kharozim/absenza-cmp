@@ -461,6 +461,6 @@
   <string name="clock_in_time_server_hint">Clock In Date &amp; Hour is using server time</string>
   <string name="flip_camera">Flip Camera</string>
  <string name="camera_permission_required">Camera Permission Required</string>
- <string name="camera_permission_rationale">This app needs camera access to take a selfie for attendance clock-in.</string>
+ <string name="camera_permission_rationale">This app needs camera access to take a picture for %1$s.</string>
  <string name="grant_permission">Grant Permission</string>
 </resources>

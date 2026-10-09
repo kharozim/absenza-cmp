@@ -126,5 +126,6 @@ fun appModules(dataStore: SessionDataStore): List<Module> = listOf(
   networkModule,
   repositoryModule,
   sessionModule(dataStore),
+  platformModule,
   viewModelModule,
 )

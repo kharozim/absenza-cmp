@@ -2,6 +2,7 @@ package id.neo.hr.presentation.attendance.`in`
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import id.neo.hr.data.service.LocationService
 import id.neo.hr.presentation.util.SessionUtil
 import id.neo.hr.presentation.util.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
  */
 class ClockInViewModel(
     private val sessionUtil: SessionUtil,
+    private val locationService: LocationService,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ClockInState())
@@ -58,6 +60,29 @@ class ClockInViewModel(
     }
 
     /**
+     * Memperbarui koordinat lokasi perangkat (latitude dan longitude).
+     */
+    fun updateLocation(lat: Double, lon: Double) {
+        _state.update {
+            it.copy(lat = lat, lon = lon)
+        }
+    }
+
+    /**
+     * Mengambil lokasi terkini perangkat secara manual menggunakan [LocationService].
+     */
+    fun fetchCurrentLocation() {
+        viewModelScope.launch {
+            val location = locationService.getCurrentLocation()
+            if (location != null) {
+                _state.update {
+                    it.copy(lat = location.latitude, lon = location.longitude)
+                }
+            }
+        }
+    }
+
+    /**
      * Merekam Clock In lokal.
      * Sesuai ketentuan, tahap ini tidak memanggil endpoint remote API, melainkan
      * memastikan file foto sudah siap di lokal dan menandai status berhasil.
@@ -67,6 +92,13 @@ class ClockInViewModel(
         if (!hasPhoto) {
             _state.update {
                 it.copy(uiState = UiState.Error("Foto absensi tidak ditemukan"))
+            }
+            return
+        }
+
+        if (_state.value.lat == null || _state.value.lon == null) {
+            _state.update {
+                it.copy(uiState = UiState.Error("Koordinat lokasi tidak ditemukan"))
             }
             return
         }

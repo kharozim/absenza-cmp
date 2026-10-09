@@ -39,6 +39,18 @@ class FormatterUtilTest {
     }
 
     @Test
+    fun amPmFormattingWorksCorrectly() {
+        assertEquals(
+            "05 September 2026 01:30 AM",
+            FormatterUtil.stringDateToNewFormat(
+                data = "2026-09-04T18:30:45Z",
+                newFormat = "dd MMMM yyyy hh:mm a",
+                timeZone = TimeZone.of("Asia/Jakarta"),
+            ),
+        )
+    }
+
+    @Test
     fun validatorsRejectIncompleteValues() {
         assertTrue(FormatterUtil.isValidPassword("Password1"))
         assertFalse(FormatterUtil.isValidPassword("password1"))
