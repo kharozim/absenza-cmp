@@ -24,6 +24,8 @@ import id.neo.hr.presentation.activity.TaskAdminViewModel
 import id.neo.hr.presentation.activity.TaskViewModel
 import id.neo.hr.presentation.attendance.`in`.CameraViewModel
 import id.neo.hr.presentation.attendance.`in`.ClockInViewModel
+import id.neo.hr.presentation.attendance.detail.AttendanceDetailViewModel
+import id.neo.hr.presentation.attendance.out.ClockOutViewModel
 import id.neo.hr.presentation.auth.login.LoginViewModel
 import id.neo.hr.presentation.auth.register.RegisterViewModel
 import id.neo.hr.presentation.auth.registerotp.RegisterOtpViewModel
@@ -126,6 +128,8 @@ val viewModelModule = module {
   viewModelOf(::TaskViewModel)
   viewModelOf(::TaskAdminViewModel)
   viewModelOf(::ClockInViewModel)
+  viewModelOf(::ClockOutViewModel)
+  viewModelOf(::AttendanceDetailViewModel)
   viewModelOf(::CameraViewModel)
 }
 

@@ -126,6 +126,9 @@
   <string name="attendance_detail">Attendance Detail</string>
   <string name="clock_out_image">Clock Out Image</string>
   <string name="clock_in_image">Clock In Image</string>
+  <string name="working_date">Working Date</string>
+  <string name="coordinate">Coordinate</string>
+  <string name="location_not_found">Location not found</string>
   <string name="my_company">My Company</string>
   <string name="my_branch">My Branch</string>
   <string name="detail">Detail</string>
@@ -455,10 +458,12 @@
   <string name="clear_all">Clear All</string>
   <string name="take_selfie">Take Selfie</string>
   <string name="record_clock_in">Record Clock In</string>
+  <string name="record_clock_out">Record Clock Out</string>
   <string name="retake_photo">Retake Photo</string>
   <string name="camera_hint">Make sure the photo is clear, face is detected &amp; fits the frame.</string>
   <string name="camera_capture_failed">Failed to capture photo. Please try again.</string>
   <string name="clock_in_time_server_hint">Clock In Date &amp; Hour is using server time</string>
+  <string name="clock_out_time_server_hint">Clock Out Date &amp; Hour is using server time</string>
   <string name="flip_camera">Flip Camera</string>
  <string name="camera_permission_required">Camera Permission Required</string>
  <string name="camera_permission_rationale">This app needs camera access to take a picture for %1$s.</string>
