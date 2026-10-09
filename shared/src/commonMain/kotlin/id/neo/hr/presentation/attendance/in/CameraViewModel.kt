@@ -2,6 +2,7 @@ package id.neo.hr.presentation.attendance.`in`
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import id.neo.hr.presentation.util.FileUtils
 import id.neo.hr.presentation.util.UiState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,14 +53,19 @@ class CameraViewModel : ViewModel() {
      */
     fun onImageCaptured(path: String?, bytes: ByteArray?) {
         viewModelScope.launch {
+            val resolvedBytes = if (bytes != null && bytes.isNotEmpty()) {
+                bytes
+            } else {
+                path?.let { FileUtils.readBytesFromPath(it) }
+            }
             _state.update {
                 it.copy(
                     photoPath = path,
-                    photoBytes = bytes,
+                    photoBytes = resolvedBytes,
                     uiState = null,
                 )
             }
-            _event.send(CameraEvent.OnImageCaptured(photoPath = path, photoBytes = bytes))
+            _event.send(CameraEvent.OnImageCaptured(photoPath = path, photoBytes = resolvedBytes))
         }
     }
 

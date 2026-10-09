@@ -55,6 +55,7 @@ import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import id.neo.hr.presentation.theme.Colors
 import id.neo.hr.presentation.theme.TextStyleCustom
+import id.neo.hr.presentation.util.FileUtils
 import id.neo.hr.presentation.util.LogUtil
 import kotlinx.coroutines.launch
 import neohr_mp.shared.generated.resources.Res
@@ -261,7 +262,8 @@ private fun Content(
           isCapturing = false
           when (val result = event.result) {
             is ImageCaptureResult.SuccessWithFile -> {
-              onCaptured(result.filePath, null)
+              val bytes = FileUtils.readBytesFromPath(result.filePath)
+              onCaptured(result.filePath, bytes)
             }
 
             is ImageCaptureResult.Success -> {

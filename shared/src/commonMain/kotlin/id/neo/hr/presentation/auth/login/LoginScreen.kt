@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.neo.hr.presentation.theme.AppTheme
 import id.neo.hr.presentation.theme.Colors
+import id.neo.hr.presentation.theme.SetSystemBarAppearance
 import id.neo.hr.presentation.theme.TextStyleCustom
 import id.neo.hr.presentation.util.DeviceUtil
 import id.neo.hr.presentation.util.ToastManager
@@ -90,6 +91,8 @@ fun LoginScreen(
       navToMain()
     }
   }
+
+  SetSystemBarAppearance(true)
 
   LoginContent(
     state = state,
