@@ -1,9 +1,9 @@
 package id.neo.hr.data.data.util
 
+import id.neo.hr.BuildConfig
 import id.neo.hr.data.data.remote.api.ApiAuth
 import id.neo.hr.data.data.remote.createHttpClient
 import id.neo.hr.data.data.remote.response.BaseResponse
-import id.neo.hr.di.networkModule
 import id.neo.hr.presentation.util.Constants
 import id.neo.hr.presentation.util.LogUtil
 import id.neo.hr.presentation.util.SessionUtil

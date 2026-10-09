@@ -51,7 +51,7 @@ class SessionUtil internal constructor(
   }
 
   val isLoggedIn: Flow<Boolean> = loginModel.map { login ->
-    login != null && login.tokenAccess.isNotEmpty() && login.emailVerification
+    login != null && login.tokenAccess.isNotEmpty()
   }
 
   val isRoleAdmin: Flow<Boolean> = loginModel.map { login ->

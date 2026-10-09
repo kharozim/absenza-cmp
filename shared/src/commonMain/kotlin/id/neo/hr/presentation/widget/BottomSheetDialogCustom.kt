@@ -80,6 +80,7 @@ fun BottomSheetDialogCustom(
   )
 
   ModalBottomSheet(
+    containerColor = Colors.White,
     modifier = modifier,
     onDismissRequest = onDismissRequest,
     sheetState = sheetState,

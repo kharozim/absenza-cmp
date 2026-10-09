@@ -1,6 +1,7 @@
 package id.neo.hr.presentation.auth.login
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,8 +14,8 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -23,9 +24,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -35,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.neo.hr.presentation.theme.AppTheme
 import id.neo.hr.presentation.theme.Colors
+import id.neo.hr.presentation.theme.SetSystemBarAppearance
 import id.neo.hr.presentation.theme.TextStyleCustom
 import id.neo.hr.presentation.util.DeviceUtil
 import id.neo.hr.presentation.util.ToastManager
@@ -48,6 +52,8 @@ import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.dont_have_an_account
 import neohr_mp.shared.generated.resources.forgot_password
 import neohr_mp.shared.generated.resources.ic_absenza_login
+import neohr_mp.shared.generated.resources.ic_checked
+import neohr_mp.shared.generated.resources.ic_un_checked
 import neohr_mp.shared.generated.resources.login
 import neohr_mp.shared.generated.resources.neo_icon
 import neohr_mp.shared.generated.resources.password
@@ -85,6 +91,8 @@ fun LoginScreen(
       navToMain()
     }
   }
+
+  SetSystemBarAppearance(true)
 
   LoginContent(
     state = state,
@@ -186,18 +194,29 @@ private fun LoginContent(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
       ) {
-        Checkbox(
-          checked = state.cbSaveLogin,
-          onCheckedChange = onRememberChange,
-          enabled = !isLoading,
-        )
-        Text(
-          text = stringResource(Res.string.remember_me),
-          style = TextStyleCustom.SemiBold.copy(
-            color = Colors.Gray700,
-            fontSize = 14.sp,
-          ),
-        )
+        Row(
+          modifier = Modifier
+            .clip(CircleShape)
+            .clickable(enabled = !isLoading) {
+              onRememberChange(!state.cbSaveLogin)
+            }
+            .padding(horizontal = 12.dp, vertical = 8.dp)
+
+        ) {
+          val image = remember(state.cbSaveLogin) {
+            if (state.cbSaveLogin) Res.drawable.ic_checked else Res.drawable.ic_un_checked
+          }
+          Image(painterResource(image), null)
+          Text(
+            text = stringResource(Res.string.remember_me),
+            style = TextStyleCustom.SemiBold.copy(
+              color = Colors.Gray700,
+              fontSize = 14.sp,
+            ),
+            modifier = Modifier.padding(start = 8.dp),
+          )
+        }
+
         Spacer(Modifier.weight(1f))
         TextButton(
           onClick = { ToastManager.info(forgotPasswordText) },

@@ -76,7 +76,7 @@ class LoginViewModel(
             sessionUtil.setLoginForm(
               if (state.value.cbSaveLogin) LoginForm(
                 username = state.value.username.trim(),
-                password = "",
+                password = state.value.password,
               ) else null
             )
 

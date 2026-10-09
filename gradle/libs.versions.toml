@@ -22,6 +22,10 @@ material3 = "1.12.0-alpha03"
 materialIconsExtended = "1.7.3"
 maplibreCompose = "0.17.0"
 napier = "2.7.1"
+camerak = "1.2"
+moko-permissions = "0.20.1"
+buildconfig = "5.5.1"
+kotlinOss = "0.4.0"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
@@ -64,6 +68,13 @@ material-icons-extended = { module = "org.jetbrains.compose.material:material-ic
 maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibreCompose" }
 maplibre-compose-material3 = { module = "org.maplibre.compose:maplibre-compose-material3", version.ref = "maplibreCompose" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+camerak = { module = "io.github.kashif-mehmood-km:camerak", version.ref = "camerak" }
+camerak-image-saver = { module = "io.github.kashif-mehmood-km:image_saver_plugin", version.ref = "camerak" }
+moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko-permissions" }
+moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
+moko-permissions-camera = { module = "dev.icerock.moko:permissions-camera", version.ref = "moko-permissions" }
+moko-permissions-location = { module = "dev.icerock.moko:permissions-location", version.ref = "moko-permissions" }
+aliyun-oss = { module = "com.aliyun:kotlin-oss-v2", version.ref = "kotlinOss" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -73,3 +84,4 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }

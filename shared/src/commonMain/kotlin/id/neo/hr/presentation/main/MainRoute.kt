@@ -106,6 +106,7 @@ fun MainRoute(
   navToDetailTaskAdmin: (employee: EmployeeModel) -> Unit,
   onTokenExpired: () -> Unit,
   navToCreate: () -> Unit,
+  navToClockIn: () -> Unit = {},
   sessionUtil: SessionUtil = koinInject(),
 ) {
   val isAdmin by sessionUtil.isRoleAdmin.collectAsStateWithLifecycle(initialValue = false)
@@ -149,6 +150,7 @@ fun MainRoute(
           isAdmin = isAdmin,
           onProfileClick = navToProfile,
           onTokenExpired = onTokenExpired,
+          onClockInClick = navToClockIn,
         )
       }
       composable<MainActivityTab> {

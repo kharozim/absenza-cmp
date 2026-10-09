@@ -20,7 +20,7 @@ actual object DeviceUtil {
     applicationContext = context.applicationContext
   }
 
-  private val context: Context
+  val context: Context
     get() = checkNotNull(applicationContext) {
       "DeviceUtil is not initialized. Call DeviceUtil.init(context) from MainActivity."
     }

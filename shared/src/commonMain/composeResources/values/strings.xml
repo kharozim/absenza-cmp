@@ -453,4 +453,14 @@
   <string name="username_email">Username / Email</string>
   <string name="selected_employee">Selected Employee</string>
   <string name="clear_all">Clear All</string>
+  <string name="take_selfie">Take Selfie</string>
+  <string name="record_clock_in">Record Clock In</string>
+  <string name="retake_photo">Retake Photo</string>
+  <string name="camera_hint">Make sure the photo is clear, face is detected &amp; fits the frame.</string>
+  <string name="camera_capture_failed">Failed to capture photo. Please try again.</string>
+  <string name="clock_in_time_server_hint">Clock In Date &amp; Hour is using server time</string>
+  <string name="flip_camera">Flip Camera</string>
+ <string name="camera_permission_required">Camera Permission Required</string>
+ <string name="camera_permission_rationale">This app needs camera access to take a picture for %1$s.</string>
+ <string name="grant_permission">Grant Permission</string>
 </resources>

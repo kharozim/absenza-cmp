@@ -154,8 +154,10 @@ internal object FormatterUtil {
                     "MM" -> parts.month.twoDigits()
                     "dd" -> parts.day.twoDigits()
                     "HH" -> parts.hour.twoDigits()
+                    "hh" -> (if (parts.hour % 12 == 0) 12 else parts.hour % 12).twoDigits()
                     "mm" -> parts.minute.twoDigits()
                     "ss" -> parts.second.twoDigits()
+                    "a" -> if (parts.hour < 12) "AM" else "PM"
                     else -> return null
                 },
             )
@@ -266,7 +268,7 @@ internal object FormatterUtil {
         val second: Int = 0,
     )
 
-    private val FORMAT_TOKENS = listOf("yyyy", "MMMM", "MMM", "MM", "dd", "HH", "mm", "ss")
+    private val FORMAT_TOKENS = listOf("yyyy", "MMMM", "MMM", "MM", "dd", "HH", "hh", "mm", "ss", "a")
     private val DATE_REGEX = Regex("""^(\d{4})-(\d{2})-(\d{2})$""")
     private val LOCAL_DATE_TIME_REGEX = Regex(
         """^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?$""",

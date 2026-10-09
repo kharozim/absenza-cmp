@@ -10,5 +10,9 @@
       <key>NSAllowsArbitraryLoads</key>
       <true/>
   </dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Aplikasi membutuhkan akses kamera untuk mengambil foto absensi.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Aplikasi membutuhkan akses lokasi untuk memvalidasi koordinat kehadiran Anda.</string>
 </dict>
 </plist>

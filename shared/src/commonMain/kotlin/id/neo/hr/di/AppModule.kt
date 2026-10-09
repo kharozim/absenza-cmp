@@ -1,5 +1,6 @@
 package id.neo.hr.di
 
+import id.neo.hr.BuildConfig
 import id.neo.hr.data.data.local.SessionDataStore
 import id.neo.hr.data.data.remote.api.ApiAttendance
 import id.neo.hr.data.data.remote.api.ApiAuth
@@ -12,14 +13,17 @@ import id.neo.hr.data.data.repository.AuthRepositoryImpl
 import id.neo.hr.data.data.repository.CompanyRepositoryImpl
 import id.neo.hr.data.data.repository.LocationRepositoryImpl
 import id.neo.hr.data.data.repository.TaskRepositoryImpl
-import id.neo.hr.data.data.util.BuildConfig
 import id.neo.hr.data.repository.AttendanceRepository
 import id.neo.hr.data.repository.AuthRepository
 import id.neo.hr.data.repository.CompanyRepository
 import id.neo.hr.data.repository.LocationRepository
 import id.neo.hr.data.repository.TaskRepository
+import id.neo.hr.data.service.ImageUploadService
+import id.neo.hr.data.service.OssImageUploadServiceImpl
 import id.neo.hr.presentation.activity.TaskAdminViewModel
 import id.neo.hr.presentation.activity.TaskViewModel
+import id.neo.hr.presentation.attendance.`in`.CameraViewModel
+import id.neo.hr.presentation.attendance.`in`.ClockInViewModel
 import id.neo.hr.presentation.auth.login.LoginViewModel
 import id.neo.hr.presentation.auth.register.RegisterViewModel
 import id.neo.hr.presentation.auth.registerotp.RegisterOtpViewModel
@@ -54,6 +58,14 @@ val networkModule = module {
   single { ApiCompany(get(), BuildConfig.BASE_URL) }
   single { ApiAttendance(get(), BuildConfig.BASE_URL) }
   single { ApiTask(get(), BuildConfig.BASE_URL) }
+  single<ImageUploadService> {
+    OssImageUploadServiceImpl(
+      endpoint = BuildConfig.OSS_ENDPOINT,
+      bucketName = BuildConfig.OSS_BUCKET_NAME,
+      accessKeyId = BuildConfig.OSS_ACCESS_KEY_ID,
+      accessKeySecret = BuildConfig.OSS_ACCESS_KEY_SECRET,
+    )
+  }
 }
 
 /**
@@ -113,6 +125,8 @@ val viewModelModule = module {
   }
   viewModelOf(::TaskViewModel)
   viewModelOf(::TaskAdminViewModel)
+  viewModelOf(::ClockInViewModel)
+  viewModelOf(::CameraViewModel)
 }
 
 /**
@@ -122,5 +136,6 @@ fun appModules(dataStore: SessionDataStore): List<Module> = listOf(
   networkModule,
   repositoryModule,
   sessionModule(dataStore),
+  platformModule,
   viewModelModule,
 )
