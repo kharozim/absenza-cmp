@@ -109,6 +109,9 @@ fun MainRoute(
   navToClockIn: () -> Unit = {},
   navToClockOut: (attendanceId: Int) -> Unit = {},
   navToAttendanceDetail: (attendanceId: Int) -> Unit = {},
+  navToAttendance: () -> Unit = {},
+  navToAttendanceAdmin: () -> Unit = {},
+  navToAttendanceEmployee: (String) -> Unit = {},
   sessionUtil: SessionUtil = koinInject(),
 ) {
   val isAdmin by sessionUtil.isRoleAdmin.collectAsStateWithLifecycle(initialValue = false)
@@ -155,6 +158,9 @@ fun MainRoute(
           onClockInClick = navToClockIn,
           onClockOutClick = navToClockOut,
           navToAttendanceDetail = navToAttendanceDetail,
+          navToAttendance = navToAttendance,
+          navToAttendanceAdmin = navToAttendanceAdmin,
+          onKehadiranKaryawanClick = navToAttendanceEmployee,
         )
       }
       composable<MainActivityTab> {

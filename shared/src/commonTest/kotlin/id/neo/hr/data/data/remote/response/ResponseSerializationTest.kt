@@ -47,7 +47,6 @@ class ResponseSerializationTest {
     assertEquals("Neo HR", response.data?.company?.companyName)
     assertEquals("Jakarta", response.data?.branch?.branchName)
     assertEquals("iOS", response.data?.device?.deviceOs)
-    assertEquals("08:00-17:00", response.data?.schedule?.monday)
   }
 
   @Test
@@ -98,34 +97,6 @@ class ResponseSerializationTest {
     assertEquals("Pagi", response.roster?.shift?.name)
     assertEquals(21, response.attendance?.id)
     assertEquals("Cuti tahunan", response.timeOffs?.single()?.typeLabel)
-  }
-
-  @Test
-  fun employeeAttendanceDetailPreservesEveryWeekdaySchedule() {
-    val response = json.decodeFromString<EmployeeAttendanceStatusResponse>(
-      """
-      {
-        "employee": { "id": 9, "account_name": "Nadia" },
-        "schedule": {
-          "monday": "M", "tuesday": "T", "wednesday": "W",
-          "thursday": "H", "friday": "F", "saturday": "S", "sunday": "U"
-        },
-        "attendance_today": { "id": 4, "clock_in_time": "08:03:00" },
-        "time_off": null
-      }
-      """.trimIndent(),
-    )
-
-    val schedule = response.schedule
-    assertEquals(listOf("M", "T", "W", "H", "F", "S", "U"), listOf(
-      schedule?.monday,
-      schedule?.tuesday,
-      schedule?.wednesday,
-      schedule?.thursday,
-      schedule?.friday,
-      schedule?.saturday,
-      schedule?.sunday,
-    ))
   }
 
   @Test

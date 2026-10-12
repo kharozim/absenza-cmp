@@ -104,6 +104,9 @@ fun HomeScreen(
   onClockInClick: () -> Unit = {},
   onClockOutClick: (attendanceId: Int) -> Unit = {},
   navToAttendanceDetail: (id: Int) -> Unit = {},
+  navToAttendance: () -> Unit = {},
+  navToAttendanceAdmin: () -> Unit = {},
+  onKehadiranKaryawanClick: (tab: String) -> Unit = {},
   viewModel: HomeViewModel = koinViewModel(),
   modifier: Modifier = Modifier,
 ) {
@@ -142,9 +145,7 @@ fun HomeScreen(
       navToTimeOffList = {
 // TODO()
       },
-      navToAttendance = {
-// TODO()
-      },
+      navToAttendance = navToAttendance,
       navToMyCompany = {
 // TODO()
       },
@@ -157,12 +158,8 @@ fun HomeScreen(
       navToTimeOffAdmin = {
 // TODO()
       },
-      navToAttendanceAdmin = {
-// TODO()
-      },
-      onKehadiranKaryawanClick = {
-// TODO()
-      },
+      navToAttendanceAdmin = navToAttendanceAdmin,
+      onKehadiranKaryawanClick = onKehadiranKaryawanClick,
       modifierEmployee = Modifier,
       modifierCompany = Modifier,
     )
@@ -241,6 +238,7 @@ private fun Content(
           EmployeeAttendanceSummary(
             attendance = state.attendanceSummary,
             today = state.today,
+            onKehadiranKaryawanClick = onKehadiranKaryawanClick,
             modifier = Modifier
               .padding(horizontal = 16.dp)
               .padding(top = 12.dp),
@@ -503,6 +501,7 @@ private fun MenuItem(
 private fun EmployeeAttendanceSummary(
   attendance: EmployeeAttendanceStatusModel,
   today: String,
+  onKehadiranKaryawanClick: (String) -> Unit = {},
   modifier: Modifier = Modifier,
 ) {
   Column(
@@ -541,6 +540,7 @@ private fun EmployeeAttendanceSummary(
         background = Colors.Green100,
         foreground = Colors.Green500,
         modifier = Modifier.weight(1f),
+        onClick = { onKehadiranKaryawanClick("Tepat Waktu") },
       )
       AttendanceSummaryItem(
         count = attendance.late,
@@ -549,6 +549,7 @@ private fun EmployeeAttendanceSummary(
         background = Colors.Orange100,
         foreground = Colors.Orange500,
         modifier = Modifier.weight(1f),
+        onClick = { onKehadiranKaryawanClick("Terlambat") },
       )
       AttendanceSummaryItem(
         count = attendance.noAttendanceYet,
@@ -557,6 +558,7 @@ private fun EmployeeAttendanceSummary(
         background = Colors.Red100,
         foreground = Colors.Red500,
         modifier = Modifier.weight(1f),
+        onClick = { onKehadiranKaryawanClick("Belum Absen") },
       )
       AttendanceSummaryItem(
         count = attendance.timeOff,
@@ -565,6 +567,7 @@ private fun EmployeeAttendanceSummary(
         background = Colors.Purple200,
         foreground = Colors.Purple800,
         modifier = Modifier.weight(1f),
+        onClick = { onKehadiranKaryawanClick("Cuti") },
       )
     }
   }
@@ -578,11 +581,13 @@ private fun AttendanceSummaryItem(
   background: Color,
   foreground: Color,
   modifier: Modifier = Modifier,
+  onClick: () -> Unit = {},
 ) {
   Column(
     modifier = modifier
       .clip(RoundedCornerShape(12.dp))
       .background(background)
+      .clickable(onClick = onClick)
       .padding(horizontal = 4.dp, vertical = 12.dp),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {

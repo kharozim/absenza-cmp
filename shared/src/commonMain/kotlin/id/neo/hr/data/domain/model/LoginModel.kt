@@ -20,5 +20,4 @@ data class LoginModel(
   val company: CompanyModel,
   val branch: BranchModel,
   val device: DeviceModel,
-  val schedule: ScheduleModel? = null,
 )

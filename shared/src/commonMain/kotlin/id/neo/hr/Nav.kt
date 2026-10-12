@@ -17,7 +17,12 @@ import id.neo.hr.presentation.activity.TaskAdminViewModel
 import id.neo.hr.presentation.activity.TaskViewModel
 import id.neo.hr.presentation.activity.add.CreateTaskScreen
 import id.neo.hr.presentation.attendance.`in`.ClockInScreen
+import id.neo.hr.presentation.attendance.adminView.AttendanceListAdminScreenV2
+import id.neo.hr.presentation.attendance.adminView.UserListModel
+import id.neo.hr.presentation.attendance.adminView.UserListScreen
 import id.neo.hr.presentation.attendance.detail.AttendanceDetailScreen
+import id.neo.hr.presentation.attendance.employee.AttendanceEmployeeScreen
+import id.neo.hr.presentation.attendance.list.AttendanceListScreenV2
 import id.neo.hr.presentation.attendance.out.ClockOutScreen
 import id.neo.hr.presentation.auth.login.LoginScreen
 import id.neo.hr.presentation.auth.register.RegisterScreen
@@ -106,6 +111,23 @@ data class ClockOut(val attendanceId: Int)
 @Serializable
 data class AttendanceDetail(val attendanceId: Int)
 
+@Serializable
+object AttendanceList
+
+@Serializable
+object UserListAdmin
+
+@Serializable
+data class UserAttendanceListAdmin(
+  val accountId: Int,
+  val profilePict: String,
+  val name: String,
+  val employeeNumber: String,
+)
+
+@Serializable
+data class AttendanceEmployee(val initialTab: String = "Tepat Waktu")
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
@@ -151,6 +173,9 @@ fun Nav() {
         navToAttendanceDetail = { attendanceId ->
           controller.navigate(AttendanceDetail(attendanceId))
         },
+        navToAttendance = { controller.navigate(AttendanceList) },
+        navToAttendanceAdmin = { controller.navigate(UserListAdmin) },
+        navToAttendanceEmployee = { tab -> controller.navigate(AttendanceEmployee(tab)) },
       )
     }
     composable<Splash> {
@@ -366,6 +391,61 @@ fun Nav() {
       AttendanceDetailScreen(
         attendanceId = route.attendanceId,
         navBack = { controller.popBackStack() },
+      )
+    }
+
+    composable<AttendanceList> {
+      AttendanceListScreenV2(
+        navBack = { controller.popBackStack() },
+        navToAttendanceDetail = { id -> controller.navigate(AttendanceDetail(id)) },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<UserListAdmin> {
+      UserListScreen(
+        navBack = { controller.popBackStack() },
+        navToUserAttendanceList = { model ->
+          controller.navigate(
+            UserAttendanceListAdmin(
+              accountId = model.accountId,
+              profilePict = model.profilePict,
+              name = model.name,
+              employeeNumber = model.employeeNumber,
+            )
+          )
+        },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<UserAttendanceListAdmin> { entry ->
+      val route = entry.toRoute<UserAttendanceListAdmin>()
+      val model = UserListModel(
+        accountId = route.accountId,
+        profilePict = route.profilePict,
+        name = route.name,
+        employeeNumber = route.employeeNumber,
+      )
+      AttendanceListAdminScreenV2(
+        navBack = { controller.popBackStack() },
+        navToAttendanceDetail = { id -> controller.navigate(AttendanceDetail(id)) },
+        model = model,
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<AttendanceEmployee> { entry ->
+      val route = entry.toRoute<AttendanceEmployee>()
+      AttendanceEmployeeScreen(
+        navBack = { controller.popBackStack() },
+        initialTab = route.initialTab,
       )
     }
   }

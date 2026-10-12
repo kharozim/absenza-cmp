@@ -1,16 +1,27 @@
 package id.neo.hr.presentation.util
 
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
 import kotlin.io.encoding.Base64
+import kotlin.time.Clock
 import kotlin.time.Instant
 
-internal object FormatterUtil {
+object FormatterUtil {
     private val indonesianMonths = listOf(
         "Januari", "Februari", "Maret", "April", "Mei", "Juni",
         "Juli", "Agustus", "September", "Oktober", "November", "Desember",
     )
+    private val indonesianDays = listOf(
+        "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu",
+    )
+
+    fun currentMonthYear(timeZone: TimeZone = TimeZone.currentSystemDefault()): String {
+        val now = Clock.System.now().toLocalDateTime(timeZone)
+        val monthName = indonesianMonths[now.month.number - 1]
+        return "$monthName ${now.year}"
+    }
 
     /** Mengubah tanggal API ke zona waktu perangkat dan memformatnya untuk tampilan. */
     fun dateCompleteFormat(
@@ -153,6 +164,14 @@ internal object FormatterUtil {
                     "MMM" -> indonesianMonths[parts.month - 1].take(3)
                     "MM" -> parts.month.twoDigits()
                     "dd" -> parts.day.twoDigits()
+                    "EEEE" -> {
+                        val dow = LocalDate(parts.year, parts.month, parts.day).dayOfWeek.ordinal
+                        indonesianDays[dow]
+                    }
+                    "EEE" -> {
+                        val dow = LocalDate(parts.year, parts.month, parts.day).dayOfWeek.ordinal
+                        indonesianDays[dow].take(3)
+                    }
                     "HH" -> parts.hour.twoDigits()
                     "hh" -> (if (parts.hour % 12 == 0) 12 else parts.hour % 12).twoDigits()
                     "mm" -> parts.minute.twoDigits()
@@ -268,7 +287,7 @@ internal object FormatterUtil {
         val second: Int = 0,
     )
 
-    private val FORMAT_TOKENS = listOf("yyyy", "MMMM", "MMM", "MM", "dd", "HH", "hh", "mm", "ss", "a")
+    private val FORMAT_TOKENS = listOf("yyyy", "MMMM", "MMM", "MM", "dd", "EEEE", "EEE", "HH", "hh", "mm", "ss", "a")
     private val DATE_REGEX = Regex("""^(\d{4})-(\d{2})-(\d{2})$""")
     private val LOCAL_DATE_TIME_REGEX = Regex(
         """^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2})(?::(\d{2}))?)?$""",

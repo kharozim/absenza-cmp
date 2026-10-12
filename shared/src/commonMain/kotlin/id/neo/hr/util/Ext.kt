@@ -18,6 +18,8 @@ fun String?.filterMessageError(): String? {
         else -> this
     }
 }
+fun String?.dashIfEmpty(): String = if (this.isNullOrEmpty()) "-" else this
+
 fun String.mandatory(): AnnotatedString {
     return buildAnnotatedString {
         append(this@mandatory)
