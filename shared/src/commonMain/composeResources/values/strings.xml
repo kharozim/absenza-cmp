@@ -465,7 +465,18 @@
   <string name="clock_in_time_server_hint">Clock In Date &amp; Hour is using server time</string>
   <string name="clock_out_time_server_hint">Clock Out Date &amp; Hour is using server time</string>
   <string name="flip_camera">Flip Camera</string>
- <string name="camera_permission_required">Camera Permission Required</string>
- <string name="camera_permission_rationale">This app needs camera access to take a picture for %1$s.</string>
- <string name="grant_permission">Grant Permission</string>
+  <string name="camera_permission_required">Camera Permission Required</string>
+  <string name="camera_permission_rationale">This app needs camera access to take a picture for %1$s.</string>
+  <string name="grant_permission">Grant Permission</string>
+  <string name="download_attendance_report_csv">Download CSV Report</string>
+  <string name="downloading_attendance_report">Downloading report…</string>
+  <string name="attendance_report_download_success">Attendance report saved successfully.</string>
+  <string name="attendance_report_download_failed">Failed to download attendance report.</string>
+  <string name="download">Download</string>
+  <string name="report_month">Report month</string>
+  <string name="download_destination">Download destination</string>
+  <string name="select_download_folder">Select destination folder</string>
+  <string name="attendance_report_ready">Report is ready</string>
+  <string name="preview_file">Preview file</string>
+  <string name="attendance_report_preview_unavailable">No application is available to preview this CSV file.</string>
 </resources>

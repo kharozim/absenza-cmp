@@ -469,4 +469,15 @@
   <string name="camera_permission_required">Izin Kamera Diperlukan</string>
   <string name="camera_permission_rationale">Aplikasi membutuhkan akses kamera untuk mengambil foto %1$s.</string>
   <string name="grant_permission">Izinkan Akses</string>
+  <string name="download_attendance_report_csv">Unduh Laporan CSV</string>
+  <string name="downloading_attendance_report">Mengunduh laporan…</string>
+  <string name="attendance_report_download_success">Laporan absensi berhasil disimpan.</string>
+  <string name="attendance_report_download_failed">Gagal mengunduh laporan absensi.</string>
+  <string name="download">Unduh</string>
+  <string name="report_month">Bulan laporan</string>
+  <string name="download_destination">Tujuan pengunduhan</string>
+  <string name="select_download_folder">Pilih folder tujuan</string>
+  <string name="attendance_report_ready">Laporan siap</string>
+  <string name="preview_file">Pratinjau berkas</string>
+  <string name="attendance_report_preview_unavailable">Tidak ada aplikasi yang tersedia untuk membuka berkas CSV ini.</string>
 </resources>

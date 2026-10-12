@@ -141,7 +141,6 @@ class AuthRepositoryImpl(
                     leaveQuota = domain.leaveQuota,
                     company = domain.company,
                     branch = domain.branch,
-                    schedule = domain.schedule,
                     device = domain.device,
                 ) ?: domain,
             )
