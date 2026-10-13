@@ -82,6 +82,7 @@ kotlin {
       implementation(libs.moko.permissions.camera)
       implementation(libs.moko.permissions.location)
       implementation(libs.aliyun.oss)
+      implementation(libs.filekit.compose)
     }
     androidMain.dependencies {
       runtimeOnly("org.maplibre.compose:maplibre-compose-runtime-vulkan-android:${libs.versions.maplibreCompose.get()}")
@@ -122,10 +123,13 @@ buildConfig {
     ?: providers.gradleProperty("OSS_ACCESS_KEY_ID").getOrElse("")).trim('"')
   val ossAccessKeySecret = (localProperties.getProperty("OSS_ACCESS_KEY_SECRET")
     ?: providers.gradleProperty("OSS_ACCESS_KEY_SECRET").getOrElse("")).trim('"')
+  val headerTokenGenerated = (localProperties.getProperty("KEY_HEADER_TOKEN_GENERATED")
+    ?: providers.gradleProperty("KEY_HEADER_TOKEN_GENERATED").getOrElse("")).trim('"')
 
   buildConfigField("BASE_URL", baseUrl)
   buildConfigField("OSS_ENDPOINT", ossEndpoint)
   buildConfigField("OSS_BUCKET_NAME", ossBucketName)
   buildConfigField("OSS_ACCESS_KEY_ID", ossAccessKeyId)
   buildConfigField("OSS_ACCESS_KEY_SECRET", ossAccessKeySecret)
+  buildConfigField("KEY_HEADER_TOKEN_GENERATED", headerTokenGenerated)
 }

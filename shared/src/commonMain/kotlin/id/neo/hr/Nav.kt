@@ -36,6 +36,11 @@ import id.neo.hr.presentation.setting.changepassword.ChangePasswordScreen
 import id.neo.hr.presentation.setting.legal.LegalDocumentScreen
 import id.neo.hr.presentation.setting.profile.ProfileScreen as AccountProfileScreen
 import id.neo.hr.presentation.splash.FirstScreen
+import id.neo.hr.presentation.timeoff.adminView.detail.TimeOffDetailAdminScreen
+import id.neo.hr.presentation.timeoff.adminView.list.AdminTimeOffListScreen
+import id.neo.hr.presentation.timeoff.create.TimeOffCreateScreen
+import id.neo.hr.presentation.timeoff.detail.TimeOffDetailScreen
+import id.neo.hr.presentation.timeoff.list.TimeOffListScreen
 import kotlinx.serialization.Serializable
 import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.privacy_policy_title
@@ -128,6 +133,21 @@ data class UserAttendanceListAdmin(
 @Serializable
 data class AttendanceEmployee(val initialTab: String = "Tepat Waktu")
 
+@Serializable
+object TimeOffList
+
+@Serializable
+object TimeOffCreate
+
+@Serializable
+data class TimeOffDetail(val timeOffId: Int)
+
+@Serializable
+object AdminTimeOffList
+
+@Serializable
+data class TimeOffDetailAdmin(val timeOffId: Int)
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
@@ -176,6 +196,8 @@ fun Nav() {
         navToAttendance = { controller.navigate(AttendanceList) },
         navToAttendanceAdmin = { controller.navigate(UserListAdmin) },
         navToAttendanceEmployee = { tab -> controller.navigate(AttendanceEmployee(tab)) },
+        navToTimeOffList = { controller.navigate(TimeOffList) },
+        navToTimeOffAdmin = { controller.navigate(AdminTimeOffList) },
       )
     }
     composable<Splash> {
@@ -446,6 +468,58 @@ fun Nav() {
       AttendanceEmployeeScreen(
         navBack = { controller.popBackStack() },
         initialTab = route.initialTab,
+      )
+    }
+
+    composable<TimeOffList> {
+      TimeOffListScreen(
+        navBack = { controller.popBackStack() },
+        navToCreate = { controller.navigate(TimeOffCreate) },
+        navToDetail = { id -> controller.navigate(TimeOffDetail(id)) },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<TimeOffCreate> {
+      TimeOffCreateScreen(
+        navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<TimeOffDetail> { entry ->
+      val route = entry.toRoute<TimeOffDetail>()
+      TimeOffDetailScreen(
+        id = route.timeOffId,
+        navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<AdminTimeOffList> {
+      AdminTimeOffListScreen(
+        navBack = { controller.popBackStack() },
+        navToTimeOffDetailAdmin = { id -> controller.navigate(TimeOffDetailAdmin(id)) },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<TimeOffDetailAdmin> { entry ->
+      val route = entry.toRoute<TimeOffDetailAdmin>()
+      TimeOffDetailAdminScreen(
+        id = route.timeOffId,
+        navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
       )
     }
   }
