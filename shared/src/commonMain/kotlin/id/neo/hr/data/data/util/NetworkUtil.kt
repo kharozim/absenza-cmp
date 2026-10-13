@@ -25,8 +25,6 @@ import kotlin.time.Duration.Companion.minutes
 /** Helper network multiplatform untuk response yang dikirim melalui Ktor. */
 object NetworkUtil {
 
-    private const val KEY_HEADER_TOKEN_GENERATED = "neokaryamobileattendance"
-
     /** Membentuk header umum dan salah satu header autentikasi jika nilainya tersedia. */
     fun generateHeader(
         tokenGenerated: String? = null,
@@ -149,7 +147,7 @@ object NetworkUtil {
     /** Membentuk token Base64 dari secret dan timestamp Unix lima menit ke depan. */
     fun generateHeaderToken(clock: Clock = Clock.System): String {
         val timestamp = clock.now().epochSeconds + 5.minutes.inWholeSeconds
-        val value = "${KEY_HEADER_TOKEN_GENERATED}_$timestamp"
+        val value = "${BuildConfig.KEY_HEADER_TOKEN_GENERATED}_$timestamp"
         return Base64.encode(value.encodeToByteArray())
     }
 

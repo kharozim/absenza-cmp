@@ -16,6 +16,7 @@ import id.neo.hr.util.filterMessageError
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.time.Clock
@@ -58,7 +59,7 @@ class HomeViewModel(
           role = login.accountRole,
           position = login.accountPosition,
           today = FormatterUtil.dateToString(clock.now(), "dd MMMM yyyy"),
-          isAdmin = login.accountRole.equals("admin", ignoreCase = true),
+          isAdmin = sessionUtil.isRoleAdmin.first(),
           isRefreshing = isRefresh,
           getDataState = if (isRefresh) it.getDataState else UiState.Loading("Memuat beranda"),
         )

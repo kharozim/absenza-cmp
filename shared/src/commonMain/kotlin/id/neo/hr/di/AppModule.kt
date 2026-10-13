@@ -42,6 +42,14 @@ import id.neo.hr.presentation.setting.changepassword.ChangePasswordViewModel
 import id.neo.hr.presentation.setting.profile.ProfileViewModel
 import id.neo.hr.presentation.splash.SplashViewModel
 import id.neo.hr.presentation.util.SessionUtil
+import id.neo.hr.data.data.remote.api.ApiTimeOff
+import id.neo.hr.data.data.repository.TimeOffRepositoryImpl
+import id.neo.hr.data.repository.TimeOffRepository
+import id.neo.hr.presentation.timeoff.adminView.detail.TimeOffDetailAdminViewModel
+import id.neo.hr.presentation.timeoff.adminView.list.AdminTimeOffListViewModel
+import id.neo.hr.presentation.timeoff.create.TimeOffCreateViewModel
+import id.neo.hr.presentation.timeoff.detail.TimeOffDetailViewModel
+import id.neo.hr.presentation.timeoff.list.TimeOffListViewModel
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
@@ -64,6 +72,7 @@ val networkModule = module {
   single { ApiCompany(get(), BuildConfig.BASE_URL) }
   single { ApiAttendance(get(), BuildConfig.BASE_URL) }
   single { ApiTask(get(), BuildConfig.BASE_URL) }
+  single { ApiTimeOff(get(), BuildConfig.BASE_URL) }
   single<ImageUploadService> {
     OssImageUploadServiceImpl(
       endpoint = BuildConfig.OSS_ENDPOINT,
@@ -83,6 +92,7 @@ val repositoryModule = module {
   single { CompanyRepositoryImpl(api = get(), session = get()) } bind CompanyRepository::class
   single { AttendanceRepositoryImpl(api = get(), session = get()) } bind AttendanceRepository::class
   single { TaskRepositoryImpl(api = get(), session = get()) } bind TaskRepository::class
+  single { TimeOffRepositoryImpl(api = get(), session = get()) } bind TimeOffRepository::class
 }
 
 /** Menyediakan satu instance DataStore dan akses sesi selama lifecycle aplikasi. */
@@ -139,6 +149,11 @@ val viewModelModule = module {
   viewModelOf(::AttendanceListAdminViewModelV2)
   viewModelOf(::UserListViewModel)
   viewModelOf(::AttendanceEmployeeViewModel)
+  viewModelOf(::TimeOffListViewModel)
+  viewModelOf(::TimeOffCreateViewModel)
+  viewModelOf(::TimeOffDetailViewModel)
+  viewModelOf(::AdminTimeOffListViewModel)
+  viewModelOf(::TimeOffDetailAdminViewModel)
 }
 
 /**

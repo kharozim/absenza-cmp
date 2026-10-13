@@ -28,8 +28,8 @@ data class TimeOffResponse(
   val end: String? = null,
   @SerialName("deleted_at")
   val deletedAt: String? = null,
-  @SerialName("note")
-  val note: String? = null,
+  @SerialName("approval_remark")
+  val approvalRemark: String? = null,
   @SerialName("start")
   val start: String? = null,
   @SerialName("status")
@@ -67,7 +67,7 @@ data class TimeOffResponse(
     docs = docs?.map { it.toDomain() }.orEmpty(),
     end = end.orEmpty(),
     deletedAt = deletedAt.orEmpty(),
-    note = note.orEmpty(),
+    note = approvalRemark.orEmpty(),
     start = start.orEmpty(),
     status = status ?: 0,
     statusLabel = statusLabel.orEmpty(),

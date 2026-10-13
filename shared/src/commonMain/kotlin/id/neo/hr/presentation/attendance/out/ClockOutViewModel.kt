@@ -185,9 +185,7 @@ class ClockOutViewModel(
                 val login = sessionUtil.loginModel.first()
                 val setting = sessionUtil.settingModel.first()
                 val companyId = login?.company?.id.orEmpty().ifBlank { "general" }
-                val serverImageBaseUrl = setting?.baseUrlImg.orEmpty().ifBlank {
-                    login?.company?.id.orEmpty()
-                }
+                val serverImageBaseUrl = setting?.baseUrlImg.orEmpty()
 
                 val uploadResult = imageUploadService.uploadImage(
                     imageBytes = bytesToUpload,

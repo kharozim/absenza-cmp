@@ -107,6 +107,8 @@ fun HomeScreen(
   navToAttendance: () -> Unit = {},
   navToAttendanceAdmin: () -> Unit = {},
   onKehadiranKaryawanClick: (tab: String) -> Unit = {},
+  navToTimeOffList: () -> Unit = {},
+  navToTimeOffAdmin: () -> Unit = {},
   viewModel: HomeViewModel = koinViewModel(),
   modifier: Modifier = Modifier,
 ) {
@@ -142,9 +144,7 @@ fun HomeScreen(
       navToEmployeeManage = {
 // TODO()
       },
-      navToTimeOffList = {
-// TODO()
-      },
+      navToTimeOffList = navToTimeOffList,
       navToAttendance = navToAttendance,
       navToMyCompany = {
 // TODO()
@@ -155,9 +155,7 @@ fun HomeScreen(
       navToAttendanceDetail = { attendanceId ->
         navToAttendanceDetail(attendanceId)
       },
-      navToTimeOffAdmin = {
-// TODO()
-      },
+      navToTimeOffAdmin = navToTimeOffAdmin,
       navToAttendanceAdmin = navToAttendanceAdmin,
       onKehadiranKaryawanClick = onKehadiranKaryawanClick,
       modifierEmployee = Modifier,
@@ -730,7 +728,7 @@ private fun SectionBanner(modifier: Modifier = Modifier, items: List<CompanyFile
 @Composable
 private fun Prev() {
   val state = HomeState(
-    isAdmin = true,
+    isAdmin = false,
     today = FormatterUtil.dateToString(Clock.System.now(), "EEEE dd MMM yyyy"),
     name = "Imron nanda ",
     role = "admin",
