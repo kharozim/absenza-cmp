@@ -114,6 +114,7 @@ fun MainRoute(
   navToAttendanceEmployee: (String) -> Unit = {},
   navToTimeOffList: () -> Unit = {},
   navToTimeOffAdmin: () -> Unit = {},
+  navToEmployeeManage: () -> Unit = {},
   sessionUtil: SessionUtil = koinInject(),
 ) {
   val isAdmin by sessionUtil.isRoleAdmin.collectAsStateWithLifecycle(initialValue = false)
@@ -165,6 +166,7 @@ fun MainRoute(
           onKehadiranKaryawanClick = navToAttendanceEmployee,
           navToTimeOffList = navToTimeOffList,
           navToTimeOffAdmin = navToTimeOffAdmin,
+          navToEmployeeManage = navToEmployeeManage,
         )
       }
       composable<MainActivityTab> {

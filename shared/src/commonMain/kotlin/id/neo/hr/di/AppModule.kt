@@ -47,6 +47,10 @@ import id.neo.hr.data.data.repository.TimeOffRepositoryImpl
 import id.neo.hr.data.repository.TimeOffRepository
 import id.neo.hr.presentation.timeoff.adminView.detail.TimeOffDetailAdminViewModel
 import id.neo.hr.presentation.timeoff.adminView.list.AdminTimeOffListViewModel
+import id.neo.hr.presentation.employee.add.EmployeeAddViewModel
+import id.neo.hr.presentation.employee.detail.EmployeeDetailViewModel
+import id.neo.hr.presentation.employee.edit.EmployeeEditViewModel
+import id.neo.hr.presentation.employee.list.EmployeeViewModel
 import id.neo.hr.presentation.timeoff.create.TimeOffCreateViewModel
 import id.neo.hr.presentation.timeoff.detail.TimeOffDetailViewModel
 import id.neo.hr.presentation.timeoff.list.TimeOffListViewModel
@@ -154,6 +158,10 @@ val viewModelModule = module {
   viewModelOf(::TimeOffDetailViewModel)
   viewModelOf(::AdminTimeOffListViewModel)
   viewModelOf(::TimeOffDetailAdminViewModel)
+  viewModelOf(::EmployeeViewModel)
+  viewModelOf(::EmployeeAddViewModel)
+  viewModelOf(::EmployeeDetailViewModel)
+  viewModelOf(::EmployeeEditViewModel)
 }
 
 /**

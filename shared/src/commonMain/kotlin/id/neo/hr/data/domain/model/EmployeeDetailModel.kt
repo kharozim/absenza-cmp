@@ -18,4 +18,5 @@ data class EmployeeDetailModel(
   val employeeCode: String,
   val company: CompanyModel,
   val branch: BranchModel,
+  val schedule: ScheduleModel? = null,
 )

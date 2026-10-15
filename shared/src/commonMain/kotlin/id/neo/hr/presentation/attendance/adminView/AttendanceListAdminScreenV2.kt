@@ -128,7 +128,11 @@ private fun AttendanceListContentV2(
         )
       }, navigationIcon = {
         IconButton(onClick = { navBack() }) {
-          Icon(painter = painterResource(Res.drawable.ic_arrow_left), contentDescription = null)
+          Icon(
+            painter = painterResource(Res.drawable.ic_arrow_left),
+            contentDescription = null,
+            tint = Colors.Gray800
+          )
         }
       }, actions = {
         Spacer(modifier = Modifier.width(48.dp))
@@ -209,7 +213,8 @@ private fun AttendanceListContentV2(
           horizontalArrangement = Arrangement.Center
         ) {
           Text(
-            text = if (isSummaryExpanded) stringResource(Res.string.show_less) else stringResource(Res.string.show_more),
+            text = if (isSummaryExpanded) stringResource(Res.string.show_less) else
+              stringResource(Res.string.show_more),
             style = TextStyleCustom.SemiBold.copy(fontSize = 12.sp, color = Color.White)
           )
           Spacer(modifier = Modifier.width(4.dp))

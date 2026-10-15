@@ -121,14 +121,15 @@ private fun TimeOffListContent(
             stringResource(Res.string.time_off),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp)
+            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp, color = Colors.Gray800)
           )
         },
         navigationIcon = {
           IconButton(onClick = navBack) {
             Icon(
               painter = painterResource(Res.drawable.ic_arrow_left),
-              contentDescription = null
+              contentDescription = null,
+              tint = Colors.Gray800
             )
           }
         },
@@ -256,7 +257,10 @@ private fun Header(isTimeOffList: Boolean, waitingCount: Int, onTabClick: (Boole
         modifier = Modifier
           .weight(1f)
           .padding(6.dp),
-        colors = if (isTimeOffList) ButtonDefaults.buttonColors(containerColor = Colors.Purple800)
+        colors = if (isTimeOffList) ButtonDefaults.buttonColors(
+          containerColor = Colors.Purple800,
+          contentColor = Colors.White
+        )
         else ButtonDefaults.outlinedButtonColors(contentColor = Colors.Purple800)
       ) {
         Text(stringResource(Res.string.time_off_list), textAlign = TextAlign.Center)
@@ -274,7 +278,10 @@ private fun Header(isTimeOffList: Boolean, waitingCount: Int, onTabClick: (Boole
           modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp),
-          colors = if (!isTimeOffList) ButtonDefaults.buttonColors(containerColor = Colors.Purple800)
+          colors = if (!isTimeOffList) ButtonDefaults.buttonColors(
+            containerColor = Colors.Purple800,
+            contentColor = Colors.White
+          )
           else ButtonDefaults.outlinedButtonColors(contentColor = Colors.Purple800)
         ) {
           Text(stringResource(Res.string.waiting_approval), textAlign = TextAlign.Center)

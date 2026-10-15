@@ -111,6 +111,16 @@ class ApiCompany(
     setBody(body)
   }.body()
 
+  suspend fun editSchedule(
+    header: Map<String, String>,
+    request: id.neo.hr.data.data.remote.request.ScheduleRequest,
+  ): BaseResponse<EmployeeUpdateResponse> = httpClient.put("${baseUrl}/v1/account/admin/schedule/") {
+    headers {
+      header.forEach { (name, value) -> append(name, value) }
+    }
+    setBody(request)
+  }.body()
+
   suspend fun getCompanyBanner(
     header: Map<String, String>,
   ): BaseResponse<List<CompanyFileResponse>> =

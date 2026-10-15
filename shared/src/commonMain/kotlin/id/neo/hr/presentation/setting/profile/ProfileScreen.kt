@@ -31,6 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.neo.hr.data.domain.model.BranchModel
 import id.neo.hr.data.domain.model.CompanyModel
@@ -40,6 +41,7 @@ import id.neo.hr.data.domain.model.LoginModel
 import id.neo.hr.data.domain.model.PackageModel
 import id.neo.hr.presentation.theme.AppTheme
 import id.neo.hr.presentation.theme.Colors
+import id.neo.hr.presentation.theme.SetSystemBarAppearance
 import id.neo.hr.presentation.theme.TextStyleCustom
 import id.neo.hr.presentation.util.UiState
 import id.neo.hr.presentation.widget.ButtonCustom
@@ -77,6 +79,7 @@ fun ProfileScreen(
     if (state.uiState == UiState.TokenExpired) onTokenExpired()
   }
 
+  SetSystemBarAppearance(true)
   ProfileContent(
     state = state,
     navBack = navBack,
@@ -100,12 +103,16 @@ private fun ProfileContent(
             text = stringResource(Res.string.data_account),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = TextStyleCustom.ExtraBold,
+            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp, color = Colors.Gray800),
           )
         },
         navigationIcon = {
           IconButton(onClick = navBack) {
-            Icon(painterResource(Res.drawable.ic_arrow_left), contentDescription = null)
+            Icon(
+              painterResource(Res.drawable.ic_arrow_left),
+              contentDescription = null,
+              tint = Colors.Gray800
+            )
           }
         },
         actions = { Spacer(Modifier.width(48.dp)) },

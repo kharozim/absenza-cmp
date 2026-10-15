@@ -54,13 +54,20 @@ fun InputField(
     singleLine = singleLine,
     colors = OutlinedTextFieldDefaults.colors(
       cursorColor = Colors.Gray800,
-      unfocusedLabelColor = Colors.Gray300,
-      unfocusedBorderColor = Colors.Gray100,
+      unfocusedLabelColor = Colors.Gray200,
+      unfocusedBorderColor = Colors.Gray200,
       focusedLabelColor = Colors.Purple800,
       focusedPlaceholderColor = Colors.Gray300,
+      focusedBorderColor = Colors.Purple300,
+      disabledBorderColor = Colors.Gray100,
+      disabledLabelColor = Colors.Gray100
     ),
     textStyle = TextStyleCustom.Bold.copy(
-      color = if (readOnly) Colors.Gray200 else Colors.Gray800,
+      color = when {
+        !enabled -> Colors.Gray200
+        readOnly -> Colors.Gray800
+        else -> Colors.Gray800
+      },
       fontSize = 14.sp
     ),
     isError = !errorText.isNullOrEmpty(),

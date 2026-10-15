@@ -36,6 +36,10 @@ import id.neo.hr.presentation.setting.changepassword.ChangePasswordScreen
 import id.neo.hr.presentation.setting.legal.LegalDocumentScreen
 import id.neo.hr.presentation.setting.profile.ProfileScreen as AccountProfileScreen
 import id.neo.hr.presentation.splash.FirstScreen
+import id.neo.hr.presentation.employee.add.EmployeeAddScreen
+import id.neo.hr.presentation.employee.detail.EmployeeDetailScreen
+import id.neo.hr.presentation.employee.edit.EmployeeEditScreen
+import id.neo.hr.presentation.employee.list.EmployeeScreen
 import id.neo.hr.presentation.timeoff.adminView.detail.TimeOffDetailAdminScreen
 import id.neo.hr.presentation.timeoff.adminView.list.AdminTimeOffListScreen
 import id.neo.hr.presentation.timeoff.create.TimeOffCreateScreen
@@ -148,6 +152,18 @@ object AdminTimeOffList
 @Serializable
 data class TimeOffDetailAdmin(val timeOffId: Int)
 
+@Serializable
+object EmployeeManagement
+
+@Serializable
+object EmployeeAdd
+
+@Serializable
+data class EmployeeDetail(val employeeId: Int)
+
+@Serializable
+data class EmployeeEdit(val employeeId: Int)
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
@@ -198,6 +214,7 @@ fun Nav() {
         navToAttendanceEmployee = { tab -> controller.navigate(AttendanceEmployee(tab)) },
         navToTimeOffList = { controller.navigate(TimeOffList) },
         navToTimeOffAdmin = { controller.navigate(AdminTimeOffList) },
+        navToEmployeeManage = { controller.navigate(EmployeeManagement) },
       )
     }
     composable<Splash> {
@@ -516,6 +533,50 @@ fun Nav() {
       val route = entry.toRoute<TimeOffDetailAdmin>()
       TimeOffDetailAdminScreen(
         id = route.timeOffId,
+        navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<EmployeeManagement> {
+      EmployeeScreen(
+        navToAddEmployee = { controller.navigate(EmployeeAdd) },
+        navBack = { controller.popBackStack() },
+        navToDetail = { employeeId -> controller.navigate(EmployeeDetail(employeeId)) },
+        navToEdit = { employeeId -> controller.navigate(EmployeeEdit(employeeId)) },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<EmployeeAdd> {
+      EmployeeAddScreen(
+        navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<EmployeeDetail> { entry ->
+      val route = entry.toRoute<EmployeeDetail>()
+      EmployeeDetailScreen(
+        employeeId = route.employeeId,
+        navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+        navToEdit = { employeeId -> controller.navigate(EmployeeEdit(employeeId)) },
+      )
+    }
+
+    composable<EmployeeEdit> { entry ->
+      val route = entry.toRoute<EmployeeEdit>()
+      EmployeeEditScreen(
+        userId = route.employeeId,
         navBack = { controller.popBackStack() },
         onTokenExpired = {
           controller.navigate(Login) { popUpTo(Home) { inclusive = true } }

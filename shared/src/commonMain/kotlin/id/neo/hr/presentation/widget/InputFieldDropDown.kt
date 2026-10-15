@@ -42,10 +42,13 @@ fun InputFieldDropdown(
   label: @Composable (() -> Unit)? = null,
   errorText: String? = null,
   readOnly: Boolean = false,
+  enabled: Boolean = true,
 ) {
   var expanded by remember { mutableStateOf(false) }
   var anchorWidth by remember { mutableIntStateOf(0) }
   val density = LocalDensity.current
+
+  val isInteractive = enabled
 
   Box(
     modifier = modifier.onGloballyPositioned { coordinates ->
@@ -58,14 +61,17 @@ fun InputFieldDropdown(
       placeholder = placeholder,
       label = label,
       errorText = errorText,
-      readOnly = true,
-      enabled = !readOnly,
+      readOnly = false,
+      enabled = enabled,
       trailingIcon = {
-        IconButton(onClick = { if (!readOnly) expanded = !expanded }) {
+        IconButton(
+          onClick = { if (isInteractive) expanded = !expanded },
+          enabled = isInteractive,
+        ) {
           Icon(
             painter = painterResource(if (expanded) Res.drawable.ic_arrow_top else Res.drawable.ic_arrow_bottom),
             contentDescription = null,
-            tint = Colors.Gray400,
+            tint = if (isInteractive) Colors.Gray400 else Colors.Gray200,
           )
         }
       },
@@ -80,7 +86,7 @@ fun InputFieldDropdown(
         .clickable(
           interactionSource = remember { MutableInteractionSource() },
           indication = null,
-          enabled = !readOnly,
+          enabled = isInteractive,
         ) {
           expanded = !expanded
         }

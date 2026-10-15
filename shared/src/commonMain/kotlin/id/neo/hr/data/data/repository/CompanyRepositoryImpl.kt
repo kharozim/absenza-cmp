@@ -99,6 +99,21 @@ class CompanyRepositoryImpl(
     )
   }
 
+  override suspend fun editSchedule(request: id.neo.hr.data.data.remote.request.ScheduleRequest): StateDataUtil<String> {
+    return NetworkUtil.safeApiCallBearer(
+      session = session,
+      call = {
+        val header = NetworkUtil.generateHeader(tokenBearer = session.tokenBearer.first())
+        api.editSchedule(header = header, request = request)
+      },
+      mapData = { response ->
+        val data = response.data?.employeeName ?: response.message.orEmpty()
+        return@safeApiCallBearer data
+      },
+      defaultErrorMessage = "Failed to update schedule",
+    )
+  }
+
   override suspend fun getListBranch(): StateDataUtil<List<BranchModel>> {
     return NetworkUtil.safeApiCallBearer(
       session = session,

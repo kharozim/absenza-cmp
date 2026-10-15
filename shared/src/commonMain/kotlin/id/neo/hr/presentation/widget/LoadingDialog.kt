@@ -46,15 +46,16 @@ fun LoadingDialog(
     Box(
       modifier = Modifier
         .fillMaxSize()
-        .background(Color.Black.copy(alpha = 0.45f)),
+//        .background(Color.Black.copy(alpha = 0f))
+      ,
       contentAlignment = Alignment.Center
     ) {
       Surface(
         modifier = modifier,
         shape = MaterialTheme.shapes.extraLarge,
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 6.dp,
-        shadowElevation = 8.dp
+        color = Colors.Purple50,
+        tonalElevation = 3.dp,
+        shadowElevation = 2.dp
       ) {
         Column(
           modifier = Modifier.padding(24.dp),

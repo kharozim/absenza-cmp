@@ -269,6 +269,8 @@ private fun EmployeeAttendanceRow(
       model = data.photoUrl ?: Res.drawable.ic_person_placeholder,
       contentDescription = "Profile Picture",
       contentScale = ContentScale.Crop,
+      error = painterResource(Res.drawable.ic_person_placeholder),
+      placeholder = painterResource(Res.drawable.ic_person_placeholder),
       modifier = Modifier
         .size(48.dp)
         .clip(RoundedCornerShape(12.dp))

@@ -42,6 +42,8 @@ data class EmployeeResponse(
   val accountPosition: String? = null,
   @SerialName("employee_code")
   val employeeCode: String? = null,
+  @SerialName("schedule")
+  val schedule: ScheduleResponse? = null,
 ) {
   fun toDomain(): EmployeeModel = EmployeeModel(
     id = id ?: 0,
@@ -79,5 +81,6 @@ data class EmployeeResponse(
     branch = branch?.toDomain() ?: BranchResponse().toDomain(),
     accountPosition = accountPosition.orEmpty(),
     employeeCode = employeeCode.orEmpty(),
+    schedule = schedule?.toDomain(),
   )
 }
