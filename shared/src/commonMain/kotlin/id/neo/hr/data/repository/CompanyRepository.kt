@@ -16,6 +16,7 @@ interface CompanyRepository {
   suspend fun addEmployee(payload: EmployeeRequest): StateDataUtil<UserPassModel>
   suspend fun deleteEmployee(employeeId: Int): StateDataUtil<String>
   suspend fun editEmployee(payload: EmployeeEditRequest): StateDataUtil<String>
+  suspend fun editSchedule(request: id.neo.hr.data.data.remote.request.ScheduleRequest): StateDataUtil<String>
   suspend fun getListBranch(): StateDataUtil<List<BranchModel>>
   suspend fun getDetailBranch(branchCode: String): StateDataUtil<BranchModel>
   suspend fun updateBranch(payload: BranchUpdateRequest): StateDataUtil<String>

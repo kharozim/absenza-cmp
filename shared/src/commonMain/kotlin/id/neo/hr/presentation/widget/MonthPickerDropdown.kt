@@ -123,7 +123,10 @@ fun MonthPickerDialog(
           .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
       ) {
-        Text("Select Month", style = TextStyleCustom.Bold.copy(fontSize = 20.sp))
+        Text(
+          "Select Month",
+          style = TextStyleCustom.Bold.copy(fontSize = 20.sp, color = Colors.Gray800)
+        )
 
         Row(
           verticalAlignment = Alignment.CenterVertically,
@@ -133,16 +136,21 @@ fun MonthPickerDialog(
             .padding(vertical = 16.dp)
         ) {
           IconButton(onClick = { selectedYear-- }) {
-            Icon(painterResource(Res.drawable.ic_arrow_left), contentDescription = null)
+            Icon(
+              painterResource(Res.drawable.ic_arrow_left),
+              contentDescription = null,
+              tint = Colors.Gray800
+            )
           }
           Text(
             text = selectedYear.toString(),
-            style = TextStyleCustom.ExtraBold.copy(fontSize = 18.sp)
+            style = TextStyleCustom.ExtraBold.copy(fontSize = 18.sp, color = Colors.Gray800)
           )
           IconButton(onClick = { selectedYear++ }) {
             Icon(
               painterResource(Res.drawable.ic_arrow_right),
-              contentDescription = null
+              contentDescription = null,
+              tint = Colors.Gray800
             )
           }
         }

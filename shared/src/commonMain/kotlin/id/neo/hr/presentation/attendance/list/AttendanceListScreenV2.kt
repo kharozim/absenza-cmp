@@ -132,7 +132,8 @@ private fun AttendanceListContentV2(
       }, navigationIcon = {
         IconButton(onClick = { navBack() }) {
           Icon(
-            painter = painterResource(Res.drawable.ic_arrow_left), contentDescription = null
+            painter = painterResource(Res.drawable.ic_arrow_left), contentDescription = null,
+            tint = Colors.Gray800
           )
         }
       }, actions = {

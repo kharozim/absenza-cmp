@@ -109,6 +109,7 @@ fun HomeScreen(
   onKehadiranKaryawanClick: (tab: String) -> Unit = {},
   navToTimeOffList: () -> Unit = {},
   navToTimeOffAdmin: () -> Unit = {},
+  navToEmployeeManage: () -> Unit = {},
   viewModel: HomeViewModel = koinViewModel(),
   modifier: Modifier = Modifier,
 ) {
@@ -141,9 +142,7 @@ fun HomeScreen(
         val attendanceId = state.todayAttendanceRoster?.attendance?.id ?: 0
         onClockOutClick(attendanceId)
       },
-      navToEmployeeManage = {
-// TODO()
-      },
+      navToEmployeeManage = navToEmployeeManage,
       navToTimeOffList = navToTimeOffList,
       navToAttendance = navToAttendance,
       navToMyCompany = {
@@ -731,7 +730,7 @@ private fun Prev() {
     isAdmin = false,
     today = FormatterUtil.dateToString(Clock.System.now(), "EEEE dd MMM yyyy"),
     name = "Imron nanda ",
-    role = "admin",
+    role = "admin2",
     todayAttendanceRoster = AttendanceRosterResponse(
       roster = RosterResponse(
         workDate = "2026-12-11",

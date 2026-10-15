@@ -185,14 +185,15 @@ private fun UserListContent(
             stringResource(Res.string.attendance_list),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp)
+            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp, color = Colors.Gray800)
           )
         },
         navigationIcon = {
           IconButton(onClick = { navBack() }) {
             Icon(
               painter = painterResource(Res.drawable.ic_arrow_left),
-              contentDescription = null
+              contentDescription = null,
+              tint = Colors.Gray800
             )
           }
         },
