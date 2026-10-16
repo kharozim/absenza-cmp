@@ -54,6 +54,7 @@ import id.neo.hr.data.domain.model.CompanyFileModel
 import id.neo.hr.data.domain.model.EmployeeAttendanceStatusModel
 import id.neo.hr.presentation.theme.AppTheme
 import id.neo.hr.presentation.theme.Colors
+import id.neo.hr.presentation.theme.SetSystemBarAppearance
 import id.neo.hr.presentation.theme.TextStyleCustom
 import id.neo.hr.presentation.util.FormatterUtil
 import id.neo.hr.presentation.util.UiState
@@ -110,6 +111,7 @@ fun HomeScreen(
   navToTimeOffList: () -> Unit = {},
   navToTimeOffAdmin: () -> Unit = {},
   navToEmployeeManage: () -> Unit = {},
+  onNotificationClick: () -> Unit = {},
   viewModel: HomeViewModel = koinViewModel(),
   modifier: Modifier = Modifier,
 ) {
@@ -123,6 +125,8 @@ fun HomeScreen(
     if (state.getDataState == UiState.TokenExpired) onTokenExpired()
   }
 
+  SetSystemBarAppearance(isLightStatusBar = false, isLightNavigationBar = true)
+
   PullToRefreshBox(
     isRefreshing = state.isRefreshing,
     onRefresh = viewModel::refreshData,
@@ -134,9 +138,7 @@ fun HomeScreen(
       onProfileClick = onProfileClick,
       onRetry = viewModel::refreshData,
       modifier = modifier,
-      onNotificationClick = {
-// TODO()
-      },
+      onNotificationClick = onNotificationClick,
       onClockInClick = onClockInClick,
       onClockOutClick = {
         val attendanceId = state.todayAttendanceRoster?.attendance?.id ?: 0
@@ -214,6 +216,7 @@ private fun Content(
           state = state,
           onProfileClick = onProfileClick,
           modifier = Modifier.padding(horizontal = 16.dp),
+          onNotifClick = onNotificationClick
         )
       }
 
@@ -304,6 +307,7 @@ private fun Content(
 private fun HomeHeader(
   state: HomeState,
   onProfileClick: () -> Unit,
+  onNotifClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
   Row(
@@ -357,7 +361,11 @@ private fun HomeHeader(
       painter = painterResource(Res.drawable.ic_notification),
       contentDescription = null,
       tint = Color.Unspecified,
-      modifier = Modifier.size(36.dp),
+      modifier = Modifier.size(36.dp).clip(CircleShape)
+        .clickable() {
+          onNotifClick.invoke()
+        }
+        .padding(2.dp),
     )
   }
 }

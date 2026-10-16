@@ -32,6 +32,8 @@ import neohr_mp.shared.generated.resources.open_document
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import id.neo.hr.presentation.widget.TopAppBarCustom
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,19 +48,21 @@ fun LegalDocumentScreen(
   val validUrl = url.takeIf { it.startsWith("https://") || it.startsWith("http://") }
 
   Scaffold(
+    containerColor = Colors.White,
     topBar = {
-      TopAppBar(
+      TopAppBarCustom(
         title = {
           Text(
             title,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = TextStyleCustom.ExtraBold,
-          )
+            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp, color = Colors.Gray800),
+            )
         },
         navigationIcon = {
           IconButton(onClick = navBack) {
-            Icon(painterResource(Res.drawable.ic_arrow_left), contentDescription = null)
+            Icon(painterResource(Res.drawable.ic_arrow_left), contentDescription = null,
+              tint = Colors.Gray800)
           }
         },
         actions = { Spacer(Modifier.width(48.dp)) },

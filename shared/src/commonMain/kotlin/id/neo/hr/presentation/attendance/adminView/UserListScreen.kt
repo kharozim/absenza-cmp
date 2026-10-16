@@ -402,7 +402,7 @@ private fun DownloadAttendanceReportDialog(
     title = {
       Text(
         text = stringResource(Res.string.download_attendance_report_csv),
-        style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp),
+        style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp, color = Colors.Gray800),
       )
     },
     text = {

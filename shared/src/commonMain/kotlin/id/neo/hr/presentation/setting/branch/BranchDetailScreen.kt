@@ -107,12 +107,16 @@ private fun BranchDetailContent(
             stringResource(Res.string.my_business_location),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = TextStyleCustom.ExtraBold,
+            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp, color = Colors.Gray800),
           )
         },
         navigationIcon = {
           IconButton(onClick = navBack) {
-            Icon(painterResource(Res.drawable.ic_arrow_left), contentDescription = null)
+            Icon(
+              painterResource(Res.drawable.ic_arrow_left),
+              contentDescription = null,
+              tint = Colors.Gray800
+            )
           }
         },
         actions = { Spacer(Modifier.width(48.dp)) },

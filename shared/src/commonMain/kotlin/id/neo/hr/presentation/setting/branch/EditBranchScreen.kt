@@ -32,8 +32,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import id.neo.hr.data.domain.model.CoordinateModel
@@ -162,19 +164,26 @@ private fun EditBranchContent(
 ) {
   val requiredMessage = stringResource(Res.string.please_fill_in_all_fields_before_submitting)
   Scaffold(
+    containerColor = Colors.White,
     topBar = {
       TopAppBarCustom(
         title = {
           Text(
             stringResource(Res.string.edit_business_location),
-            style = TextStyleCustom.ExtraBold
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp, color = Colors.Gray800),
           )
         },
         navigationIcon = {
           IconButton(onClick = navBack) {
-            Icon(painterResource(Res.drawable.ic_arrow_left), contentDescription = null)
+            Icon(painterResource(Res.drawable.ic_arrow_left),
+              contentDescription = null,
+              tint = Colors.Gray800
+              )
           }
         },
+        actions = { Spacer(Modifier.width(48.dp)) },
       )
     },
   ) { padding ->
