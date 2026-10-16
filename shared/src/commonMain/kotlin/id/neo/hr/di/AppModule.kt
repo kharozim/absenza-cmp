@@ -7,6 +7,7 @@ import id.neo.hr.data.data.remote.api.ApiAuth
 import id.neo.hr.data.data.remote.api.ApiCompany
 import id.neo.hr.data.data.remote.api.ApiNotification
 import id.neo.hr.data.data.remote.api.ApiOpenStreetMap
+import id.neo.hr.data.data.remote.api.ApiShift
 import id.neo.hr.data.data.remote.api.ApiTask
 import id.neo.hr.data.data.remote.createHttpClient
 import id.neo.hr.data.data.repository.AttendanceRepositoryImpl
@@ -14,12 +15,14 @@ import id.neo.hr.data.data.repository.AuthRepositoryImpl
 import id.neo.hr.data.data.repository.CompanyRepositoryImpl
 import id.neo.hr.data.data.repository.LocationRepositoryImpl
 import id.neo.hr.data.data.repository.NotificationRepositoryImpl
+import id.neo.hr.data.data.repository.ShiftRepositoryImpl
 import id.neo.hr.data.data.repository.TaskRepositoryImpl
 import id.neo.hr.data.repository.AttendanceRepository
 import id.neo.hr.data.repository.AuthRepository
 import id.neo.hr.data.repository.CompanyRepository
 import id.neo.hr.data.repository.LocationRepository
 import id.neo.hr.data.repository.NotificationRepository
+import id.neo.hr.data.repository.ShiftRepository
 import id.neo.hr.data.repository.TaskRepository
 import id.neo.hr.data.service.ImageUploadService
 import id.neo.hr.data.service.OssImageUploadServiceImpl
@@ -55,6 +58,7 @@ import id.neo.hr.presentation.employee.add.EmployeeAddViewModel
 import id.neo.hr.presentation.employee.detail.EmployeeDetailViewModel
 import id.neo.hr.presentation.employee.edit.EmployeeEditViewModel
 import id.neo.hr.presentation.employee.list.EmployeeViewModel
+import id.neo.hr.presentation.schedule_management.master_shift.MasterShiftViewModel
 import id.neo.hr.presentation.timeoff.create.TimeOffCreateViewModel
 import id.neo.hr.presentation.timeoff.detail.TimeOffDetailViewModel
 import id.neo.hr.presentation.timeoff.list.TimeOffListViewModel
@@ -82,6 +86,7 @@ val networkModule = module {
   single { ApiTask(get(), BuildConfig.BASE_URL) }
   single { ApiTimeOff(get(), BuildConfig.BASE_URL) }
   single { ApiNotification(get(), BuildConfig.BASE_URL) }
+  single { ApiShift(get(), BuildConfig.BASE_URL) }
   single<ImageUploadService> {
     OssImageUploadServiceImpl(
       endpoint = BuildConfig.OSS_ENDPOINT,
@@ -103,6 +108,7 @@ val repositoryModule = module {
   single { TaskRepositoryImpl(api = get(), session = get()) } bind TaskRepository::class
   single { TimeOffRepositoryImpl(api = get(), session = get()) } bind TimeOffRepository::class
   single { NotificationRepositoryImpl(api = get(), session = get()) } bind NotificationRepository::class
+  single { ShiftRepositoryImpl(api = get(), session = get()) } bind ShiftRepository::class
 }
 
 /** Menyediakan satu instance DataStore dan akses sesi selama lifecycle aplikasi. */
@@ -169,6 +175,7 @@ val viewModelModule = module {
   viewModelOf(::EmployeeDetailViewModel)
   viewModelOf(::EmployeeEditViewModel)
   viewModelOf(::NotificationViewModel)
+  viewModelOf(::MasterShiftViewModel)
 }
 
 /**
