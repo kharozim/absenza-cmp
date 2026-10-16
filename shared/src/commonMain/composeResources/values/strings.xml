@@ -367,6 +367,9 @@
   <string name="checklist_if_the_work_time_pass_midnight">Checklist if the work time Pass Midnight</string>
   <string name="break_minutes">Break (Minutes)</string>
   <string name="save_shift">Save Shift</string>
+  <string name="save_shift_confirmation">Save Shift Confirmation</string>
+  <string name="are_you_sure_want_to_create_a_shift_with_the_name_">Are you sure want to create a shift with the name </string>
+  <string name="shift_successfully_created">Shift has been successfully created</string>
   <string name="shift_name_cannot_be_empty">Shift name cannot be empty</string>
   <string name="shift_code_cannot_be_empty">Shift code cannot be empty</string>
   <string name="break_minutes_is_required">Break minutes cannot be empty</string>

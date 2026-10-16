@@ -112,6 +112,7 @@ fun HomeScreen(
   navToTimeOffAdmin: () -> Unit = {},
   navToEmployeeManage: () -> Unit = {},
   onNotificationClick: () -> Unit = {},
+  navToScheduleManagement: () -> Unit = {},
   viewModel: HomeViewModel = koinViewModel(),
   modifier: Modifier = Modifier,
 ) {
@@ -147,9 +148,7 @@ fun HomeScreen(
       navToEmployeeManage = navToEmployeeManage,
       navToTimeOffList = navToTimeOffList,
       navToAttendance = navToAttendance,
-      navToMyCompany = {
-// TODO()
-      },
+      navToMyCompany = navToScheduleManagement,
       navToAllMenu = {
 // TODO()
       },

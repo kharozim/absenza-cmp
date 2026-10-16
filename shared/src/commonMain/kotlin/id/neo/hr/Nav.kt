@@ -46,6 +46,9 @@ import id.neo.hr.presentation.timeoff.adminView.list.AdminTimeOffListScreen
 import id.neo.hr.presentation.timeoff.create.TimeOffCreateScreen
 import id.neo.hr.presentation.timeoff.detail.TimeOffDetailScreen
 import id.neo.hr.presentation.timeoff.list.TimeOffListScreen
+import id.neo.hr.presentation.schedule_management.ScheduleManagementScreen
+import id.neo.hr.presentation.schedule_management.master_shift.MasterShiftScreen
+import id.neo.hr.presentation.schedule_management.master_shift.create.CreateMasterShiftScreen
 import kotlinx.serialization.Serializable
 import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.privacy_policy_title
@@ -168,6 +171,15 @@ data class EmployeeEdit(val employeeId: Int)
 @Serializable
 object Notification
 
+@Serializable
+object ScheduleManagement
+
+@Serializable
+object MasterShift
+
+@Serializable
+object MasterShiftCreate
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
@@ -220,6 +232,7 @@ fun Nav() {
         navToTimeOffAdmin = { controller.navigate(AdminTimeOffList) },
         navToEmployeeManage = { controller.navigate(EmployeeManagement) },
         navToNotification = { controller.navigate(Notification) },
+        navToScheduleManagement = { controller.navigate(ScheduleManagement) },
       )
     }
     composable<Splash> {
@@ -592,6 +605,32 @@ fun Nav() {
     composable<Notification> {
       NotificationScreen(
         navBack = { controller.popBackStack() },
+      )
+    }
+
+    composable<ScheduleManagement> {
+      ScheduleManagementScreen(
+        navBack = { controller.popBackStack() },
+        navToMasterShift = { controller.navigate(MasterShift) },
+        navToMasterSchedule = { /* Task 22 */ },
+        navToScheduleAssignment = { /* Task 23 */ },
+        navToRosterEmployeeList = { /* Task 24 */ },
+      )
+    }
+
+    composable<MasterShift> {
+      MasterShiftScreen(
+        navBack = { controller.popBackStack() },
+        navToCreateMasterShift = { controller.navigate(MasterShiftCreate) },
+      )
+    }
+
+    composable<MasterShiftCreate> {
+      CreateMasterShiftScreen(
+        navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
       )
     }
   }

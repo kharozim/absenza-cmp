@@ -60,7 +60,9 @@ fun InputField(
       focusedPlaceholderColor = Colors.Gray300,
       focusedBorderColor = Colors.Purple300,
       disabledBorderColor = Colors.Gray100,
-      disabledLabelColor = Colors.Gray100
+      disabledLabelColor = Colors.Gray100,
+      errorSupportingTextColor = Colors.Red600,
+      errorBorderColor = Colors.Red600
     ),
     textStyle = TextStyleCustom.Bold.copy(
       color = when {
@@ -100,7 +102,7 @@ private fun Prev() {
       .padding(horizontal = 24.dp)
       .height(120.dp)
       .fillMaxWidth(),
-    errorText = "",
+    errorText = "ini error lo bro",
     singleLine = false,
     readOnly = true,
     prefix = {
