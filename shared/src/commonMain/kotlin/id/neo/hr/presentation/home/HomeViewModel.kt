@@ -116,9 +116,6 @@ class HomeViewModel(
         }
 
         val poster = companyRepo.getCompanyPoster()
-        if (poster is StateDataUtil.Error) {
-          throw Exception(poster.errorModel?.message ?: "Failed get data poster")
-        }
         if (poster is StateDataUtil.Success) {
           _state.update { it.copy(poster = poster.data) }
         }

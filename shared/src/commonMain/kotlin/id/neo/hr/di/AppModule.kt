@@ -5,6 +5,7 @@ import id.neo.hr.data.data.local.SessionDataStore
 import id.neo.hr.data.data.remote.api.ApiAttendance
 import id.neo.hr.data.data.remote.api.ApiAuth
 import id.neo.hr.data.data.remote.api.ApiCompany
+import id.neo.hr.data.data.remote.api.ApiNotification
 import id.neo.hr.data.data.remote.api.ApiOpenStreetMap
 import id.neo.hr.data.data.remote.api.ApiTask
 import id.neo.hr.data.data.remote.createHttpClient
@@ -12,11 +13,13 @@ import id.neo.hr.data.data.repository.AttendanceRepositoryImpl
 import id.neo.hr.data.data.repository.AuthRepositoryImpl
 import id.neo.hr.data.data.repository.CompanyRepositoryImpl
 import id.neo.hr.data.data.repository.LocationRepositoryImpl
+import id.neo.hr.data.data.repository.NotificationRepositoryImpl
 import id.neo.hr.data.data.repository.TaskRepositoryImpl
 import id.neo.hr.data.repository.AttendanceRepository
 import id.neo.hr.data.repository.AuthRepository
 import id.neo.hr.data.repository.CompanyRepository
 import id.neo.hr.data.repository.LocationRepository
+import id.neo.hr.data.repository.NotificationRepository
 import id.neo.hr.data.repository.TaskRepository
 import id.neo.hr.data.service.ImageUploadService
 import id.neo.hr.data.service.OssImageUploadServiceImpl
@@ -40,6 +43,7 @@ import id.neo.hr.presentation.setting.branch.BranchDetailViewModel
 import id.neo.hr.presentation.setting.branch.EditBranchViewModel
 import id.neo.hr.presentation.setting.changepassword.ChangePasswordViewModel
 import id.neo.hr.presentation.setting.profile.ProfileViewModel
+import id.neo.hr.presentation.notification.NotificationViewModel
 import id.neo.hr.presentation.splash.SplashViewModel
 import id.neo.hr.presentation.util.SessionUtil
 import id.neo.hr.data.data.remote.api.ApiTimeOff
@@ -77,6 +81,7 @@ val networkModule = module {
   single { ApiAttendance(get(), BuildConfig.BASE_URL) }
   single { ApiTask(get(), BuildConfig.BASE_URL) }
   single { ApiTimeOff(get(), BuildConfig.BASE_URL) }
+  single { ApiNotification(get(), BuildConfig.BASE_URL) }
   single<ImageUploadService> {
     OssImageUploadServiceImpl(
       endpoint = BuildConfig.OSS_ENDPOINT,
@@ -97,6 +102,7 @@ val repositoryModule = module {
   single { AttendanceRepositoryImpl(api = get(), session = get()) } bind AttendanceRepository::class
   single { TaskRepositoryImpl(api = get(), session = get()) } bind TaskRepository::class
   single { TimeOffRepositoryImpl(api = get(), session = get()) } bind TimeOffRepository::class
+  single { NotificationRepositoryImpl(api = get(), session = get()) } bind NotificationRepository::class
 }
 
 /** Menyediakan satu instance DataStore dan akses sesi selama lifecycle aplikasi. */
@@ -162,6 +168,7 @@ val viewModelModule = module {
   viewModelOf(::EmployeeAddViewModel)
   viewModelOf(::EmployeeDetailViewModel)
   viewModelOf(::EmployeeEditViewModel)
+  viewModelOf(::NotificationViewModel)
 }
 
 /**

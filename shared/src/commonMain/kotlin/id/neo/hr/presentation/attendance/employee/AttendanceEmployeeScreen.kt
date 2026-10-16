@@ -117,7 +117,7 @@ private fun Content(
             text = "Absen Hari Ini",
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = TextStyleCustom.Bold.copy(fontSize = 20.sp, color = Colors.Gray800)
+            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp, color = Colors.Gray800)
           )
         },
         navigationIcon = {

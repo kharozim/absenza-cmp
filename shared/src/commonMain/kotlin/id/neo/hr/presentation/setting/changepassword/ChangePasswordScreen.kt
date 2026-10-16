@@ -54,6 +54,7 @@ import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import id.neo.hr.presentation.widget.TopAppBarCustom
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -72,6 +73,7 @@ fun ChangePasswordScreen(
         ToastManager.error(getString(Res.string.change_password_failed))
         viewModel.clearResult()
       }
+
       else -> Unit
     }
   }
@@ -129,6 +131,7 @@ private fun ChangePasswordContent(
   onSubmit: () -> Unit,
 ) {
   Scaffold(
+    containerColor = Colors.Gray800,
     topBar = {
       TopAppBarCustom(
         title = {
@@ -136,12 +139,19 @@ private fun ChangePasswordContent(
             stringResource(Res.string.change_password),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = TextStyleCustom.ExtraBold,
+            style = TextStyleCustom.ExtraBold.copy(
+              fontSize = 20.sp,
+              color = Colors.Gray800
+            ),
           )
         },
         navigationIcon = {
           IconButton(onClick = navBack) {
-            Icon(painterResource(Res.drawable.ic_arrow_left), contentDescription = null)
+            Icon(
+              painter = painterResource(Res.drawable.ic_arrow_left),
+              contentDescription = null,
+              tint = Colors.Gray800
+            )
           }
         },
         actions = { Spacer(Modifier.width(48.dp)) },
@@ -149,7 +159,8 @@ private fun ChangePasswordContent(
     },
   ) { padding ->
     Column(
-      modifier = Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(16.dp),
+      modifier = Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState())
+        .padding(16.dp),
       verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
       PasswordField(
@@ -181,7 +192,10 @@ private fun ChangePasswordContent(
         modifier = Modifier.fillMaxWidth(),
       )
       if (state.uiState is UiState.Loading) {
-        CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = Colors.Purple800)
+        CircularProgressIndicator(
+          modifier = Modifier.align(Alignment.CenterHorizontally),
+          color = Colors.Purple800
+        )
       }
     }
   }

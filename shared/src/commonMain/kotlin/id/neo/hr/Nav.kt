@@ -36,6 +36,7 @@ import id.neo.hr.presentation.setting.changepassword.ChangePasswordScreen
 import id.neo.hr.presentation.setting.legal.LegalDocumentScreen
 import id.neo.hr.presentation.setting.profile.ProfileScreen as AccountProfileScreen
 import id.neo.hr.presentation.splash.FirstScreen
+import id.neo.hr.presentation.notification.NotificationScreen
 import id.neo.hr.presentation.employee.add.EmployeeAddScreen
 import id.neo.hr.presentation.employee.detail.EmployeeDetailScreen
 import id.neo.hr.presentation.employee.edit.EmployeeEditScreen
@@ -164,6 +165,9 @@ data class EmployeeDetail(val employeeId: Int)
 @Serializable
 data class EmployeeEdit(val employeeId: Int)
 
+@Serializable
+object Notification
+
 @Composable
 fun Nav() {
   val controller = rememberNavController()
@@ -215,6 +219,7 @@ fun Nav() {
         navToTimeOffList = { controller.navigate(TimeOffList) },
         navToTimeOffAdmin = { controller.navigate(AdminTimeOffList) },
         navToEmployeeManage = { controller.navigate(EmployeeManagement) },
+        navToNotification = { controller.navigate(Notification) },
       )
     }
     composable<Splash> {
@@ -581,6 +586,12 @@ fun Nav() {
         onTokenExpired = {
           controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
         },
+      )
+    }
+
+    composable<Notification> {
+      NotificationScreen(
+        navBack = { controller.popBackStack() },
       )
     }
   }

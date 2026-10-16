@@ -58,6 +58,7 @@ import id.neo.hr.presentation.widget.InputFieldDropdown
 import id.neo.hr.presentation.widget.LayoutBottom
 import id.neo.hr.presentation.widget.LoadingDialog
 import id.neo.hr.presentation.widget.TopAppBarCustom
+import id.neo.hr.util.mandatory
 import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.cancel
 import neohr_mp.shared.generated.resources.create_time_off_request
@@ -284,14 +285,15 @@ private fun TimeOffCreateContent(
             stringResource(Res.string.create_time_off_request),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp)
+            style = TextStyleCustom.ExtraBold.copy(fontSize = 20.sp, color = Colors.Gray800)
           )
         },
         navigationIcon = {
           IconButton(onClick = navBack) {
             Icon(
               painter = painterResource(Res.drawable.ic_arrow_left),
-              contentDescription = null
+              contentDescription = null,
+              tint = Colors.Gray800
             )
           }
         },
@@ -328,7 +330,7 @@ private fun TimeOffCreateContent(
         value = state.name,
         placeholder = "Nama Lengkap",
         onValueChange = {},
-        label = { Text(stringResource(Res.string.employee_name)) },
+        label = { Text(stringResource(Res.string.employee_name).mandatory()) },
         readOnly = true,
         modifier = Modifier.fillMaxWidth(),
       )
@@ -342,7 +344,7 @@ private fun TimeOffCreateContent(
         onValueChange = { selectedLabel ->
           state.listTimeOffType.find { it.typeLabel == selectedLabel }?.let(onSelectType)
         },
-        label = { Text(stringResource(Res.string.time_off_type)) },
+        label = { Text(stringResource(Res.string.time_off_type).mandatory()) },
         items = state.listTimeOffType.map { it.typeLabel },
         modifier = Modifier.fillMaxWidth(),
       )
@@ -358,7 +360,7 @@ private fun TimeOffCreateContent(
           value = state.startDateDisplay,
           placeholder = "DD/MM/YYYY",
           onValueChange = {},
-          label = { Text(stringResource(Res.string.start_date)) },
+          label = { Text(stringResource(Res.string.start_date).mandatory()) },
           trailingIcon = {
             IconButton(onClick = onSelectStartDate) {
               Icon(painter = painterResource(Res.drawable.ic_calendar), contentDescription = null)
@@ -372,7 +374,7 @@ private fun TimeOffCreateContent(
           value = state.endDateDisplay,
           placeholder = "DD/MM/YYYY",
           onValueChange = {},
-          label = { Text(stringResource(Res.string.end_date)) },
+          label = { Text(stringResource(Res.string.end_date).mandatory()) },
           trailingIcon = {
             IconButton(onClick = onSelectEndDate) {
               Icon(painter = painterResource(Res.drawable.ic_calendar), contentDescription = null)
@@ -390,7 +392,7 @@ private fun TimeOffCreateContent(
         value = if (state.totalLeaves > 0) "${state.totalLeaves} Hari" else "-",
         placeholder = "-",
         onValueChange = {},
-        label = { Text(stringResource(Res.string.total_leaves)) },
+        label = { Text(stringResource(Res.string.total_leaves).mandatory()) },
         readOnly = true,
         modifier = Modifier.fillMaxWidth(),
       )
@@ -402,7 +404,7 @@ private fun TimeOffCreateContent(
         value = state.description,
         placeholder = "Masukkan alasan pengajuan cuti",
         onValueChange = onDescriptionChange,
-        label = { Text(stringResource(Res.string.description)) },
+        label = { Text(stringResource(Res.string.description).mandatory()) },
         singleLine = false,
         modifier = Modifier
           .fillMaxWidth()
