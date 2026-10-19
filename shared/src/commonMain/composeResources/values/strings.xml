@@ -380,6 +380,10 @@
   <string name="are_you_sure_you_want_to_delete_shift">Are you sure you want to delete shift </string>
   <string name="delete_shift_confirmation">Delete Shift Confirmation</string>
   <string name="this_action_cannot_be_undone_and_all_data_related_to_this_shift_will_be_permanently_deleted">This action cannot be undone and all data related to this shift will be permanently deleted.</string>
+  <string name="save_schedule_confirmation">Save Schedule Confirmation</string>
+  <string name="are_you_sure_want_to_save_schedule_with_the_name">Are you sure you want to save the work schedule with name </string>
+  <string name="schedule_successfully_created">Work schedule has been successfully created</string>
+  <string name="schedule_successfully_updated">Work schedule has been successfully updated</string>
   <string name="are_you_sure_you_want_to_delete_the_work_schedule_with_the_name">Are you sure you want to delete the work schedule with the name</string>
   <string name="delete_schedule_confirmation">Delete Schedule Confirmation</string>
   <string name="this_action_cannot_be_undone_and_the_schedule_will_be_permanently_deleted">This action cannot be undone and the schedule will be permanently deleted.</string>

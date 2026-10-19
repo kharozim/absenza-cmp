@@ -59,6 +59,12 @@ import id.neo.hr.presentation.employee.detail.EmployeeDetailViewModel
 import id.neo.hr.presentation.employee.edit.EmployeeEditViewModel
 import id.neo.hr.presentation.employee.list.EmployeeViewModel
 import id.neo.hr.presentation.schedule_management.master_shift.MasterShiftViewModel
+import id.neo.hr.data.data.remote.api.ApiSchedule
+import id.neo.hr.data.data.repository.ScheduleRepositoryImpl
+import id.neo.hr.data.repository.ScheduleRepository
+import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleCreateViewModel
+import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleDetailViewModel
+import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleViewModel
 import id.neo.hr.presentation.timeoff.create.TimeOffCreateViewModel
 import id.neo.hr.presentation.timeoff.detail.TimeOffDetailViewModel
 import id.neo.hr.presentation.timeoff.list.TimeOffListViewModel
@@ -87,6 +93,7 @@ val networkModule = module {
   single { ApiTimeOff(get(), BuildConfig.BASE_URL) }
   single { ApiNotification(get(), BuildConfig.BASE_URL) }
   single { ApiShift(get(), BuildConfig.BASE_URL) }
+  single { ApiSchedule(get(), BuildConfig.BASE_URL) }
   single<ImageUploadService> {
     OssImageUploadServiceImpl(
       endpoint = BuildConfig.OSS_ENDPOINT,
@@ -109,6 +116,7 @@ val repositoryModule = module {
   single { TimeOffRepositoryImpl(api = get(), session = get()) } bind TimeOffRepository::class
   single { NotificationRepositoryImpl(api = get(), session = get()) } bind NotificationRepository::class
   single { ShiftRepositoryImpl(api = get(), session = get()) } bind ShiftRepository::class
+  single { ScheduleRepositoryImpl(api = get(), session = get()) } bind ScheduleRepository::class
 }
 
 /** Menyediakan satu instance DataStore dan akses sesi selama lifecycle aplikasi. */
@@ -176,6 +184,9 @@ val viewModelModule = module {
   viewModelOf(::EmployeeEditViewModel)
   viewModelOf(::NotificationViewModel)
   viewModelOf(::MasterShiftViewModel)
+  viewModelOf(::MasterScheduleViewModel)
+  viewModelOf(::MasterScheduleCreateViewModel)
+  viewModelOf(::MasterScheduleDetailViewModel)
 }
 
 /**

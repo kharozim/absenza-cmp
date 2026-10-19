@@ -62,7 +62,9 @@ fun InputField(
       disabledBorderColor = Colors.Gray100,
       disabledLabelColor = Colors.Gray100,
       errorSupportingTextColor = Colors.Red600,
-      errorBorderColor = Colors.Red600
+      errorBorderColor = Colors.Red600,
+      errorLabelColor = Colors.Red600,
+      disabledContainerColor = Colors.Gray50
     ),
     textStyle = TextStyleCustom.Bold.copy(
       color = when {

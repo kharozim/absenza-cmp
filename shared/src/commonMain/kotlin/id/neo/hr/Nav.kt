@@ -49,6 +49,10 @@ import id.neo.hr.presentation.timeoff.list.TimeOffListScreen
 import id.neo.hr.presentation.schedule_management.ScheduleManagementScreen
 import id.neo.hr.presentation.schedule_management.master_shift.MasterShiftScreen
 import id.neo.hr.presentation.schedule_management.master_shift.create.CreateMasterShiftScreen
+import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleScreen
+import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleCreateScreen
+import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleDetailScreen
+import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleEditScreen
 import kotlinx.serialization.Serializable
 import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.privacy_policy_title
@@ -179,6 +183,18 @@ object MasterShift
 
 @Serializable
 object MasterShiftCreate
+
+@Serializable
+object MasterSchedule
+
+@Serializable
+object MasterScheduleCreate
+
+@Serializable
+data class MasterScheduleDetail(val scheduleId: Int)
+
+@Serializable
+data class MasterScheduleEdit(val scheduleId: Int)
 
 @Composable
 fun Nav() {
@@ -612,7 +628,7 @@ fun Nav() {
       ScheduleManagementScreen(
         navBack = { controller.popBackStack() },
         navToMasterShift = { controller.navigate(MasterShift) },
-        navToMasterSchedule = { /* Task 22 */ },
+        navToMasterSchedule = { controller.navigate(MasterSchedule) },
         navToScheduleAssignment = { /* Task 23 */ },
         navToRosterEmployeeList = { /* Task 24 */ },
       )
@@ -627,6 +643,51 @@ fun Nav() {
 
     composable<MasterShiftCreate> {
       CreateMasterShiftScreen(
+        navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<MasterSchedule> {
+      MasterScheduleScreen(
+        navBack = { controller.popBackStack() },
+        navToCreate = { controller.navigate(MasterScheduleCreate) },
+        navToDetail = { scheduleId -> controller.navigate(MasterScheduleDetail(scheduleId)) },
+        navToEdit = { scheduleId -> controller.navigate(MasterScheduleEdit(scheduleId)) },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<MasterScheduleCreate> {
+      MasterScheduleCreateScreen(
+        navBack = { controller.popBackStack() },
+        onCreateSuccess = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<MasterScheduleDetail> { entry ->
+      val route = entry.toRoute<MasterScheduleDetail>()
+      MasterScheduleDetailScreen(
+        scheduleId = route.scheduleId,
+        navBack = { controller.popBackStack() },
+        navToEdit = { id -> controller.navigate(MasterScheduleEdit(id)) },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<MasterScheduleEdit> { entry ->
+      val route = entry.toRoute<MasterScheduleEdit>()
+      MasterScheduleEditScreen(
+        scheduleId = route.scheduleId,
         navBack = { controller.popBackStack() },
         onTokenExpired = {
           controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
