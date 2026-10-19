@@ -65,6 +65,8 @@ import id.neo.hr.data.repository.ScheduleRepository
 import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleCreateViewModel
 import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleDetailViewModel
 import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleViewModel
+import id.neo.hr.presentation.schedule_management.schedule_assignment.ScheduleAssignmentCreateViewModel
+import id.neo.hr.presentation.schedule_management.schedule_assignment.ScheduleAssignmentViewModel
 import id.neo.hr.presentation.timeoff.create.TimeOffCreateViewModel
 import id.neo.hr.presentation.timeoff.detail.TimeOffDetailViewModel
 import id.neo.hr.presentation.timeoff.list.TimeOffListViewModel
@@ -187,6 +189,8 @@ val viewModelModule = module {
   viewModelOf(::MasterScheduleViewModel)
   viewModelOf(::MasterScheduleCreateViewModel)
   viewModelOf(::MasterScheduleDetailViewModel)
+  viewModelOf(::ScheduleAssignmentViewModel)
+  viewModelOf(::ScheduleAssignmentCreateViewModel)
 }
 
 /**
