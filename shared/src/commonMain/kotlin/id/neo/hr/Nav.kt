@@ -55,6 +55,9 @@ import id.neo.hr.presentation.schedule_management.master_schedule.MasterSchedule
 import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleEditScreen
 import id.neo.hr.presentation.schedule_management.schedule_assignment.ScheduleAssignmentCreateScreen
 import id.neo.hr.presentation.schedule_management.schedule_assignment.ScheduleAssignmentScreen
+import id.neo.hr.presentation.schedule_management.roster.RosterEmployeeListScreen
+import id.neo.hr.presentation.schedule_management.roster.EmployeeScheduleScreen
+import id.neo.hr.presentation.schedule_management.roster.RosterEditScreen
 import kotlinx.serialization.Serializable
 import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.privacy_policy_title
@@ -203,6 +206,15 @@ object ScheduleAssignment
 
 @Serializable
 object ScheduleAssignmentCreate
+
+@Serializable
+object RosterEmployeeList
+
+@Serializable
+data class EmployeeSchedule(val employeeId: Int)
+
+@Serializable
+data class RosterEdit(val rosterId: Int, val employeeId: Int)
 
 @Composable
 fun Nav() {
@@ -638,7 +650,7 @@ fun Nav() {
         navToMasterShift = { controller.navigate(MasterShift) },
         navToMasterSchedule = { controller.navigate(MasterSchedule) },
         navToScheduleAssignment = { controller.navigate(ScheduleAssignment) },
-        navToRosterEmployeeList = { /* Task 24 */ },
+        navToRosterEmployeeList = { controller.navigate(RosterEmployeeList) },
       )
     }
 
@@ -720,6 +732,35 @@ fun Nav() {
         onTokenExpired = {
           controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
         },
+      )
+    }
+
+    composable<RosterEmployeeList> {
+      RosterEmployeeListScreen(
+        navBack = { controller.popBackStack() },
+        navToEmployeeSchedule = { employeeId ->
+          controller.navigate(EmployeeSchedule(employeeId))
+        },
+      )
+    }
+
+    composable<EmployeeSchedule> { entry ->
+      val route = entry.toRoute<EmployeeSchedule>()
+      EmployeeScheduleScreen(
+        employeeId = route.employeeId,
+        navBack = { controller.popBackStack() },
+        navToEditRoster = { rosterId, employeeId ->
+          controller.navigate(RosterEdit(rosterId, employeeId))
+        },
+      )
+    }
+
+    composable<RosterEdit> { entry ->
+      val route = entry.toRoute<RosterEdit>()
+      RosterEditScreen(
+        rosterId = route.rosterId,
+        employeeId = route.employeeId,
+        navBack = { controller.popBackStack() },
       )
     }
   }

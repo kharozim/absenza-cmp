@@ -190,9 +190,9 @@ fun MonthPickerDialog(
 @Composable
 private fun Prev() {
   AppTheme() {
-    Column(Modifier.fillMaxSize()) {
+//    Column(Modifier.fillMaxSize()) {
       MonthDropdown("2025", onMonthYearSelected = { _, _ -> })
-    }
+//    }
   }
 }
 
