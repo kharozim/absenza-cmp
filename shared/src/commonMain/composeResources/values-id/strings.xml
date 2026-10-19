@@ -381,6 +381,10 @@
   <string name="are_you_sure_you_want_to_delete_shift">Apakah anda yakin ingin menghapus shift ini? </string>
   <string name="delete_shift_confirmation">Konfirmasi menghapus shift</string>
   <string name="this_action_cannot_be_undone_and_all_data_related_to_this_shift_will_be_permanently_deleted">Tindakan ini tidak dapat dibatalkan dan semua data yang terkait dengan shift kerja ini akan dihapus secara permanen.</string>
+  <string name="save_schedule_confirmation">Konfirmasi Simpan Jadwal</string>
+  <string name="are_you_sure_want_to_save_schedule_with_the_name">Apakah Anda yakin ingin menyimpan jadwal kerja dengan nama </string>
+  <string name="schedule_successfully_created">Jadwal kerja berhasil dibuat</string>
+  <string name="schedule_successfully_updated">Jadwal kerja berhasil diperbarui</string>
   <string name="are_you_sure_you_want_to_delete_the_work_schedule_with_the_name">Apakah Anda yakin ingin menghapus jadwal kerja?</string>
   <string name="delete_schedule_confirmation">Konfirmasi penghapusan jadwal</string>
   <string name="this_action_cannot_be_undone_and_the_schedule_will_be_permanently_deleted">Tindakan ini tidak dapat dibatalkan dan jadwal akan dihapus secara permanen.</string>

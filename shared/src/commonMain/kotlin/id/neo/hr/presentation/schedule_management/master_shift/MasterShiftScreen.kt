@@ -693,3 +693,52 @@ private fun ActionButton(
     )
   }
 }
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+private fun MasterShiftScreenPreview() {
+  id.neo.hr.presentation.theme.AppTheme {
+    MasterShiftContent(
+      state = MasterShiftState(
+        listShiftFiltered = listOf(
+          MasterShiftModel(
+            id = 1,
+            name = "Shift Pagi",
+            code = "PAGI",
+            colorHex = "#4CAF50",
+            startTime = "08:00:00",
+            endTime = "17:00:00",
+            endDayOffset = 0,
+            breakMinutes = 60,
+            totalWorkMinutes = 480,
+            isActive = true,
+            createdAt = "",
+            updatedAt = "",
+          ),
+          MasterShiftModel(
+            id = 2,
+            name = "Shift Malam",
+            code = "MLM",
+            colorHex = "#4B478F",
+            startTime = "22:00:00",
+            endTime = "06:00:00",
+            endDayOffset = 1,
+            breakMinutes = 60,
+            totalWorkMinutes = 420,
+            isActive = true,
+            createdAt = "",
+            updatedAt = "",
+          )
+        ),
+        shiftState = UiState.Success
+      ),
+      navBack = {},
+      onRefresh = {},
+      onSearchChange = {},
+      onCreateClick = {},
+      onDetailClick = {},
+      onToggleActiveClick = {},
+      onDeleteClick = {}
+    )
+  }
+}
