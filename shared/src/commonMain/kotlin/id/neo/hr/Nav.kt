@@ -53,6 +53,8 @@ import id.neo.hr.presentation.schedule_management.master_schedule.MasterSchedule
 import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleCreateScreen
 import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleDetailScreen
 import id.neo.hr.presentation.schedule_management.master_schedule.MasterScheduleEditScreen
+import id.neo.hr.presentation.schedule_management.schedule_assignment.ScheduleAssignmentCreateScreen
+import id.neo.hr.presentation.schedule_management.schedule_assignment.ScheduleAssignmentScreen
 import kotlinx.serialization.Serializable
 import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.privacy_policy_title
@@ -195,6 +197,12 @@ data class MasterScheduleDetail(val scheduleId: Int)
 
 @Serializable
 data class MasterScheduleEdit(val scheduleId: Int)
+
+@Serializable
+object ScheduleAssignment
+
+@Serializable
+object ScheduleAssignmentCreate
 
 @Composable
 fun Nav() {
@@ -629,7 +637,7 @@ fun Nav() {
         navBack = { controller.popBackStack() },
         navToMasterShift = { controller.navigate(MasterShift) },
         navToMasterSchedule = { controller.navigate(MasterSchedule) },
-        navToScheduleAssignment = { /* Task 23 */ },
+        navToScheduleAssignment = { controller.navigate(ScheduleAssignment) },
         navToRosterEmployeeList = { /* Task 24 */ },
       )
     }
@@ -689,6 +697,26 @@ fun Nav() {
       MasterScheduleEditScreen(
         scheduleId = route.scheduleId,
         navBack = { controller.popBackStack() },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<ScheduleAssignment> {
+      ScheduleAssignmentScreen(
+        navBack = { controller.popBackStack() },
+        navToCreate = { controller.navigate(ScheduleAssignmentCreate) },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+      )
+    }
+
+    composable<ScheduleAssignmentCreate> {
+      ScheduleAssignmentCreateScreen(
+        navBack = { controller.popBackStack() },
+        onCreateSuccess = { controller.popBackStack() },
         onTokenExpired = {
           controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
         },

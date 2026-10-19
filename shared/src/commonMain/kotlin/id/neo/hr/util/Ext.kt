@@ -77,3 +77,12 @@ fun String.formatPhoneNumber(): String {
     }
     return cleanedNumber
 }
+
+fun String.toTitleCase(): String {
+    if (this.isEmpty()) {
+        return this
+    }
+    return this.split(" ").joinToString(" ") { word ->
+        word.lowercase().replaceFirstChar { it.uppercase() }
+    }
+}
