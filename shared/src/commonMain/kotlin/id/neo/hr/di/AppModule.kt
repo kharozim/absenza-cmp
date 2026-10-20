@@ -42,8 +42,10 @@ import id.neo.hr.presentation.auth.registerotp.RegisterOtpViewModel
 import id.neo.hr.presentation.home.HomeViewModel
 import id.neo.hr.presentation.location.SearchMapViewModel
 import id.neo.hr.presentation.setting.SettingViewModel
+import id.neo.hr.presentation.setting.branch.BranchCreateViewModel
 import id.neo.hr.presentation.setting.branch.BranchDetailViewModel
 import id.neo.hr.presentation.setting.branch.EditBranchViewModel
+import id.neo.hr.presentation.setting.branch.MyBranchViewModel
 import id.neo.hr.presentation.setting.changepassword.ChangePasswordViewModel
 import id.neo.hr.presentation.setting.profile.ProfileViewModel
 import id.neo.hr.presentation.notification.NotificationViewModel
@@ -147,6 +149,8 @@ val viewModelModule = module {
   viewModelOf(::ChangePasswordViewModel)
   viewModelOf(::BranchDetailViewModel)
   viewModelOf(::EditBranchViewModel)
+  viewModelOf(::MyBranchViewModel)
+  viewModelOf(::BranchCreateViewModel)
   viewModel {
     HomeViewModel(
       authRepo = get(),

@@ -1,5 +1,6 @@
 package id.neo.hr.data.data.remote.api
 
+import id.neo.hr.data.data.remote.request.BranchCreateRequest
 import id.neo.hr.data.data.remote.request.BranchUpdateRequest
 import id.neo.hr.data.data.remote.request.EmployeeEditRequest
 import id.neo.hr.data.data.remote.request.EmployeeRequest
@@ -75,6 +76,19 @@ class ApiCompany(
     header: Map<String, String>,
     body: BranchUpdateRequest,
   ): BaseResponse<JsonObject> = httpClient.put("${baseUrl}/v1/account/branch/") {
+    headers {
+      header.forEach { (name, value) -> append(name, value) }
+    }
+    setBody(body)
+  }.body()
+
+  /**
+   * Membuat cabang baru pada backend account branch.
+   */
+  suspend fun createBranch(
+    header: Map<String, String>,
+    body: BranchCreateRequest,
+  ): BaseResponse<BranchResponse> = httpClient.post("${baseUrl}/v1/account/branch/") {
     headers {
       header.forEach { (name, value) -> append(name, value) }
     }

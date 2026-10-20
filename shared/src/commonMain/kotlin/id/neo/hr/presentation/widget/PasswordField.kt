@@ -50,15 +50,25 @@ fun PasswordField(
     singleLine = true,
     enabled = enabled,
     textStyle = TextStyleCustom.SemiBold.copy(
-      color = Colors.Gray800,
+      color = when {
+        !enabled -> Colors.Gray200
+        else -> Colors.Gray800
+      },
       fontSize = 14.sp,
     ),
     colors = OutlinedTextFieldDefaults.colors(
       cursorColor = Colors.Gray800,
-      unfocusedLabelColor = Colors.Gray300,
-      unfocusedBorderColor = Colors.Gray100,
+      unfocusedLabelColor = Colors.Gray200,
+      unfocusedBorderColor = Colors.Gray200,
       focusedLabelColor = Colors.Purple800,
       focusedPlaceholderColor = Colors.Gray300,
+      focusedBorderColor = Colors.Purple300,
+      disabledBorderColor = Colors.Gray100,
+      disabledLabelColor = Colors.Gray100,
+      errorSupportingTextColor = Colors.Red600,
+      errorBorderColor = Colors.Red600,
+      errorLabelColor = Colors.Red600,
+      disabledContainerColor = Colors.Gray50
     ),
     visualTransformation = if (passwordVisible) {
       VisualTransformation.None

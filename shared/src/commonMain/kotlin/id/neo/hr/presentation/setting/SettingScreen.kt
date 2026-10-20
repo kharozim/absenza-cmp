@@ -76,6 +76,7 @@ fun SettingScreen(
   navToPrivacyPolicy: () -> Unit,
   navToChangePassword: () -> Unit,
   navToBusinessLocation: (branchCode: String) -> Unit,
+  navToMyCompany: () -> Unit = {},
 ) {
   val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -103,7 +104,8 @@ fun SettingScreen(
     navToTermAndConditions = navToTermAndConditions,
     navToPrivacyPolicy = navToPrivacyPolicy,
     navToBusinessLocation = { navToBusinessLocation(state.branchCode) },
-    navToChangePassword = navToChangePassword
+    navToChangePassword = navToChangePassword,
+    navToMyCompany = navToMyCompany,
   )
 }
 
@@ -118,6 +120,7 @@ private fun Content(
   navToPrivacyPolicy: () -> Unit,
   navToBusinessLocation: () -> Unit,
   navToChangePassword: () -> Unit,
+  navToMyCompany: () -> Unit = {},
 ) {
   val uriHandler = LocalUriHandler.current
   val whatsappMessage = stringResource(Res.string.whatsapp_contact_message)
@@ -136,8 +139,9 @@ private fun Content(
         .clip(shape = RoundedCornerShape(16.dp))
         .fillMaxWidth()
         .clickable {
-          // TODO: belum dikerjakan
-//          context.showToast("open detail")
+          if (state.isAdmin) {
+            navToMyCompany()
+          }
         }
         .background(color = Colors.White)
         .padding(16.dp),
@@ -177,8 +181,7 @@ private fun Content(
       HorizontalDivider(color = Colors.Purple50)
       Item(
         onClick = {
-          // TODO: belum dihandle
-//          context.showToast("My Subscription")
+          ToastManager.info("Fitur langganan akan segera hadir")
         },
         settingIcon = Res.drawable.ic_settings_plan
       ) {

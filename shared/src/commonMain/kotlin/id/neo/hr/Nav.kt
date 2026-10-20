@@ -30,8 +30,11 @@ import id.neo.hr.presentation.auth.registerotp.RegisterOtpScreen
 import id.neo.hr.presentation.location.SearchMapScreen
 import id.neo.hr.presentation.main.MainRoute
 import id.neo.hr.presentation.setting.SettingViewModel
+import id.neo.hr.presentation.setting.branch.BranchCreateScreen
 import id.neo.hr.presentation.setting.branch.BranchDetailScreen
 import id.neo.hr.presentation.setting.branch.EditBranchScreen
+import id.neo.hr.presentation.setting.branch.MyBranchScreen
+import id.neo.hr.presentation.setting.company.MyCompanyScreen
 import id.neo.hr.presentation.setting.changepassword.ChangePasswordScreen
 import id.neo.hr.presentation.setting.legal.LegalDocumentScreen
 import id.neo.hr.presentation.setting.profile.ProfileScreen as AccountProfileScreen
@@ -97,6 +100,15 @@ data class EditBranch(val branchCode: String)
 
 @Serializable
 object BranchLocationPicker
+
+@Serializable
+object MyCompany
+
+@Serializable
+object MyBranch
+
+@Serializable
+object CreateBranch
 
 @Serializable
 object Splash
@@ -269,6 +281,7 @@ fun Nav() {
         navToEmployeeManage = { controller.navigate(EmployeeManagement) },
         navToNotification = { controller.navigate(Notification) },
         navToScheduleManagement = { controller.navigate(ScheduleManagement) },
+        navToMyCompany = { controller.navigate(MyCompany) },
       )
     }
     composable<Splash> {
@@ -428,6 +441,36 @@ fun Nav() {
         },
       )
     }
+
+    composable<MyCompany> {
+      MyCompanyScreen(
+        navBack = { controller.popBackStack() },
+        navToMyBranch = { controller.navigate(MyBranch) },
+        navToScheduleManagement = { controller.navigate(ScheduleManagement) },
+      )
+    }
+
+    composable<MyBranch> {
+      MyBranchScreen(
+        navBack = { controller.popBackStack() },
+        navToCreateBranch = { controller.navigate(CreateBranch) },
+        navToEditBranch = { branchCode ->
+          selectedBranchCoordinate = null
+          controller.navigate(EditBranch(branchCode))
+        },
+        onTokenExpired = {
+          controller.navigate(Login) { popUpTo(Home) { inclusive = true } }
+        },
+        navtoDetailBranch = { branchCode -> controller.navigate(BranchDetail(branchCode)) },
+      )
+    }
+
+    composable<CreateBranch> {
+      BranchCreateScreen(
+        navBack = { controller.popBackStack() },
+      )
+    }
+
     composable<DetailTaskAdmin> { entry ->
       val viewModel: TaskAdminViewModel = koinViewModel()
       val route = entry.toRoute<DetailTaskAdmin>()

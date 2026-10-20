@@ -1,5 +1,6 @@
 package id.neo.hr.data.repository
 
+import id.neo.hr.data.data.remote.request.BranchCreateRequest
 import id.neo.hr.data.data.remote.request.BranchUpdateRequest
 import id.neo.hr.data.data.remote.request.EmployeeEditRequest
 import id.neo.hr.data.data.remote.request.EmployeeRequest
@@ -20,6 +21,7 @@ interface CompanyRepository {
   suspend fun getListBranch(): StateDataUtil<List<BranchModel>>
   suspend fun getDetailBranch(branchCode: String): StateDataUtil<BranchModel>
   suspend fun updateBranch(payload: BranchUpdateRequest): StateDataUtil<String>
+  suspend fun createBranch(payload: BranchCreateRequest): StateDataUtil<BranchModel>
 
   suspend fun getCompanyBanner(): StateDataUtil<List<CompanyFileModel>>
   suspend fun getCompanyPoster(): StateDataUtil<CompanyFileModel>

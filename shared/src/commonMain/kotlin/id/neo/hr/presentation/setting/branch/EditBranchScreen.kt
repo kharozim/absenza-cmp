@@ -1,6 +1,5 @@
 package id.neo.hr.presentation.setting.branch
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,18 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TimeInput
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,9 +40,8 @@ import id.neo.hr.presentation.util.ToastManager
 import id.neo.hr.presentation.util.UiState
 import id.neo.hr.presentation.widget.ButtonCustom
 import id.neo.hr.presentation.widget.InputField
+import id.neo.hr.presentation.widget.TimePicker
 import id.neo.hr.presentation.widget.TopAppBarCustom
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import neohr_mp.shared.generated.resources.Res
 import neohr_mp.shared.generated.resources.branch_address
 import neohr_mp.shared.generated.resources.branch_name
@@ -66,7 +59,6 @@ import neohr_mp.shared.generated.resources.update_branch_failed
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.time.Clock
 
 @Composable
 fun EditBranchScreen(
@@ -120,7 +112,9 @@ fun EditBranchScreen(
           }
           showTimePicker = false
         },
-        onDismiss = { showTimePicker = false }
+        onDismiss = {
+          showTimePicker = false
+        }
       )
     }
   }
@@ -301,68 +295,6 @@ private fun String.toCoordinateOrNull(): CoordinateModel? {
   val latitude = values[0].toDoubleOrNull() ?: return null
   val longitude = values[1].toDoubleOrNull() ?: return null
   return CoordinateModel(latitude, longitude)
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TimePicker(
-  initialTime: String?,
-  onConfirm: (String) -> Unit,
-  onDismiss: () -> Unit,
-) {
-  val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-  val (initialHour, initialMinute) = initialTime
-    ?.split(":")
-    ?.mapNotNull { it.toIntOrNull() }
-    ?.let { it.getOrNull(0) to it.getOrNull(1) }
-    ?: (now.hour to now.minute)
-
-  val timePickerState = rememberTimePickerState(
-    initialHour = initialHour ?: 0,
-    initialMinute = initialMinute ?: 0,
-    is24Hour = true,
-  )
-
-  Column(
-    modifier = Modifier
-      .background(color = Colors.White, shape = RoundedCornerShape(16.dp))
-      .padding(16.dp)
-      .fillMaxWidth(0.8f),
-    horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center
-  ) {
-    TimeInput(state = timePickerState)
-
-    Row {
-      Button(
-        onClick = onDismiss,
-        modifier = Modifier
-          .weight(1f),
-        colors = ButtonDefaults.buttonColors(
-          containerColor = Colors.Purple800
-        )
-      ) {
-        Text("Dismiss")
-      }
-      Spacer(modifier = Modifier.width(17.dp))
-
-      Button(
-        onClick = {
-          val hour = timePickerState.hour.toString().padStart(2, '0')
-          val minute = timePickerState.minute.toString().padStart(2, '0')
-          val formatted = "$hour:$minute"
-          onConfirm(formatted)
-        },
-        modifier = Modifier
-          .weight(1f),
-        colors = ButtonDefaults.buttonColors(
-          containerColor = Colors.Purple800
-        )
-      ) {
-        Text("Confirm")
-      }
-    }
-  }
 }
 
 @Preview

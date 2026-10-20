@@ -1,6 +1,7 @@
 package id.neo.hr.data.data.repository
 
 import id.neo.hr.data.data.remote.api.ApiCompany
+import id.neo.hr.data.data.remote.request.BranchCreateRequest
 import id.neo.hr.data.data.remote.request.BranchUpdateRequest
 import id.neo.hr.data.data.remote.request.EmployeeEditRequest
 import id.neo.hr.data.data.remote.request.EmployeeRequest
@@ -164,6 +165,20 @@ class CompanyRepositoryImpl(
         response.message.orEmpty()
       },
       defaultErrorMessage = "Failed to update branch",
+    )
+  }
+
+  override suspend fun createBranch(payload: BranchCreateRequest): StateDataUtil<BranchModel> {
+    return NetworkUtil.safeApiCallBearer(
+      session = session,
+      call = {
+        val header = NetworkUtil.generateHeader(tokenBearer = session.tokenBearer.first())
+        api.createBranch(header = header, body = payload)
+      },
+      mapData = { response ->
+        response.data?.toDomain() ?: BranchResponse().toDomain()
+      },
+      defaultErrorMessage = "Failed to create branch",
     )
   }
 
